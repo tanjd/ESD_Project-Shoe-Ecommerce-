@@ -7,7 +7,7 @@ from os import environ
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/customer_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/product_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -46,7 +46,7 @@ class Category(db.Model):
 
     # CHECK AGAIN
     products = db.relationship(
-        'Product', backref='product', lazy=True)
+        'Product', backref='products', lazy=True)
 
     def __init__(self, category_id, category_name):
         self.category_id = category_id
