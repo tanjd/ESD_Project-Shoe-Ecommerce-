@@ -15,20 +15,20 @@ CORS(app)
 
 
 class Product(db.Model):
-    product_id = db.Column(db.String(11), primary_key=True)
-    product_image = db.Column(db.String(120), nullable=False)
-    product_name = db.Column(db.String(120), nullable=False)
-    category_id = db.Column(db.String(30), db.ForeignKey(
-        'category_id'), nullable=False)
-    description = db.Column(db.String(65535), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(120), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(
+        'category.id'), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
     unit_price = db.Column(db.Float(10), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
 
-    def __init__(self, product_id, product_image, product_name, category_id, description, unit_price, quantity):
-        self.product_id = product_id
-        self.product_image = product_image
-        self.product_name = product_name
+    def __init__(self, id, image, name, category_id, description, unit_price, quantity):
+        self.id = id
+        self.image = image
+        self.name = name
         self.category_id = category_id
         self.description = description
         self.unit_price = unit_price
@@ -36,24 +36,24 @@ class Product(db.Model):
 
 
     def json(self):
-        return {"product_id": self.product_id, "product_image": self.product_image, "product_name": self.product_name, "category_id": self.category_id, "description": self.description,
+        return {"id": self.id, "image": self.image, "name": self.name, "category_id": self.category_id, "description": self.description,
                 "unit_price": self.unit_price, "quantity": self.quantity}
 
 
 class Category(db.Model):
-    category_id = db.Column(db.String(30), primary_key=True, nullable=False)
-    category_name = db.Column(db.String(120), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(120), primary_key=True)
 
     # CHECK AGAIN
     products = db.relationship(
         'Product', backref='products', lazy=True)
 
-    def __init__(self, category_id, category_name):
-        self.category_id = category_id
-        self.category_name = category_name
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
     def json(self):
-        return {"category_id": self.category_id, "category_name": self.category_name}
+        return {"id": self.id, "name": self.name}
 
 
 @app.route('/')
