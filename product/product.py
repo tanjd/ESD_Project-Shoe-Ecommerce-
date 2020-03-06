@@ -63,46 +63,46 @@ class Category(db.Model):
 # [GET] all products
 @app.route("/product")
 def get_all(): 
-    return jsonify({"product": [Product.json() for product in Product.query.all()]})
+    return jsonify({"product": [product.json() for product in Product.query.all()]})
 
-# [GET] all categories
-@app.route("/category")
-def get_all(): 
-    return jsonify({"category": [Category.json() for category in Category.query.all()]})
+# # [GET] all categories
+# @app.route("/category")
+# def get_all(): 
+#     return jsonify({"category": [Category.json() for category in Category.query.all()]})
 
-# [GET] products by category
-@app.route("/product/<string:category_id>")
-def find_by_category_id (category_id): 
-    product = Product.query.filter_by (category_id = category_id)
-    if product: 
-        return jsonify(product.json())
-    return jsonify({"message": "Products not found"}), 404
+# # [GET] products by category
+# @app.route("/product/<string:category_id>")
+# def find_by_category_id (category_id): 
+#     product = Product.query.filter_by (category_id = category_id)
+#     if product: 
+#         return jsonify(product.json())
+#     return jsonify({"message": "Products not found"}), 404
 
-# [GET] products by name **NEED TO LOOK INTO THIS
-@app.route("/product/<string:name>")
-def find_by_name (name): 
-    product = Product.query.filter_by (name = name)
-    if product: 
-        return jsonify(product.json())
-    return jsonify({"message": "Products not found"}), 404
+# # [GET] products by name **NEED TO LOOK INTO THIS
+# @app.route("/product/<string:name>")
+# def find_by_name (name): 
+#     product = Product.query.filter_by (name = name)
+#     if product: 
+#         return jsonify(product.json())
+#     return jsonify({"message": "Products not found"}), 404
 
-# [POST] create product
-@app.route("/book/<string:id>", methods = ['POST'])
-def create_product(id): 
-    if (Product.query.filter_by (id = id).first()): 
-        return jsonify({"message": "A product with id '{}' already exists.".format(id)}), 400 
+# # [POST] create product
+# @app.route("/book/<string:id>", methods = ['POST'])
+# def create_product(id): 
+#     if (Product.query.filter_by (id = id).first()): 
+#         return jsonify({"message": "A product with id '{}' already exists.".format(id)}), 400 
 
-        data = request.get.json()
-        product = Product(id, **data) # get all fields (**)
+#         data = request.get.json()
+#         product = Product(id, **data) # get all fields (**)
 
-        try: 
-            db.session.add(product)
-            db.session.commit()
+#         try: 
+#             db.session.add(product)
+#             db.session.commit()
 
-        except: 
-            return jsonify({"message": "An error occurred creating the product"}), 500
+#         except: 
+#             return jsonify({"message": "An error occurred creating the product"}), 500
 
-        return jsonify(product.json()), 201
+#         return jsonify(product.json()), 201
 
 
 if __name__ == "__main__":
