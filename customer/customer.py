@@ -83,7 +83,7 @@ def authenticate():
                                "message": "Invalid Password"})
     else:
         return_message = ({"status": "fail",
-                           "message": "Invalid Email"}), 404
+                           "message": "Invalid Email"})
     return jsonify(return_message)
 
 
@@ -97,6 +97,16 @@ def get_all_customers():
         return_message = ({"status": "fail"}), 404
     return jsonify(return_message)
 
+@app.route('/get_customer/<string:customer_id>', methods=['GET'])
+def get_customer(customer_id):
+    customer = Customer.query.filter_by(id=customer_id).first()
+    if customer:
+        return jsonify(customer.json())
+    # if customer:
+    #     return_message = ({"status": "success", "customer": customer})
+    # else:
+    #     return_message = ({"status": "fail"})
+    # return jsonify(return_message)
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
