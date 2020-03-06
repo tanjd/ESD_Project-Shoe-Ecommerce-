@@ -71,7 +71,7 @@ def get_all():
 #     return jsonify({"category": [Category.json() for category in Category.query.all()]})
 
 #[GET] products by category
-@app.route("/product/<int:category_id>")
+@app.route("/product/category/<int:category_id>")
 def find_by_category_id(category_id): 
     product = Product.query.filter_by (category_id = category_id).all()
     if product: 
