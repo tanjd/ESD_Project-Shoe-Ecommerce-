@@ -15,6 +15,7 @@ CORS(app)
 
 
 class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String(120), nullable=False)
     name = db.Column(db.String(120), nullable=False)
@@ -41,6 +42,7 @@ class Product(db.Model):
 
 
 class Category(db.Model):
+    __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(120), primary_key=True)
 
@@ -56,11 +58,10 @@ class Category(db.Model):
         return {"id": self.id, "name": self.name}
 
 
-@app.route('/')
-def home():
-    # return config.myname
-    # return 'Hello, Flask!'
-    return jsonify({"product": [Product.json() for Product in Product.query.all()]})
+@app.route("/product")
+def get_all(): 
+    # translates to select * from product 
+    return jsonify({"products": [product.json() for product in Product.query.all()]})
 
 
 if __name__ == "__main__":
