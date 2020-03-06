@@ -33,8 +33,25 @@ class Order(db.Model):
         self.timestamp = timestamp
 
     def json(self):
-        return {"order_id": self.order_id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
+        return {"id": self.id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
                 "timestamp": self.timestamp}
+
+
+class Order_invoice(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    total_amount = db.Column(db.Integer, nullable=False)
+    customer_id = db.Column(db.Integer, nullable=False)
+
+    Orders = db.relationship('Order',backref='orders',lazy=True)
+
+    def __init__(self, id, total_amount, customer_id):
+        self.id = id
+        self.customer_id = customer_id
+        self.total_amount = total_amount
+
+    def json(self):
+        return {"id": self.id, "customer_id": self.customer_id, "total_amount": self.total_amount}
+
 
 
 
