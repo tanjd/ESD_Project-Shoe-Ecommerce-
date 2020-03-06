@@ -7,7 +7,7 @@ from os import environ
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/customer_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/product_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -22,7 +22,7 @@ class Product(db.Model):
         'category_id'), nullable=False)
     description = db.Column(db.String(65535), nullable=False)
     unit_price = db.Column(db.Float(10), nullable=False)
-    quantity = db.Column(db.Integer(65535), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
 
 
     def __init__(self, product_id, product_image, product_name, category_id, description, unit_price, quantity):
@@ -46,7 +46,7 @@ class Category(db.Model):
 
     # CHECK AGAIN
     products = db.relationship(
-        'Product', backref='product', lazy=True)
+        'Product', backref='products', lazy=True)
 
     def __init__(self, category_id, category_name):
         self.category_id = category_id
