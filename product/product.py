@@ -22,7 +22,7 @@ class Product(db.Model):
         'category_id'), nullable=False)
     description = db.Column(db.String(65535), nullable=False)
     unit_price = db.Column(db.Float(10), nullable=False)
-    quantity = db.Column(db.Integer(65535), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
 
 
     def __init__(self, product_id, product_image, product_name, category_id, description, unit_price, quantity):
