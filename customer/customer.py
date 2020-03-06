@@ -31,20 +31,21 @@ class Customer(db.Model):
     subscriptions = db.relationship(
         'Subscription', backref='subscriber', lazy=True)
 
-    def __init__(self, id, email, name, telegram_id, password, address, email_setting, telegram_setting, created_at):
+    def __init__(self, id, email, name, telegram_id, password, address, postal_code, email_setting, telegram_setting, created_at):
         self.id = id
         self.email = email
         self.name = name
         self.telegram_id = telegram_id
         self.password = password
         self.address = address
+        self.postal_code = postal_code
         self.email_setting = email_setting
         self.telegram_setting = telegram_setting
         self.created_at = created_at
 
     def json(self):
         return {"id": self.id, "email": self.email, "name": self.name, "telegram_id": self.telegram_id, "password": self.password,
-                "address": self.address, "email_setting": self.email_setting, "telegram_setting": self.telegram_setting, "created_at": self.created_at}
+                "address": self.address, "postal_code" = self.postal_code , "email_setting": self.email_setting, "telegram_setting": self.telegram_setting, "created_at": self.created_at}
 
 
 class Subscription(db.Model):
@@ -63,8 +64,9 @@ class Subscription(db.Model):
 @app.route('/')
 def home():
     # return config.myname
-    # return 'Hello, Flask!'
+    #return 'Hello, Flask!'
     return jsonify({"customer": [Customer.json() for Customer in Customer.query.all()]})
+
 
 
 if __name__ == "__main__":
