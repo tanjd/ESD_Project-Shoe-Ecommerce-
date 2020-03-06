@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 04, 2020 at 03:29 PM
+-- Generation Time: Mar 06, 2020 at 02:40 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -30,18 +30,18 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE IF NOT EXISTS `customer` (
-  `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `customer_email` varchar(255) NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `telegram_id` varchar(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `address` varchar(128) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(120) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `telegram_id` varchar(120) DEFAULT NULL,
+  `password` varchar(60) NOT NULL,
+  `address` varchar(120) DEFAULT NULL,
+  `postal_code` varchar(120) DEFAULT NULL,
   `email_setting` tinyint(1) NOT NULL DEFAULT '1',
-  `telegram_setting` tinyint(1) NOT NULL DEFAULT '1',
-  `created_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  PRIMARY KEY (`customer_id`),
-  UNIQUE KEY `email` (`customer_email`),
-  UNIQUE KEY `telegram` (`telegram_id`)
+  `telegram_setting` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -52,8 +52,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
 
 DROP TABLE IF EXISTS `subscription`;
 CREATE TABLE IF NOT EXISTS `subscription` (
-  `customer_id` bigint(20) UNSIGNED NOT NULL,
-  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   PRIMARY KEY (`customer_id`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `subscription` (
 -- Constraints for table `subscription`
 --
 ALTER TABLE `subscription`
-  ADD CONSTRAINT `subscription_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+  ADD CONSTRAINT `subscription_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
