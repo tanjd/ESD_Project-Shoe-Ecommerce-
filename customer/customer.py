@@ -45,7 +45,7 @@ class Customer(db.Model):
 
     def json(self):
         return {"id": self.id, "email": self.email, "name": self.name, "telegram_id": self.telegram_id, "password": self.password,
-                "address": self.address, "postal_code" = self.postal_code , "email_setting": self.email_setting, "telegram_setting": self.telegram_setting, "created_at": self.created_at}
+                "address": self.address, "postal_code": self.postal_code, "email_setting": self.email_setting, "telegram_setting": self.telegram_setting, "created_at": self.created_at}
 
 
 class Subscription(db.Model):
@@ -64,9 +64,22 @@ class Subscription(db.Model):
 @app.route('/')
 def home():
     # return config.myname
-    #return 'Hello, Flask!'
+    # return 'Hello, Flask!'
     return jsonify({"customer": [Customer.json() for Customer in Customer.query.all()]})
 
+
+@app.route('/authenticate', methods=['POST'])
+def authenticate():
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
+    customer = Customer.query.filter_by(email=email).first()
+    if customer:
+        if password == customer.password:
+            return jsonify({"customer_id": customer.id})
+        else:
+            return jsonify({"status": "Password Invalid"})
+    return jsonify({"status": "Email doesn't exist"}), 404
 
 
 if __name__ == "__main__":
