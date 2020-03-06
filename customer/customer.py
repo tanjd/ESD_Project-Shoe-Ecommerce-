@@ -76,10 +76,26 @@ def authenticate():
     customer = Customer.query.filter_by(email=email).first()
     if customer:
         if password == customer.password:
-            return jsonify({"customer_id": customer.id})
+            return_message = ({"status": "success",
+                               "customer_id": customer.id})
         else:
-            return jsonify({"status": "Password Invalid"})
-    return jsonify({"status": "Email doesn't exist"}), 404
+            return_message = ({"status": "fail",
+                               "message": "Invalid Password"})
+    else:
+        return_message = ({"status": "fail",
+                           "message": "Invalid Email"}), 404
+    return jsonify(return_message)
+
+
+@app.route('/get_all_customers', methods=['GET'])
+def get_all_customers():
+    customers = [Customer.json()
+                 for Customer in Customer.query.all()]
+    if customers:
+        return_message = ({"status": "success", "customer": customers})
+    else:
+        return_message = ({"status": "fail"}), 404
+    return jsonify(return_message)
 
 
 if __name__ == "__main__":
