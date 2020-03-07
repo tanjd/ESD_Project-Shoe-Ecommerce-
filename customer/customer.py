@@ -88,6 +88,32 @@ def authenticate():
     return jsonify(return_message)
 
 
+@app.route('/fb_login', methods=['POST'])
+def fb_login():
+    data = request.get_json()
+    email = data['email']
+    customer = Customer.query.filter_by(email=email).first()
+    if customer:
+        return_message = ({"status": "success",
+                           "customer_id": customer.id})
+    else:
+        return_message = ({"status": "fail",
+                           "message": "Invalid Email"})
+    return jsonify(return_message)
+
+
+@app.route('/fb_register', methods=['POST'])
+def fb_register():
+    data = request.get_json()
+    email = data['email']
+    name: data['name']
+    password: data['password']
+
+    #check if other nullable variables exist
+        #if exist add to customer object
+    #
+
+
 @app.route('/get_all_customers', methods=['GET'])
 def get_all_customers():
     customers = [Customer.json()
@@ -115,10 +141,14 @@ def get_customer(customer_id):
 def load_customers():
     customers = customer_data.customers
     for customer in customers:
-        cust = Customer(**customer)
-        db.session.add(cust)
-        db.session.commit()
-    return 'hello'
+        try:
+            cust = Customer(**customer)
+            db.session.add(cust)
+            db.session.commit()
+        except:
+            return jsonify({"status": "fail",
+                            "message": "An error occurred creating customer."})
+    return jsonify({"status": "success"})
 
 
 if __name__ == "__main__":
