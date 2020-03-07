@@ -120,7 +120,7 @@ def get_all_customers():
                  for Customer in Customer.query.all()]
     if customers:
         return_message = ({"status": "success",
-                           "customer": customers})
+                           "customers": customers})
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
