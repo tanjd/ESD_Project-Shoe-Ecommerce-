@@ -32,7 +32,6 @@
             default:
                 if ($data)
                     $url = sprintf("%s?%s", $url, http_build_query($data));
-                    return $url;
                 // // HTTP GET
                 // $query_data =  http_build_query($data);
                 // curl_setopt($ch, CURLOPT_URL, "$url?$query_data");

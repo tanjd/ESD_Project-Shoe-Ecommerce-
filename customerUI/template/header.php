@@ -1,14 +1,27 @@
 <?php
 
-    // if(isset($_SESSION['customer_id'])){
-    //     $customer_id = $_SESSION['customer_id'];
-    //     $data = CallAPI('GET', $customer_url, 'get_customer/');
-    //     if ($data != false) {
-    //         $customers = $data->{'customers'};
-    //     } else {
-    //         $customers = false;
-    //     }
-    // }
+if (isset($_SESSION['customer_id'])) {
+
+    $customer_id = $_SESSION['customer_id'];
+
+    $POST_data = [
+        "customer_id" => $customer_id,
+    ];
+    $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
+    if ($data != false) {
+        $customer = $data->{'customer'};
+    } else {
+        $customer = false;
+    }
+
+    $is_loggedin = true;
+    $quantity = 0;
+} else {
+
+    $quantity = 0;
+    $is_loggedin = false;
+}
+
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -38,12 +51,30 @@
         </ul>
         <ul class="navbar-nav right">
             <li class="nav-item">
-                <a class="nav-link" href="#">Your Account</a>
+                <a class="nav-link" href="#"><span class="fa fa-user-circle-o" aria-hidden="true"></span>Your Account</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Cart</a>
+                <a class="nav-link" href="#">
+                    <i class="fa fa-shopping-cart"></i> Cart <span class="badge"><?php if ($quantity != 0) {
+                                                                                        echo " $quantity";
+                                                                                    }  ?></span>
+                </a>
             </li>
         </ul>
+
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="#"> <span class="fa fa-user-circle-o" aria-hidden="true"></span><?php echo " $name" ?></a>
+        </li>
+        <li class="nav-item">
+            <a class ="nav-link" href="<?php echo $course; ?>cart.php" id="cart">
+                <i class="fa fa-shopping-cart"></i> Cart <span class="badge"><?php if ($quantity != 0) {
+                                                                                    echo " $quantity";
+                                                                                }  ?></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo $index; ?>process_logout.php"> <span class="fa fa-sign-out" aria-hidden="true"></span> Logout</a>
+        </li> -->
         <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

@@ -1,7 +1,6 @@
 <?php
     require_once 'include/autoload.php';
-    $data = CallAPI('GET', $customer_url, 'get_customer/', '1');
-    var_dump($data);
+
     if (isset($_POST['email']) and isset($_POST['password'])){
 
         $email = 'tanjd@hotmail.com';
