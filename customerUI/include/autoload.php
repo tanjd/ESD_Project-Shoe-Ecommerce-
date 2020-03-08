@@ -2,6 +2,11 @@
 
     require_once 'microservice_config.php';
 
+    if (!isset($_SESSION))
+    {
+        session_start();
+    }
+
     function CallAPI($method, $url, $api_name, $data = false)
     {
         // make sure URL ends with '/'
@@ -16,7 +21,10 @@
                 curl_setopt($curl, CURLOPT_POST, 1);
 
                 if ($data)
+                    $data = json_encode($data, JSON_PRETTY_PRINT);
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                    //Set the content type to application/json
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
                 break;
             case "PUT":
                 curl_setopt($curl, CURLOPT_PUT, 1);
@@ -24,6 +32,11 @@
             default:
                 if ($data)
                     $url = sprintf("%s?%s", $url, http_build_query($data));
+                    return $url;
+                // // HTTP GET
+                // $query_data =  http_build_query($data);
+                // curl_setopt($ch, CURLOPT_URL, "$url?$query_data");
+                // curl_setopt($ch, CURLOPT_POST, false);
         }
 
         // Optional Authentication:
