@@ -1,5 +1,7 @@
 <?php
 
+require_once 'include/autoload.php';
+
 if (isset($_SESSION['customer_id'])) {
 
     $customer_id = $_SESSION['customer_id'];
