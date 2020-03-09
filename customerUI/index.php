@@ -22,11 +22,23 @@ if ($product_data != false) {
 require_once 'template/head.php';
 require_once 'template/header.php';
 
-#Process products
-
-// for ($i=0; count($product);$i++){
-//     $product_table = $i;
-// }
+#Process product table
+$product_table = "<table border = '1'>
+                  <tr>
+                      <th colspan='2'>Shoe</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                  </tr>";
+for ($i=0; $i<count($product); $i++){
+    // $product_name = $product[$i]->name;
+    $product_table .= "<tr>
+                       <td><img src='../product/image/{$product[$i]->image}' style='width:100px;height:100px'></td>
+                       <td>{$product[$i]->name}</td>
+                       <td>{$product[$i]->description}</td>
+                       <td>\${$product[$i]->unit_price}</td> 
+                       </tr> ";
+}
+$product_table .= "</table>";
 
 
 
@@ -36,11 +48,11 @@ require_once 'template/header.php';
     <div class="starter-template">
         <p class="lead">
         <?php
-        var_dump($product);
+        echo($product_table);
         ?>
         </p>
         <?php
-        var_dump($customers);
+        // var_dump($customers);
 
         // foreach ($customers as $customer) {
         //     echo "this is the emails " . $customer->{'email'} . "<br>";
