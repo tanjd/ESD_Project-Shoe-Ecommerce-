@@ -17,7 +17,13 @@
             exit();
         }
         else {
-            $_SESSION['error'] = $data->{'message'};
+            if (isset ($data->{'message'})){
+                $_SESSION['error'] = $data->{'message'};
+            }
+            else {
+                //However, autoload should handle this...
+                $_SESSION['error'] ='Server is temporarily unavailable';
+            }
             header('Location: login.php');
             exit();
         }
