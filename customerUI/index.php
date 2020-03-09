@@ -10,6 +10,7 @@ if ($status != false) {
 }
 
 $product_data = CallAPI('GET', $product_url, 'get_all_products');
+$product_status = checkSuccessOrFailure($product_data);
 if ($product_data != false) {
     $product = $product_data->{'product'};
 } else {
@@ -23,24 +24,27 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 
 #Process product table
-$product_table = "<table class='table'>
-                  <thead class='thead-dark'>
-                  <tr>
-                      <th scope='col' colspan='2'>Shoe</th>
-                      <th scope='col'>Description</th>
-                      <th scope='col'>Price</th>
-                  </tr>";
-for ($i=0; $i<count($product); $i++){
-    // $product_name = $product[$i]->name;
-    $product_table .= "<tr>
-                       <td><img src='../product/image/{$product[$i]->image}' style='width:100px;height:100px'></td>
-                       <td>{$product[$i]->name}</td>
-                       <td>{$product[$i]->description}</td>
-                       <td>\${$product[$i]->unit_price}</td> 
-                       </tr> ";
+if ($product_data == True){
+    $product_table = "<table class='table'>
+                    <thead class='thead-dark'>
+                    <tr>
+                        <th scope='col' colspan='2'>Shoe</th>
+                        <th scope='col'>Description</th>
+                        <th scope='col'>Price</th>
+                    </tr>";
+    for ($i=0; $i<count($product); $i++){
+        // $product_name = $product[$i]->name;
+        $product_table .= "<tr>
+                        <td><img src='../product/image/{$product[$i]->image}' style='width:100px;height:100px'></td>
+                        <td>{$product[$i]->name}</td>
+                        <td>{$product[$i]->description}</td>
+                        <td>\${$product[$i]->unit_price}</td> 
+                        </tr> ";
+    }
+    $product_table .= "</table>";
+} else {
+    $product_table = $product_status;
 }
-$product_table .= "</table>";
-
 
 
 ?>
