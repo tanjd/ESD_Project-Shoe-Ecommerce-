@@ -7,7 +7,7 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 ?>
 <link rel="stylesheet" href="css/login_style.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" \ integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="css/use.fontawesome.comv5.3.1cssall" \ integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <main role="main" class="container">
     <!-- <div class="starter-template"> -->
     <div id="logreg-forms">
