@@ -23,11 +23,12 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 
 #Process product table
-$product_table = "<table border = '1'>
+$product_table = "<table class='table'>
+                  <thead class='thead-dark'>
                   <tr>
-                      <th colspan='2'>Shoe</th>
-                      <th>Description</th>
-                      <th>Price</th>
+                      <th scope='col' colspan='2'>Shoe</th>
+                      <th scope='col'>Description</th>
+                      <th scope='col'>Price</th>
                   </tr>";
 for ($i=0; $i<count($product); $i++){
     // $product_name = $product[$i]->name;
