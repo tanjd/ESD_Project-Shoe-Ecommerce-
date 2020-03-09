@@ -26,14 +26,14 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
 
 
-    def __init__(self, id, image, name, category_id, description, unit_price, quantity):
-        self.id = id
-        self.image = image
-        self.name = name
-        self.category_id = category_id
-        self.description = description
-        self.unit_price = unit_price
-        self.quantity = quantity
+    # def __init__(self, id, image, name, category_id, description, unit_price, quantity):
+    #     self.id = id
+    #     self.image = image
+    #     self.name = name
+    #     self.category_id = category_id
+    #     self.description = description
+    #     self.unit_price = unit_price
+    #     self.quantity = quantity
 
 
     def json(self):
@@ -61,9 +61,16 @@ class Category(db.Model):
 
 
 # [GET] all products
-@app.route("/product")
-def get_all(): 
-    return jsonify({"product": [product.json() for product in Product.query.all()]})
+@app.route("/get_all_products")
+def get_all_products():
+    product = [product.json()
+                for product in Product.query.all()]
+    if product:
+        return_message =({"status": "success",
+                          "product": product})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
 # # [GET] all categories
 # @app.route("/category")
@@ -78,13 +85,16 @@ def find_by_category_id(category_id):
         return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
     return jsonify({"message": "Products not found"}), 404
 
-# # [GET] products by name **NEED TO LOOK INTO THIS
+# [GET] products by name **NEED TO LOOK INTO THIS
 # @app.route("/product/<string:name>")
-# def find_by_name (name): 
-#     product = Product.query.filter_by (name = name)
-#     if product: 
-#         return jsonify(product.json())
-#     return jsonify({"message": "Products not found"}), 404
+# def find_by_name(name):
+#     product = Product.query.all()
+#     return jsonify({"products": [product.json()]})
+
+    # product = Product.query.filter_by(name = name).all()
+    # if product: 
+    #     return jsonify({"product": [product.json() for product in Product.query.filter_by(name = name).all()]})
+    # # return jsonify({"message": "Products not found"}), 404
 
 # # [POST] create product
 # @app.route("/book/<string:id>", methods = ['POST'])
@@ -106,4 +116,4 @@ def find_by_category_id(category_id):
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5001, debug=True)
