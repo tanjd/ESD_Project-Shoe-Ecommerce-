@@ -1,29 +1,25 @@
 <?php
     require_once 'include/autoload.php';
 
-    if (isset($_POST['email']) and isset($_POST['password'])){
+    if (isset($_POST['input_email']) and isset($_POST['input_password'])){
 
-        $email = 'tanjd@hotmail.com';
-        $password = 'hello';
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
         $POST_data = [
-            "email" => $email,
-            "password" => $password
+            "email" => $_POST['input_email'],
+            "password" => $_POST['input_password']
         ];
 
         $data = CallAPI('POST', $customer_url, 'authenticate', $POST_data);
-        if ($data != false) {
+        $status = checkSuccessOrFailure($data);
+        if ($status != false) {
             $customer_id = $data->{'customer_id'};
             $_SESSION['customer_id'] = $customer_id;
-            // header('Location: index.php');
-            // exit();
+            header('Location: index.php');
+            exit();
         }
         else {
-            $_SESSION['error'] = $error_message;
-            // header('Location: index.php');
-            // exit();
+            $_SESSION['error'] = $data->{'message'};
+            header('Location: login.php');
+            exit();
         }
     }
 ?>

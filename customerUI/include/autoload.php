@@ -49,13 +49,8 @@
         curl_close($curl);
 
         $data = json_decode($result);
-        $status = checkURL($data);
 
-        if ($status == true) {
-            return $data;
-        } else {
-            return false;
-        }
+        return $data;
     }
 
     function endsWith($haystack, $end)
@@ -66,7 +61,7 @@
             (substr($haystack, -$length) === $end);
     }
 
-    function checkURL($data)
+    function checkSuccessOrFailure($data)
     {
         if (isset($data->{'status'})) {
             $status = $data->{'status'};
@@ -80,4 +75,12 @@
         }
     }
 
+    function outputError()
+    {
+        if (isset($_SESSION['error'])){
+            $error = $_SESSION['error'];
+            echo "<p> {$error} </p>";
+            unset($_SESSION['error']);
+        }
+    }
 ?>

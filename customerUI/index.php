@@ -2,7 +2,8 @@
 require_once 'include/autoload.php';
 
 $data = CallAPI('GET', $customer_url, 'get_all_customers');
-if ($data != false) {
+$status = checkSuccessOrFailure($data);
+if ($status != false) {
     $customers = $data->{'customers'};
 } else {
     $customers = false;
