@@ -8,16 +8,36 @@ if ($data != false) {
     $customers = false;
 }
 
+$product_data = CallAPI('GET', $product_url, 'get_all_products');
+if ($product_data != false) {
+    $product = $product_data->{'product'};
+} else {
+    $product = false;
+}
+
 ?>
 
 <?php
 require_once 'template/head.php';
 require_once 'template/header.php';
+
+#Process products
+
+// for ($i=0; count($product);$i++){
+//     $product_table = $i;
+// }
+
+
+
 ?>
 
 <main role="main" class="container">
     <div class="starter-template">
-        <p class="lead">ALL YOUR HTML CODES WILL COME IN HERE</p>
+        <p class="lead">
+        <?php
+        var_dump($product);
+        ?>
+        </p>
         <?php
         var_dump($customers);
 
