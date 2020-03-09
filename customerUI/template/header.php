@@ -22,6 +22,7 @@ if (isset($_SESSION['customer_id'])) {
 
     $quantity = 0;
     $is_loggedin = false;
+
 }
 
 ?>
@@ -34,7 +35,7 @@ if (isset($_SESSION['customer_id'])) {
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -43,7 +44,7 @@ if (isset($_SESSION['customer_id'])) {
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="#">Action</a>
                     <a class="dropdown-item" href="#">Another action</a>
@@ -52,31 +53,32 @@ if (isset($_SESSION['customer_id'])) {
             </li>
         </ul>
         <ul class="navbar-nav right">
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span class="fa fa-user-circle-o" aria-hidden="true"></span>Your Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa fa-shopping-cart"></i> Cart <span class="badge"><?php if ($quantity != 0) {
-                                                                                        echo " $quantity";
-                                                                                    }  ?></span>
-                </a>
-            </li>
+            <?php if ($is_loggedin) {
+                echo "<li class='nav-item'>
+                    <a class='nav-link' href='#'>
+                        <i class='fa fa-shopping-cart'></i> Cart <span class='badge'>";if ($quantity != 0) {
+                            echo " $quantity";
+                        } echo"</span>
+                    </a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' href='#'><span class='fa fa-user-circle-o' aria-hidden='true'></span> Account</a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span> Logout</a>
+                 </li> -->";
+            }
+            else {
+                $actual_link = "$_SERVER[REQUEST_URI]";
+                //var_dump($actual_link);
+                if ($actual_link != 'login.php'){
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='login.php'><span class='fa fa-sign-in' aria-hidden='true'></span> Login</a>
+                </li>";
+                }
+            }
+            ?>
         </ul>
-
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="#"> <span class="fa fa-user-circle-o" aria-hidden="true"></span><?php echo " $name" ?></a>
-        </li>
-        <li class="nav-item">
-            <a class ="nav-link" href="<?php echo $course; ?>cart.php" id="cart">
-                <i class="fa fa-shopping-cart"></i> Cart <span class="badge"><?php if ($quantity != 0) {
-                                                                                    echo " $quantity";
-                                                                                }  ?></span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo $index; ?>process_logout.php"> <span class="fa fa-sign-out" aria-hidden="true"></span> Logout</a>
-        </li> -->
         <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
