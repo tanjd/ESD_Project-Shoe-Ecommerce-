@@ -4,6 +4,9 @@ from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
+import sys
+
+sys.path.insert(1, 'customer')
 import customer_data
 
 app = Flask(__name__)
