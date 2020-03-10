@@ -77,43 +77,23 @@ def get_all_products():
 # def get_all(): 
 #     return jsonify({"category": [Category.json() for category in Category.query.all()]})
 
-#[GET] products by category
-@app.route("/product/category/<int:category_id>")
-def find_by_category_id(category_id): 
-    product = Product.query.filter_by (category_id = category_id).all()
-    if product: 
-        return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
-    return jsonify({"message": "Products not found"}), 404
+# #[GET] products by category
+# @app.route("/product/category/<int:category_id>")
+# def find_by_category_id(category_id): 
+#     product = Product.query.filter_by (category_id = category_id).all()
+#     if product: 
+#         return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
+#     return jsonify({"message": "Products not found"}), 404
 
-# [GET] products by name **NEED TO LOOK INTO THIS
-# @app.route("/product/<string:name>")
-# def find_by_name(name):
-#     product = Product.query.all()
-#     return jsonify({"products": [product.json()]})
-
-    # product = Product.query.filter_by(name = name).all()
-    # if product: 
-    #     return jsonify({"product": [product.json() for product in Product.query.filter_by(name = name).all()]})
-    # # return jsonify({"message": "Products not found"}), 404
-
-# # [POST] create product
-# @app.route("/book/<string:id>", methods = ['POST'])
-# def create_product(id): 
-#     if (Product.query.filter_by (id = id).first()): 
-#         return jsonify({"message": "A product with id '{}' already exists.".format(id)}), 400 
-
-#         data = request.get.json()
-#         product = Product(id, **data) # get all fields (**)
-
-#         try: 
-#             db.session.add(product)
-#             db.session.commit()
-
-#         except: 
-#             return jsonify({"message": "An error occurred creating the product"}), 500
-
-#         return jsonify(product.json()), 201
-
+@app.route('/product/<string:name>', methods=['GET'])
+def get_product(name):
+    product = Product.query.filter_by(name=name).first()
+    if product:
+        return_message = ({"status": "success",
+                           "product": product.json()})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)
