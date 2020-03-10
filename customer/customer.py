@@ -1,3 +1,4 @@
+import customer_data
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -7,7 +8,6 @@ from os import environ
 import sys
 
 sys.path.insert(1, 'customer')
-import customer_data
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -107,14 +107,16 @@ def fb_login():
 
 @app.route('/fb_register', methods=['POST'])
 def fb_register():
-    data = request.get_json()
-    email = data['email']
-    name: data['name']
-    password: data['password']
-
-    #check if other nullable variables exist
-        #if exist add to customer object
-    #
+    fb_data = request.get_json()
+    fb_data['password'] = 'password'
+    try:
+        cust = Customer(**fb_data)
+        db.session.add(cust)
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred creating customer."})
+    return jsonify({"status": "success"})
 
 
 @app.route('/get_all_customers', methods=['GET'])
