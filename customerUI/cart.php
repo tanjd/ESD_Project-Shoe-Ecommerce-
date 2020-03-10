@@ -3,11 +3,57 @@
     require_once 'template/head.php';
     require_once 'template/header.php';
 
-    $cart = []; 
-    if (isset($_SESSION['cart']))
-    {
-        $cart = $_SESSION['cart'];
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
     }
+    echo $js_code;}
+
+// $_SESSION["cart"] = 
+//     $_cart = [
+//         ["id"=>22, "quantity"=>1, "price"=>75],
+//         ["id"=>33, "quantity"=>1, "price"=>89]
+//             ];
+
+$_SESSION["cart"] = [
+        ["id"=>22, "quantity"=>1, "price"=>75],
+        ["id"=>33, "quantity"=>1, "price"=>89]];
+
+$_SESSION['customer_id'] = 
+    $customer_id = 123 ;
+
+if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
+
+    $order_data = [
+        "cart" => $_SESSION['cart'],
+        "id" => $_SESSION['customer_id']
+    ];
+
+    $data = CallAPI('POST', $order_url, 'create_order', $order_data);
+    $status = checkSuccessOrFailure($data);
+
+    console_log($order_data);
+    print_r($order_data);
+    console_log($data);
+    #print_r($data); 
+
+    if ($status != false) {
+        //if data is sent successfully to order.py then the ui page changes
+        header('Location: delivery.php');
+        session_destroy();
+    } 
+    else{
+    //error msg in the UI     
+    }
+} 
+
+    // $cart = []; 
+    // if (isset($_SESSION['cart']))
+    // {
+    //     $cart = $_SESSION['cart'];
+    // }
 
     
     $action = isset($_GET['action']) ? $_GET['action'] : "";
