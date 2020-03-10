@@ -27,7 +27,7 @@ if (isset($_SESSION['customer_id'])) {
 
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Python Shoes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -88,7 +88,7 @@ if (isset($_SESSION['customer_id'])) {
 
 <div class="jumbotron">
     <div class="container text-center">
-        <h1>Python Shoe Shop</h1>
-        <p>A microservice Shoe Shop</p>
+        <h1>Python Shoes</h1>
+        <p>We don't just sell snakeskin shoes.</p>
     </div>
 </div>
