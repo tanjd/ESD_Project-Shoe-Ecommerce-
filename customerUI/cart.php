@@ -1,20 +1,31 @@
 <?php
-    require_once '../../include/autoload.php';
-    require_once '../../include/protect.php';
-    require_once '../../templates/view_template.php';
+    require_once 'include/autoload.php';
+    require_once 'template/head.php';
+    require_once 'template/header.php';
 
-    $display = 0;
+    $cart = []; 
     if (isset($_SESSION['cart']))
     {
         $cart = $_SESSION['cart'];
-        $display = 1;
     }
 
-    $round = false;
-    $result = isAnyRoundActive();
-    if ($result != false){
-        $round = $result;
-    }
+    
+    $action = isset($_GET['action']) ? $_GET['action'] : "";
+    echo "<div class='col-md-12'>";
+        if($action=='removed'){
+            echo "<div class='alert alert-info'>";
+                echo "Product was removed from your cart!";
+            echo "</div>";
+        }
+        else if($action=='quantity_updated'){
+            echo "<div class='alert alert-info'>";
+                echo "Product quantity was updated!";
+            echo "</div>";
+        }
+    echo "</div>";
+
+    $cart_total = 0; 
+
 ?>
 
 <!DOCTYPE html>
@@ -22,94 +33,79 @@
 <head>
 </head>
 <body>
-    <div>
-    <?php if ($display) { ?>
-        <form action="process_bid_validation.php" method="POST" onsubmit="preventEmpty()">
-            <?php
-                echo "<h2>Your cart content: </h2>";
-                if (!$round)
-                {
-                    echo "<span class='error text-danger span-error'><h5 style='margin-left: 8px;'>There are no active round - Checkout disabled!</h3></span>";
+
+<div class="starter-template">
+        <p class="lead">
+        <form action = 'checkout.php' method = 'post'></form>
+        <?php
+                echo "<h2>My Shopping Cart </h2>";
+
+                if ($cart == []){
+                    echo '<div style="margin-left: 8px; font-size: 1.75em;">
+                    <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
+                    </div> ';
                 }
+                
+                else {
 
-                $error = 0;
-                $success = 0;
-
-                if (isset($_GET['error']))
-                {
-                    $error_type = $_GET['error'];
-                    if ($error_type == 1)
+                    echo "<table class='table table-hover'>";
+                        echo "<tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th></th>
+                                <th></th>
+                        </tr>"; 
+                    foreach($cart as $cart_content => $contentArray)
                     {
-                        echo "<span class='error text-danger span-error'><h5 style='margin-left: 8px;'>Please select a section before submitting!</h3></span>";
+                        $id = $contentArray['id'];
+                        $name = $contentArray['name'];
+                        $unit_price = $contentArray['unit_price'];
+                        $quantity = $contentArray['quantity'];
+
+                        echo "<tr>
+                                <td>$id</td>
+                                <td>{$name}</td>
+                                <td>{$unit_price}</td>
+                                <td>$quantity</td>
+                                <td><input type='hidden' name='cart_items[]' value='$id, $name, $unit_price, $quantity'></td>
+                                <td><a href = 'cart_remove_item.php?id={$contentArray['id']}&title=&name={$contentArray['name']}&location=cart&quantity={$quantity}'>Remove</a></td>
+                            </tr>";
+
+                        $cart_total += $unit_price * $quantity; 
+                        $cart_total = round($cart_total, 2); 
                     }
+
+                        echo "<tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        
+                        
+                            <tr>
+                                <th colspan = '3'>Total:</th>
+                                <th colspan = '3'>$$cart_total</th>
+                            </tr>
+
+                        
+                            <tr>
+                                <td colspan = '6'><input class='btn btn-primary btn-sm' type='submit' value='Checkout'></td>
+                            </tr>
+                            </table>";
                 }
-                elseif (isset($_SESSION['cart_error']))
-                {
-                    $error = 1;
-                }   
-                
-                if (isset($_SESSION['success_bids']))
-                {
-                    $success = 1;
-                }
 
-                echo "<table class='table table-hover'>";
-                    echo "<tr>
-                            <th>School</th>
-                            <th>Course</th>
-                            <th>Section</th>
-                            <th>Exam date & time</th>
-                            <th>Lesson day & time</th>
-                            <th>Instructor</th>
-                            <th> Bid amount</th>
-                            <th></th>
-                            <th>Actions</th>
-                    </tr>"; 
-                foreach($cart as $course_section => $sectionArray)
-                {
-                    $school = $sectionArray['school'];
-                    $course = $sectionArray['course'];
-                    $section = $sectionArray['section'];
-                    $exam = $sectionArray['exam'];
-                    $lesson = $sectionArray['lesson'];
-                    $instr = $sectionArray['instr'];
 
-                    echo "<tr>
-                            <td>$school</td>
-                            <td>{$course}</td>
-                            <td>{$section}</td>
-                            <td>$exam</td>
-                            <td>$lesson</td>
-                            <td>$instr</td>
-                            <td><input type='text' placeholder='0.00' name='$course-$section-amt' size='1' class='amt_box'></td>
-                            <td><input type='hidden' name='bidding_items[]' value='$course, $section, $school, $exam, $lesson, $instr'></td>
-                            <td><a href = 'process_remove_section.php?course={$sectionArray['course']}&title=&section={$sectionArray['section']}&location=cart&school={$school}'>Remove</a></td>
-                    </tr>";
-                }
-                    echo "<tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            ";
-                            ?>
-
-                            <td><input class='btn btn-primary btn-sm' type='submit' value='Checkout' <?php if (!$round) {echo "disabled";} ?>></td>
-
-                            <?php
-                    echo "
-                            <td></td>
-                            <td></td>
-                    </tr>
-                </table>";
-                
+                /*
                 if ($success)
                 {
                     outputCart_success();
                     $success = 0;
-                    unset($_SESSION['success_bids']);
+                    unset($_SESSION['success']);
                 }
                 
                 if ($error)
@@ -118,98 +114,40 @@
                     $error = 0;
                     unset($_SESSION['cart_error']);
                 }
+                */
             
-            ?>        
-        </form>
-    <?php }
-        else
-        {
-            //cart is empty
-            echo "<h2>Your cart content: </h2>";
-            echo "<table class='table table-hover'>";
-            echo "<tr>
-                    <th>Actions</th>
-                    <th>School</th>
-                    <th>Course</th>
-                    <th>Section</th>
-                    <th>Exam date & time</th>
-                    <th>Lesson day & time</th>
-                    <th>Instructor</th>
-                    <th> Bid amount</th>
-                    <th><input type='checkbox' onClick='toggle(this)' disabled/> Select all</th>
-            </tr></table>";
-            echo '
-                <div style="margin-left: 8px; font-size: 1.75em;">
-                <span class="error text-danger span-error"> Your cart is empty!</span>
-            </div> ';
-        }
 
         function outputCart_error()
         {
-            $errors = $_SESSION['cart_error'];
-            foreach ($errors as $arr)
-            {
+            if (isset($_SESSION['cart_error'])){
                 echo "<div style='margin-left: 8px; font-size: 1.75em;'>";
-                foreach ($arr as $key=>$value)
-                {
-                    echo "Your bid on $key: <b>Unsuccessful</b> <br>";
-                    echo "<ul>";
-                    foreach ($value as $item)
-                    {
-                        echo "<li><span class='error text-danger span-error'>$item<br></span></li>";
-                        
-                    }
-                    echo "</ul>";
-                }
-                echo "</div>";
+                echo "Checkout failed. Please try again."; 
+                echo "</div>"; 
             }
         }
 
         function outputCart_success()
         {
-            $success = $_SESSION['success_bids'];
-            foreach ($success as $arr)
+            if (isset($_SESSION['success']))
             {
                 echo "<div style='margin-left: 8px; font-size: 1.75em;'>";
-                foreach ($arr as $key=>$value)
-                {
-                    echo "Your bid on $key: <b>Successful</b><br>";
-                    echo "<ul>";
-                    echo "<li><span class='error text-danger span-error'>You have being deducted $value edollar!<br></span></li>";
-                    echo "</ul>";
-                }
+                echo "Checkout successful, order created."; 
                 echo "</div>";
             }
+                
+                
+            
         }
         
     ?>
+        </p></form>
     </div>
+
+
+
 </body>
 
-<script language="JavaScript">
-    function setInputFilter(textbox, inputFilter) {
-    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-        textbox.addEventListener(event, function() {
-        if (inputFilter(this.value)) {
-            this.oldValue = this.value;
-            this.oldSelectionStart = this.selectionStart;
-            this.oldSelectionEnd = this.selectionEnd;
-        } else if (this.hasOwnProperty("oldValue")) {
-            this.value = this.oldValue;
-            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-        }
-        });
-    });
-    }
-    
-    // Restrict input to digits and '.' by using a regular expression filter.
-    var box = document.getElementsByClassName('amt_box');
-    for (var i = 0; i < box.length; i++) {
-        setInputFilter(box[i], function(value) {
-            return /^\d*[.]?\d{0,2}$/.test(value); 
-        });
-    }
-
-</script>
-
+<?php
+require_once 'template/footer.php';
+?>
 </html>

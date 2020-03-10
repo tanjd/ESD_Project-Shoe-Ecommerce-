@@ -35,20 +35,12 @@ if (isset($_SESSION['customer_id'])) {
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
+                <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="#">Shop All</a>
+                    <a class="dropdown-item" href="#">Shop by Category</a>
                 </div>
             </li>
         </ul>
@@ -56,25 +48,37 @@ if (isset($_SESSION['customer_id'])) {
             <?php if ($is_loggedin) {
                 echo "<li class='nav-item'>
                     <a class='nav-link' href='#'>
-                        <i class='fa fa-shopping-cart'></i> Cart <span class='badge'>";if ($quantity != 0) {
+                        <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
                             echo " $quantity";
                         } echo"</span>
                     </a>
                 </li>
                 <li class='nav-item'>
-                    <a class='nav-link' href='#'><span class='fa fa-user-circle-o' aria-hidden='true'></span> Account</a>
+                    <a class='nav-link' href='#'><span class='fa fa-user-circle-o' aria-hidden='true'></span>Account</a>
                 </li>
                 <li class='nav-item'>
-                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span> Logout</a>
+                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
                  </li> -->";
             }
             else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php'){
-                    echo "<li class='nav-item'>
-                    <a class='nav-link' href='login.php'><span class='fa fa-sign-in' aria-hidden='true'></span> Login</a>
-                </li>";
+                    echo "
+                    <li class='nav-item'>
+                    <a class='nav-link' href='cart.php'>
+                        <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
+                            echo " $quantity";
+                        } echo"</span>
+                    </a>
+                </li>
+
+                <li class='nav-item dropdown'>
+                <a class='nav-link dropdown-toggle' id='user_dropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fas fa-user' aria-hidden='true'></span></a>
+                <div class='dropdown-menu' aria-labelledby='user_dropdown'>
+                    <a class='dropdown-item' href='login.php'>Login</a>
+                </div>
+            </li>"; 
                 }
             }
             ?>

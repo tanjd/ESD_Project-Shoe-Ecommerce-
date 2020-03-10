@@ -1,3 +1,4 @@
+import customer_data
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -7,7 +8,6 @@ from os import environ
 import sys
 
 sys.path.insert(1, 'customer')
-import customer_data
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -74,9 +74,9 @@ def home():
 
 @app.route('/authenticate', methods=['POST'])
 def authenticate():
-    data = request.get_json()
-    email = data['email']
-    password = data['password']
+    customer_data = request.get_json()
+    email = customer_data['email']
+    password = customer_data['password']
     customer = Customer.query.filter_by(email=email).first()
     if customer:
         if password == customer.password:
@@ -93,8 +93,8 @@ def authenticate():
 
 @app.route('/fb_login', methods=['POST'])
 def fb_login():
-    data = request.get_json()
-    email = data['email']
+    fb_data = request.get_json()
+    email = fb_data['email']
     customer = Customer.query.filter_by(email=email).first()
     if customer:
         return_message = ({"status": "success",
@@ -107,14 +107,16 @@ def fb_login():
 
 @app.route('/fb_register', methods=['POST'])
 def fb_register():
-    data = request.get_json()
-    email = data['email']
-    name: data['name']
-    password: data['password']
-
-    #check if other nullable variables exist
-        #if exist add to customer object
-    #
+    fb_data = request.get_json()
+    fb_data['password'] = 'password'
+    try:
+        cust = Customer(**fb_data)
+        db.session.add(cust)
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred creating customer."})
+    return jsonify({"status": "success"})
 
 
 @app.route('/get_all_customers', methods=['GET'])
@@ -138,6 +140,26 @@ def get_customer(customer_id):
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
+
+
+@app.route('/update_setting', methods=['POST'])
+def update_setting():
+    setting_data = request.get_json()
+    customer_id = setting_data['customer_id']
+    customer = Customer.query.filter_by(id=customer_id).first()
+    customer.telegram_id = setting_data['telegram_id']
+    customer.email_setting = setting_data['email_setting']
+    customer.telegram_setting = setting_data['telegram_setting']
+    customer.address = setting_data['address']
+    customer.postal_code = setting_data['postal_code']
+    try:
+        db.session.commit()
+        # admin = User.query.filter_by(username='admin').update(dict(email='my_new_email@example.com')))
+        # db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred creating customer."})
+    return jsonify({"status": "success"})
 
 
 @app.route('/load_customers', methods=['GET'])

@@ -1,9 +1,47 @@
 <?php
-    require_once '../../include/autoload.php';
-    require_once '../../include/protect.php';
-    require_once '../../templates/view_template.php';
+    require_once 'include/autoload.php';
+    require_once 'template/head.php';
+    require_once 'template/header.php';
 
-    if (isset($_GET['course']) and isset($_GET['section']) and isset($_GET['title'])) {
+    session_start(); 
+    if (! isset($_SESSION['cart'])){
+        $_SESSION['cart'] = []; 
+    }
+
+    // get product id, name, price, quantity 
+    // not sure if i should use CALL API
+    if (isset($_GET['id'])){
+        $id = $_GET['id']; 
+    }
+
+    if (isset($_GET['name'])){
+        $name = $_GET['name']; 
+    }
+
+    if (isset($_GET['unit_price'])){
+        $unit_price = $_GET['unit_price']; 
+    }
+
+    if (isset($_GET['quantity'])){
+        $quantity = $_GET['quantity']; 
+    }
+
+
+
+    if (array_key_exists($id, $_SESSION['cart'])){
+        // redirects to product list and tell user that it already exists in the cart
+        header('Location: product.php?action=exists&id=' . $id); 
+    }
+    else{
+        $_SESSION['cart'][$id] = $quantity; 
+        // redirects to product list page and tell user that it is added to cart 
+        header('Location: product.php?action=added'); 
+    }
+
+
+
+
+    /* if (isset($_GET['course']) and isset($_GET['section']) and isset($_GET['title'])) {
         $school = $_GET['school'];
         $course = $_GET['course'];
         $section = $_GET['section'];
@@ -56,5 +94,5 @@
             header("Location: course_sections.php?course={$course}&title={$title}&school={$school}");
             exit();
         }
-    }
+    } */
 ?>
