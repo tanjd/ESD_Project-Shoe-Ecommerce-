@@ -12,7 +12,7 @@ if ($status != false) {
 $product_data = CallAPI('GET', $product_url, 'get_all_products');
 $product_status = checkSuccessOrFailure($product_data);
 
-if ($product_data != false) {
+if ($product_status != false) {
     $products = $product_data->{'products'};
 } else {
     $products = false;

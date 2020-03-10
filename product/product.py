@@ -25,7 +25,6 @@ class Product(db.Model):
     unit_price = db.Column(db.Float(10), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
-
     # def __init__(self, id, image, name, category_id, description, unit_price, quantity):
     #     self.id = id
     #     self.image = image
@@ -34,7 +33,6 @@ class Product(db.Model):
     #     self.description = description
     #     self.unit_price = unit_price
     #     self.quantity = quantity
-
 
     def json(self):
         return {"id": self.id, "image": self.image, "name": self.name, "category_id": self.category_id, "description": self.description,
@@ -58,43 +56,43 @@ class Category(db.Model):
         return {"id": self.id, "name": self.name}
 
 
-
-
 # [GET] all products
 @app.route("/get_all_products")
 def get_all_products():
     products = [Product.json()
                 for Product in Product.query.all()]
     if products:
-        return_message =({"status": "success",
-                          "products": products})
+        return_message = ({"status": "success",
+                           "products": products})
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
 # # [GET] all categories
 # @app.route("/category")
-# def get_all(): 
+# def get_all():
 #     return jsonify({"category": [Category.json() for category in Category.query.all()]})
 
 # #[GET] products by category
 # @app.route("/product/category/<int:category_id>")
-# def find_by_category_id(category_id): 
+# def find_by_category_id(category_id):
 #     product = Product.query.filter_by (category_id = category_id).all()
-#     if product: 
+#     if product:
 #         return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
 #     return jsonify({"message": "Products not found"}), 404
+
 
 @app.route('/get_product/', methods=['GET'])
 def get_product():
     product_id = request.args.get('product_id')
     product = Product.query.filter_by(id=product_id).first()
-        if product:
+    if product:
         return_message = ({"status": "success",
                            "product": product.json()})
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)

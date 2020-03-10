@@ -9,7 +9,7 @@ if (isset($_GET["product_id"])) {
 
     $product_data = CallAPI('GET', $product_url, 'get_product/', $GET_data);
     $product_status = checkSuccessOrFailure($product_data);
-    if ($product_data != false) {
+    if ($product_status != false) {
         $product = $product_data->{'product'};
     } else {
         $product = false;
