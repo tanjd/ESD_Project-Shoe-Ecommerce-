@@ -35,7 +35,7 @@ if ($product_data == True){
     for ($i=0; $i<count($product); $i++){
         // $product_name = $product[$i]->name;
         $product_table .= "<tr>
-                        <td><img src='../product/image/{$product[$i]->image}' style='width:100px;height:100px'></td>
+                        <td><img src='../product/image/{$product[$i]->image}' style='width:150px;height:100px'></td>
                         <td>{$product[$i]->name}</td>
                         <td>{$product[$i]->description}</td>
                         <td>\${$product[$i]->unit_price}</td> 
