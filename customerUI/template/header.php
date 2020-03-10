@@ -10,7 +10,8 @@ if (isset($_SESSION['customer_id'])) {
         "customer_id" => $customer_id,
     ];
     $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
-    if ($data != false) {
+    $data_status = checkSuccessOrFailure($data);
+    if ($data_status != false) {
         $customer = $data->{'customer'};
     } else {
         $customer = false;
@@ -50,7 +51,7 @@ if (isset($_SESSION['customer_id'])) {
                     <a class='nav-link' href='#'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
                             echo " $quantity";
-                        } echo"</span>
+                        } echo"</span>  
                     </a>
                 </li>
                 <li class='nav-item'>
