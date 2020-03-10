@@ -176,6 +176,11 @@ def load_customers():
                             "message": "An error occurred creating customer."})
     return jsonify({"status": "success"})
 
+#FOR TESTING
+@app.route('/test_data', methods=['POST'])
+def test_data():
+    test_data = request.get_json()
+    return jsonify(test_data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

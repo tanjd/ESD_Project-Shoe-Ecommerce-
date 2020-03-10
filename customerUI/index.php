@@ -23,13 +23,12 @@ if ($product_status != false) {
 <?php
 require_once 'template/head.php';
 require_once 'template/header.php';
-//var_dump($products);
 ?>
 <main role="main" class="container">
     <div class="starter-template">
         <p class="lead">
             <?php
-            if ($products)
+            if ($products != false) {
                 echo "<table class='table'>
                     <thead class='thead-dark'>
                     <tr>
@@ -48,6 +47,7 @@ require_once 'template/header.php';
                     </tr>";
                 }
                 echo "</table>";
+            }
             ?>
         </p>
     </div>
