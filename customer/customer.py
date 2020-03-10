@@ -131,8 +131,9 @@ def get_all_customers():
     return jsonify(return_message)
 
 
-@app.route('/get_customer/<string:customer_id>', methods=['GET'])
-def get_customer(customer_id):
+@app.route('/get_customer/', methods=['GET'])
+def get_customer():
+    customer_id = request.args.get('customer_id')
     customer = Customer.query.filter_by(id=customer_id).first()
     if customer:
         return_message = ({"status": "success",

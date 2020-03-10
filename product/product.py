@@ -63,11 +63,11 @@ class Category(db.Model):
 # [GET] all products
 @app.route("/get_all_products")
 def get_all_products():
-    product = [product.json()
-                for product in Product.query.all()]
-    if product:
+    products = [Product.json()
+                for Product in Product.query.all()]
+    if products:
         return_message =({"status": "success",
-                          "product": product})
+                          "products": products})
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
@@ -85,9 +85,10 @@ def get_all_products():
 #         return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
 #     return jsonify({"message": "Products not found"}), 404
 
-@app.route('/product/<string:name>', methods=['GET'])
-def get_product(name):
-    product = Product.query.filter_by(name=name).first()
+@app.route('/get_product/', methods=['GET'])
+def get_product():
+    product_id = request.args.get('product_id')
+    product = Product.query.filter_by(id=product_id).first()
     if product:
         return_message = ({"status": "success",
                            "product": product.json()})

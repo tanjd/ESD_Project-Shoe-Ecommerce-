@@ -1,18 +1,20 @@
 <?php
 require_once 'include/autoload.php';
-// if (isset($_SESSION['customer_id'])) {
+if (isset($_SESSION['customer_id'])) {
 
-//     $customer_id = $_SESSION['customer_id'];
+    $customer_id = $_SESSION['customer_id'];
 
-//     $POST_data = [
-//         "customer_id" => $customer_id,
-//     ];
-//     $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
-//     if ($data != false) {
-//         $customer = $data->{'customer'};
-//     } else {
-//         $customer = false;
-//     }
+    $GET_data = [
+        "customer_id" => $customer_id,
+    ];
+    $data = CallAPI('GET', $customer_url, 'get_customer/', $GET_data);
+    var_dump($data);
+    if ($data != false) {
+        $customer = $data->{'customer'};
+    } else {
+        $customer = false;
+    }
+}
 ?>
 
 <?php
@@ -38,9 +40,8 @@ require_once 'template/header.php';
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <!-- </div> -->
-
 </main>
+
 <?php
 require_once 'template/footer.php';
 ?>

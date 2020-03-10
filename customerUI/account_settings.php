@@ -13,6 +13,7 @@ require_once 'include/autoload.php';
 //     } else {
 //         $customer = false;
 //     }
+// }
 ?>
 
 <?php
