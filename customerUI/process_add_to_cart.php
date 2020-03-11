@@ -1,7 +1,5 @@
 <?php
     require_once 'include/autoload.php';
-    require_once 'template/head.php';
-    require_once 'template/header.php';
 
     
     // if there is no session for cart --> create one
@@ -12,7 +10,7 @@
     // get product id, name, price, quantity
     $product = false; 
     $id = ''; 
-    
+
     if (isset($_GET["product_id"])) {
 
         $GET_data = [
@@ -36,8 +34,8 @@
 
         $selectedItem = [
             $id => [
-                'name' => $product['name'], 
-                'unit_price' => $product['unit_price'],
+                'name' => $product->name, 
+                'unit_price' => $product->unit_price,
                 'quantity' => 1
             ]
             ]; 
@@ -49,12 +47,14 @@
         // product is already in cart
         if (array_key_exists($id, $_SESSION['cart'])){
             echo'<script Type="javascript">alert("Product is already in cart!")</script>'; 
+            header("Location: {$product_url}"); 
         }
 
         // product is not in cart
         else{
             $_SESSION["cart"] = array_merge($_SESSION["cart"],$selectedItem);
             echo'<script Type="javascript">alert("Product added to cart!")</script>'; 
+            header("Location: {$product_url}"); 
         }
 
     }
@@ -64,6 +64,7 @@
     {
         $_SESSION['cart'] = $selectedItem;
         echo'<script Type="javascript">alert("Product added to cart!")</script>';  
+        header("Location: {$product_url}"); 
     }
 
 

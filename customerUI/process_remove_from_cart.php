@@ -1,7 +1,23 @@
 <?php
-    require_once '../../include/autoload.php';
-    require_once '../../include/protect.php';
-    require_once '../../templates/view_template.php';
+    require_once 'include/autoload.php';
+    
+    // start session
+    session_start();
+     
+    if (isset($_SESSION['cart'])){
+        // get the product id
+        if (isset($_GET['id'])){
+            $id = $_GET['id']; 
+        }
+        // remove the item from the array
+        unset($_SESSION['cart'][$id]);
+        
+        // redirect to product list and tell the user it was added to cart
+        header('Location: cart.php');
+    }
+
+    
+    /*
 
     if (isset($_GET['course']) and isset($_GET['section']) and isset($_GET['title']) and isset($_GET['location']) and isset($_GET['school'])) {
         $course = $_GET['course'];
@@ -50,5 +66,5 @@
             header($url);
             exit();
         }
-    }
+    } */
 ?>

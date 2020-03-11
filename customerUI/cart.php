@@ -18,8 +18,8 @@ function console_log($output, $with_script_tags = true) {
 //             ];
 
 $_SESSION["cart"] = [
-        ["id"=>22, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
-        ["id"=>33, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]];
+    22 => ["name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
+    33 => ["name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]];
 
 $_SESSION['customer_id'] = 
     $customer_id = 123 ;
@@ -90,24 +90,24 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                                 <th></th>
                                 <th></th>
                         </tr>"; 
-                    foreach($_SESSION['cart'] as $contentArray)
+                    foreach($_SESSION['cart'] as $id_key => $contentArray)
                     {
-                        $id = $contentArray['id'];
+                        $id = $id_key; 
                         $name = $contentArray['name'];
-                        $unit_price = $contentArray['unit_price'];
+                        $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
                         $quantity = $contentArray['quantity'];
 
                         echo "<tr>
                                 <td>$id</td>
-                                <td>{$name}</td>
-                                <td>{$unit_price}</td>
+                                <td>$name</td>
+                                <td>$$unit_price</td>
                                 <td>$quantity</td>
-                                <td><input type='hidden' name='cart_items[]' value='$id, $name, $unit_price, $quantity'></td>
-                                <td><a href = 'cart_remove_item.php?id={$contentArray['id']}&title=&name={$contentArray['name']}&location=cart&quantity={$quantity}'>Remove</a></td>
+                                <td><input type='hidden' cart_item[] = $id></td>
+                                <td><a href = 'remove_from_cart.php?id={$id}'>Remove</a></td>
                             </tr>";
 
                         $cart_total += $unit_price * $quantity; 
-                        $cart_total = round($cart_total, 2); 
+                        $cart_total = number_format($cart_total, 2, '.', ' '); 
                     }
 
                         echo "<tr>
