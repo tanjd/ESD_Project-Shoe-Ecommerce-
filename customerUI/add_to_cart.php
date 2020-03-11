@@ -3,7 +3,6 @@
     require_once 'template/head.php';
     require_once 'template/header.php';
 
-    session_start(); 
     
     // if there is no session for cart --> create one
     if (! isset($_SESSION['cart'])){
@@ -11,6 +10,9 @@
     }
 
     // get product id, name, price, quantity
+    $product = false; 
+    $id = ''; 
+    
     if (isset($_GET["product_id"])) {
 
         $GET_data = [
@@ -21,9 +23,10 @@
         $product_status = checkSuccessOrFailure($product_data);
         if ($product_status != false) {
             $product = $product_data->{'product'};
-        } else {
+        } 
+        /*else {
             $product = false;
-        }
+        }*/
     }
 
     // create the selected item
