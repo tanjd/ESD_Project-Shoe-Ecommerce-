@@ -18,8 +18,8 @@ function console_log($output, $with_script_tags = true) {
 //             ];
 
 $_SESSION["cart"] = [
-        ["id"=>22, "quantity"=>1, "price"=>75],
-        ["id"=>33, "quantity"=>1, "price"=>89]];
+        ["id"=>22, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
+        ["id"=>33, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]];
 
 $_SESSION['customer_id'] = 
     $customer_id = 123 ;
@@ -56,19 +56,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     // }
 
     
-    $action = isset($_GET['action']) ? $_GET['action'] : "";
-    echo "<div class='col-md-12'>";
-        if($action=='removed'){
-            echo "<div class='alert alert-info'>";
-                echo "Product was removed from your cart!";
-            echo "</div>";
-        }
-        else if($action=='quantity_updated'){
-            echo "<div class='alert alert-info'>";
-                echo "Product quantity was updated!";
-            echo "</div>";
-        }
-    echo "</div>";
 
     $cart_total = 0; 
 
@@ -86,7 +73,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         <?php
                 echo "<h2>My Shopping Cart </h2>";
 
-                if ($cart == []){
+                if (! isset($_SESSION['cart'])){
                     echo '<div style="margin-left: 8px; font-size: 1.75em;">
                     <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
                     </div> ';
@@ -103,7 +90,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                                 <th></th>
                                 <th></th>
                         </tr>"; 
-                    foreach($cart as $cart_content => $contentArray)
+                    foreach($_SESSION['cart'] as $contentArray)
                     {
                         $id = $contentArray['id'];
                         $name = $contentArray['name'];
