@@ -28,7 +28,7 @@ if (isset($_SESSION['customer_id'])) {
 
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Python Shoes</a>
+    <a class="navbar-brand" href="index.php">Python Shoes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -40,7 +40,7 @@ if (isset($_SESSION['customer_id'])) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Shop All</a>
+                    <a class="dropdown-item" href="product.php">Shop All</a>
                     <a class="dropdown-item" href="#">Shop by Category</a>
                 </div>
             </li>
@@ -48,14 +48,14 @@ if (isset($_SESSION['customer_id'])) {
         <ul class="navbar-nav right">
             <?php if ($is_loggedin) {
                 echo "<li class='nav-item'>
-                    <a class='nav-link' href='#'>
+                    <a class='nav-link' href='cart.php'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
                             echo " $quantity";
                         } echo"</span>  
                     </a>
                 </li>
                 <li class='nav-item'>
-                    <a class='nav-link' href='#'><span class='fa fa-user-circle-o' aria-hidden='true'></span>Account</a>
+                    <a class='nav-link' href='#'><span class='fas fa-user' aria-hidden='true'></span></a>
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
@@ -74,12 +74,9 @@ if (isset($_SESSION['customer_id'])) {
                     </a>
                 </li>
 
-                <li class='nav-item dropdown'>
-                <a class='nav-link dropdown-toggle' id='user_dropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fas fa-user' aria-hidden='true'></span></a>
-                <div class='dropdown-menu' aria-labelledby='user_dropdown'>
-                    <a class='dropdown-item' href='login.php'>Login</a>
-                </div>
-            </li>"; 
+                <li class='nav-item'>
+                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                </li>"; 
                 }
             }
             ?>
@@ -97,3 +94,4 @@ if (isset($_SESSION['customer_id'])) {
         <p>We don't just sell snakeskin shoes.</p>
     </div>
 </div>
+
