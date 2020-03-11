@@ -103,7 +103,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                                 <td>$$unit_price</td>
                                 <td>$quantity</td>
                                 <td><input type='hidden' cart_item[] = $id></td>
-                                <td><a href = 'remove_from_cart.php?id={$id}'>Remove</a></td>
+                                <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
                             </tr>";
 
                         $cart_total += $unit_price * $quantity; 

@@ -48,6 +48,7 @@
         if (array_key_exists($id, $_SESSION['cart'])){
             echo'<script Type="javascript">alert("Product is already in cart!")</script>'; 
             header("Location: {$product_url}"); 
+            exit(); 
         }
 
         // product is not in cart
@@ -55,6 +56,7 @@
             $_SESSION["cart"] = array_merge($_SESSION["cart"],$selectedItem);
             echo'<script Type="javascript">alert("Product added to cart!")</script>'; 
             header("Location: {$product_url}"); 
+            exit(); 
         }
 
     }
@@ -65,6 +67,7 @@
         $_SESSION['cart'] = $selectedItem;
         echo'<script Type="javascript">alert("Product added to cart!")</script>';  
         header("Location: {$product_url}"); 
+        exit(); 
     }
 
 
