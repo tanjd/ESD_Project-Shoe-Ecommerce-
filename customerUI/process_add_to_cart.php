@@ -33,11 +33,10 @@
         $id = $_GET['product_id'];
 
         $selectedItem = [
-            $id => [
-                'name' => $product->name, 
-                'unit_price' => $product->unit_price,
-                'quantity' => 1
-            ]
+            'id' => $product->id,
+            'name' => $product->name, 
+            'unit_price' => $product->unit_price,
+            'quantity' => 1
             ]; 
     }
 
@@ -53,7 +52,7 @@
 
         // product is not in cart
         else{
-            $_SESSION["cart"] = array_merge($_SESSION["cart"],$selectedItem);
+            $_SESSION["cart"][] = $selectedItem;
             echo'<script Type="javascript">alert("Product added to cart!")</script>'; 
             header("Location: {$product_url}"); 
             exit(); 
