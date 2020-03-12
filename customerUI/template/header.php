@@ -40,7 +40,7 @@ if (isset($_SESSION['customer_id'])) {
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="product.php">Shop All</a>
+                    <a class="dropdown-item" href="index.php">Shop All</a>
                     <a class="dropdown-item" href="#">Shop by Category</a>
                 </div>
             </li>
