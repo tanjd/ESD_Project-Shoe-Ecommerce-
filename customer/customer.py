@@ -100,23 +100,36 @@ def fb_login():
         return_message = ({"status": "success",
                            "customer_id": customer.id})
     else:
-        return_message = ({"status": "fail",
-                           "message": "Invalid Email"})
-    return jsonify(return_message)
-
-
-@app.route('/fb_register', methods=['POST'])
-def fb_register():
-    fb_data = request.get_json()
-    fb_data['password'] = 'password'
-    try:
-        cust = Customer(**fb_data)
-        db.session.add(cust)
-        db.session.commit()
-    except:
-        return jsonify({"status": "fail",
+        fb_data['password'] = 'password'
+        try:
+            cust = Customer(**fb_data)
+            db.session.add(cust)
+            db.session.commit()
+        except:
+            return jsonify({"status": "fail",
                         "message": "An error occurred creating customer."})
-    return jsonify({"status": "success"})
+        customer = Customer.query.filter_by(email=email).first()
+        if customer:
+            return_message = ({"status": "success",
+                            "customer_id": customer.id})
+        else:
+            return_message = ({"status": "fail",
+                           "message": "Invalid Email"})
+        return jsonify(return_message)
+
+
+# @app.route('/fb_register', methods=['POST'])
+# def fb_register():
+#     fb_data = request.get_json()
+#     fb_data['password'] = 'password'
+#     try:
+#         cust = Customer(**fb_data)
+#         db.session.add(cust)
+#         db.session.commit()
+#     except:
+#         return jsonify({"status": "fail",
+#                         "message": "An error occurred creating customer."})
+#     return jsonify({"status": "success"})
 
 
 @app.route('/get_all_customers', methods=['GET'])
