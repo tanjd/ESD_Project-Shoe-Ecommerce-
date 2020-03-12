@@ -11,18 +11,13 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;}
 
-// $_SESSION["cart"] = 
-//     $_cart = [
-//         ["id"=>22, "quantity"=>1, "price"=>75],
-//         ["id"=>33, "quantity"=>1, "price"=>89]
-//             ];
-
 $_SESSION["cart"] = [
-    22 => ["name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
-    33 => ["name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]];
+    [ 'id' => 223, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
+    [ 'id' => 334, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]
+                    ];
 
 $_SESSION['customer_id'] = 
-    $customer_id = 123 ;
+    $customer_id = 444 ;
 
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
@@ -34,14 +29,14 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data);
 
-    console_log($order_data);
-    print_r($order_data);
+    // console_log($order_data);
+    //print_r($order_data);
     console_log($data);
-    #print_r($data); 
+    //print_r($data); 
 
     if ($status != false) {
         //if data is sent successfully to order.py then the ui page changes
-        header('Location: delivery.php');
+        #header('Location: delivery.php');
         session_destroy();
     } 
     else{
