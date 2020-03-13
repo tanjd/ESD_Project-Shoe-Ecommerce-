@@ -1,11 +1,12 @@
 <?php
     require_once 'include/autoload.php';
 
-    
+
     // if there is no session for cart --> create one
     if (! isset($_SESSION['cart'])){
         $_SESSION['cart'] = []; 
     }
+
 
     // get product id, name, price, quantity
     $product = false; 
@@ -44,19 +45,24 @@
     if (isset($_SESSION['cart'])){
 
         // product is already in cart
-        if (array_key_exists($id, $_SESSION['cart'])){
-            echo'<script Type="javascript">alert("Product is already in cart!")</script>'; 
-            header("Location: {$product_url}"); 
-            exit(); 
+        foreach ($_SESSION['cart'] as $contentArray){
+            if (in_array($id, $contentArray)){
+                $_SESSION['message'] = 'Product is already in cart!'; 
+                break; 
+                header("Location: product.php?product_id=$id"); 
+                exit(); 
+            }
+
+            // product is not in cart
+            else{
+                $_SESSION["cart"][] = $selectedItem;
+                $_SESSION['message'] = 'Product successfully added to cart!'; 
+                header("Location: product.php?product_id=$id"); 
+                exit(); 
+            }
         }
 
-        // product is not in cart
-        else{
-            $_SESSION["cart"][] = $selectedItem;
-            echo'<script Type="javascript">alert("Product added to cart!")</script>'; 
-            header("Location: {$product_url}"); 
-            exit(); 
-        }
+        
 
     }
     
@@ -64,8 +70,8 @@
     else 
     {
         $_SESSION['cart'] = $selectedItem;
-        echo'<script Type="javascript">alert("Product added to cart!")</script>';  
-        header("Location: {$product_url}"); 
+        $_SESSION['message'] = 'Product added to cart!';  
+        header("Location: product.php?product_id=$id"); 
         exit(); 
     }
 
