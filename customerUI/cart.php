@@ -12,13 +12,6 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;}
 
-$_SESSION["cart"] = [
-    [ 'id' => 223, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
-    [ 'id' => 334, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]
-                    ];
-
-$_SESSION['customer_id'] = 
-    $customer_id = 444 ;
 
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
