@@ -54,7 +54,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
             <form action = 'checkout.php' method = 'post'></form>
             <h2>My Shopping Cart </h2>
             <?php
-            if (! isset($_SESSION['cart'])){
+            if (! isset($_SESSION['cart']) or $_SESSION['cart'] == []){
                 echo '<div style="margin-left: 8px; font-size: 1.75em;">
                 <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
                 </div> ';
@@ -71,10 +71,12 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                             <th></th>
                         </tr>"; 
         
-            }
-            // display items in cart
-            foreach($_SESSION['cart'] as $contentArray)
-            {
+            
+            
+                // display items in cart
+
+                foreach($_SESSION['cart'] as $contentArray){
+                var_dump($contentArray); 
                 $id = $contentArray['id']; 
                 $name = $contentArray['name'];
                 $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
@@ -97,6 +99,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                 $cart_total += $unit_price * $quantity; 
                 $cart_total = number_format($cart_total, 2, '.', ' '); 
             }
+
 
             ?>
 
@@ -129,7 +132,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
             <tr>
                 <td colspan = '5'><input class='btn btn-primary btn-sm' type='submit' value='Checkout'></td>
             </tr>
-        </table>     
+        </table> <?php } ?>    
 
         </p>
         </div>
