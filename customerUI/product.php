@@ -60,7 +60,6 @@ $product_table = "<table class='table table-bordered'>
                     <td scope='row' colspan = '4'><h2>\${$product->unit_price}</h2></td>
                 </tr>
                 <tr>
-                    <td scope='row' colspan = '2'>placeholder for size drop down list</td>
                     <td scope='row'>
                         <a href='process_add_to_cart.php?product_id={$product->id}'>
                             <button type='button' class='btn btn-dark' style='width:150px;height:100px'>Add To Cart</button>
