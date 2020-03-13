@@ -105,8 +105,6 @@ if (isset($_SESSION['customer_id'])) {
     <div class="container text-center">
         <h1>Python Shoes</h1>
         <p>We don't just sell snakeskin shoes.</p>
-         <?php var_dump($categories);
-          ?>
     </div>
 </div>
 
