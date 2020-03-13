@@ -85,9 +85,9 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                                 <th></th>
                                 <th></th>
                         </tr>"; 
-                    foreach($_SESSION['cart'] as $id_key => $contentArray)
+                    foreach($_SESSION['cart'] as $contentArray)
                     {
-                        $id = $id_key; 
+                        $id = $contentArray['id']; 
                         $name = $contentArray['name'];
                         $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
                         $quantity = $contentArray['quantity'];
