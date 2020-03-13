@@ -68,10 +68,17 @@ def get_all_products():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
-# # [GET] all categories
-# @app.route("/category")
-# def get_all():
-#     return jsonify({"category": [Category.json() for category in Category.query.all()]})
+# [GET] all categories
+@app.route("/get_all_categories")
+def get_all():
+    categories = [Category.json()
+                  for Category in Category.query.all()]
+    if categories:
+        return_message = ({"status": "success",
+                           "categories": categories})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
 # #[GET] products by category
 # @app.route("/product/category/<int:category_id>")
