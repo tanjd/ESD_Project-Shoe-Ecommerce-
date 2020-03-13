@@ -19,7 +19,19 @@ if (isset($_SESSION['customer_id'])) {
 
     $is_loggedin = true;
     $quantity = 0;
-} else {
+
+    if (isset($_SESSION['cart'])){
+
+        if ($_SESSION['cart'] != []){
+            foreach($_SESSION['cart'] as $one_item){
+                $quantity += 1; 
+            }
+        }
+    }
+} 
+
+// ! isset $_SESSION['customer_id']
+else {
 
     $quantity = 0;
     $is_loggedin = false;
@@ -59,7 +71,7 @@ if (isset($_SESSION['customer_id'])) {
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                 </li> -->";
+                 </li>";
             }
             else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
@@ -75,7 +87,7 @@ if (isset($_SESSION['customer_id'])) {
                 </li>
 
                 <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
                 </li>"; 
                 }
             }
