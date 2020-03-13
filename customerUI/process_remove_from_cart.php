@@ -11,7 +11,11 @@
             $id = $_GET['id']; 
         
         // remove the item from the array
-        unset($_SESSION['cart'][$id]);
+        foreach ($_SESSION['cart'] as $contentArray){
+            if ($contentArray['id'] = $id){
+                unset($_SESSION['cart'][$contentArray]);
+            }
+        }
         }
 
         else{
