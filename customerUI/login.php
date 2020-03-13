@@ -1,17 +1,28 @@
 <?php
+require_once('fb_login/config.php');
 
+if (!isset($_SESSION))
+{
+    session_start();
+}
+
+
+$redirectTo = "http://localhost/ESD_project/customerUI/fb_login/callback.php";
+$data = ['email'];
+$fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
 
 <?php
 require_once 'template/head.php';
 require_once 'template/header.php';
+require_once 'include/autoload.php';
 ?>
 <link rel="stylesheet" href="css/login_style.css">
 <link rel="stylesheet" href="css/use.fontawesome.comv5.3.1cssall" \ integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <body>
 
     
-  <script>
+  <!-- <script>
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '203646284208498',
@@ -19,6 +30,8 @@ require_once 'template/header.php';
         xfbml      : true,
         version    : 'v6.0'
       });
+      
+      
         
       
       FB.getLoginStatus(function(response) {
@@ -50,9 +63,10 @@ require_once 'template/header.php';
      }
 
     function testAPI(){
-        FB.api('/me?fields=name,email,birthday,location', function(response){
+        FB.api('/me?fields=name,email', function(response){
             if(response && !response.error){
                 //console.log(response);
+                
                 buildProfile(response);
             }
             FB.api('/me/feed', function(response){
@@ -63,16 +77,16 @@ require_once 'template/header.php';
         })
     }
     function buildProfile(user){
+        $useremail = `${user.email}`;
         let profile = `
             <h3>${user.name}</h3>
             <ul class= "list-group">
                 <li class = "list-group-item">User ID: ${user.id}</li>
                 <li class = "list-group-item">Email: ${user.email}</li>
-                <li class = "list-group-item">Birthday: ${user.birthday}</li>
-                <li class = "list-group-item">Location: ${user.location.name}</li>
             </ul>
         
         `;
+        
         document.getElementById('profile').innerHTML = profile;
     }
     function checkLoginState() {
@@ -83,6 +97,7 @@ require_once 'template/header.php';
 
     function setElements(isLoggedIn){
         if(isLoggedIn){
+            
             document.getElementById('logout').style.display = 'block';
             document.getElementById('feed').style.display = 'block';
             document.getElementById('profile').style.display = 'block';
@@ -105,7 +120,8 @@ require_once 'template/header.php';
             setElements(false);
         });
     }
-  </script>
+  </script> -->
+
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Python_Shoes</a>
@@ -119,12 +135,12 @@ require_once 'template/header.php';
           <a href="login.php">Home <span class="sr-only">(current)</span></a>
         </li>
       </ul>
-      <ul class="navbar-nav right">
+      <!-- <ul class="navbar-nav right">
 
         <li><a id="logout" href="#" onclick="logout()">Logout</a></li>
 
         
-      </ul>
+      </ul> -->
       <!-- <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -143,11 +159,12 @@ require_once 'template/header.php';
             <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
             <div class="social-login">
-            <button class="btn facebook-btn social-btn" type="button"><span><fb:login-button
+                  <!-- <fb:login-button
                     id="fb-btn"
-                    scope="public_profile,email, user_birthday, user_location"
+                    scope="public_profile,email"
                     onlogin="checkLoginState();">
-                </fb:login-button></span></button>
+                </fb:login-button> -->
+                <input type="button" onclick= "window.location = '<?php echo $fullURL ?>'" value="Login with Facebook" class="btn facebook-btn social-btn">
                 <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
             </div>
             <p style="text-align:center"> OR </p>
