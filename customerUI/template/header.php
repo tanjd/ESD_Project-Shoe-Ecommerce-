@@ -2,6 +2,15 @@
 
 require_once 'include/autoload.php';
 
+$categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
+    $categories_data_status = checkSuccessOrFailure($categories_data);
+    
+    if ($categories_data_status != false) {
+        $categories = $categories_data->{'categories'};
+    } else {
+        $categories = false;
+    }
+
 if (isset($_SESSION['customer_id'])) {
 
     $customer_id = $_SESSION['customer_id'];
@@ -16,15 +25,6 @@ if (isset($_SESSION['customer_id'])) {
     } else {
         $customer = false;
     }
-
-    $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-    $categories_data_status = checkSuccessOrFailure($categories_data);
-    if ($categories_data_status != false) {
-        $categories = $categories_data->{'categories'};
-    } else {
-        $categories = false;
-    }
-
 
     $is_loggedin = true;
     $quantity = 0;
