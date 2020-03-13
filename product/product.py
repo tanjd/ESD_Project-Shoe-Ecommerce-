@@ -80,7 +80,7 @@ def get_all():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
-@app.route("/get_products_by_category")
+@app.route("/get_products_by_category/")
 def get_products_by_id():
     category_id = request.args.get('category_id')
     products = [Product.json()
