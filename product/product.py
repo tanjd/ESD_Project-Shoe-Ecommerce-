@@ -70,7 +70,7 @@ def get_all_products():
 
 # [GET] all categories
 @app.route("/get_all_categories")
-def get_all():
+def get_all_categories():
     categories = [Category.json()
                   for Category in Category.query.all()]
     if categories:
