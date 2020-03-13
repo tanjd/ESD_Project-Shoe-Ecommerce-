@@ -1,116 +1,26 @@
 <?php
+require_once('fb_login/config.php');
 
+if (!isset($_SESSION))
+{
+    session_start();
+}
+
+
+$redirectTo = "http://localhost/ESD_project/customerUI/fb_login/callback.php";
+$data = ['email'];
+$fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
 
 <?php
 require_once 'template/head.php';
 require_once 'template/header.php';
+require_once 'include/autoload.php';
 ?>
 <link rel="stylesheet" href="css/login_style.css">
 <link rel="stylesheet" href="css/use.fontawesome.comv5.3.1cssall" \ integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <body>
-
-
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: '203646284208498',
-        cookie: true,
-        xfbml: true,
-        version: 'v6.0'
-      });
-
-
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
-
-    };
-
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {
-        return;
-      }
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    function statusChangeCallback(response) {
-      if (response.status === 'connected') {
-
-        console.log('Logged in and authenticated');
-        setElements(true);
-        testAPI();
-
-      } else {
-
-        console.log('Not authenticated');
-        setElements(false);
-      }
-    }
-
-    function testAPI() {
-      FB.api('/me?fields=name,email,birthday,location', function(response) {
-        if (response && !response.error) {
-          //console.log(response);
-          buildProfile(response);
-        }
-        FB.api('/me/feed', function(response) {
-          if (response && !response.error) {
-            buildFeed(response);
-          }
-        })
-      })
-    }
-
-    function buildProfile(user) {
-      let profile = `
-            <h3>${user.name}</h3>
-            <ul class= "list-group">
-                <li class = "list-group-item">User ID: ${user.id}</li>
-                <li class = "list-group-item">Email: ${user.email}</li>
-                <li class = "list-group-item">Birthday: ${user.birthday}</li>
-                <li class = "list-group-item">Location: ${user.location.name}</li>
-            </ul>
-        
-        `;
-      document.getElementById('profile').innerHTML = profile;
-    }
-
-    function checkLoginState() {
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
-    }
-
-    function setElements(isLoggedIn) {
-      if (isLoggedIn) {
-        document.getElementById('logout').style.display = 'block';
-        document.getElementById('feed').style.display = 'block';
-        document.getElementById('profile').style.display = 'block';
-        document.getElementById('fb-btn').style.display = 'none';
-        document.getElementById('heading').style.display = 'none';
-        document.getElementById('logreg-forms').style.display = 'none';
-      } else {
-        document.getElementById('logout').style.display = 'none';
-        document.getElementById('feed').style.display = 'none';
-        document.getElementById('profile').style.display = 'none';
-        document.getElementById('fb-btn').style.display = 'block';
-        document.getElementById('heading').style.display = 'block';
-        document.getElementById('logreg-forms').style.display = 'block';
-      }
-    }
-
-    function logout() {
-      FB.logout(function(response) {
-        setElements(false);
-      });
-    }
-  </script>
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="#">Python_Shoes</a>
@@ -124,12 +34,12 @@ require_once 'template/header.php';
           <a href="login.php">Home <span class="sr-only">(current)</span></a>
         </li>
       </ul>
-      <ul class="navbar-nav right">
+      <!-- <ul class="navbar-nav right">
 
         <li><a id="logout" href="#" onclick="logout()">Logout</a></li>
 
-
-      </ul>
+        
+      </ul> -->
       <!-- <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -173,7 +83,7 @@ require_once 'template/header.php';
 
       <form action="/signup/" class="form-signup">
         <div class="social-login">
-          <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
+          <input type="button" onclick= "window.location = '<?php echo $fullURL ?>'" value="Sign up with Faceboo" class="btn facebook-btn social-btn"> 
         </div>
         <div class="social-login">
           <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>

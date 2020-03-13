@@ -1,23 +1,6 @@
 <?php
 require_once 'include/autoload.php';
 
-$data = CallAPI('GET', $customer_url, 'get_all_customers');
-$status = checkSuccessOrFailure($data);
-if ($status != false) {
-    $customers = $data->{'customers'};
-} else {
-    $customers = false;
-}
-
-$product_data = CallAPI('GET', $product_url, 'get_all_products');
-$product_status = checkSuccessOrFailure($product_data);
-
-if ($product_status != false) {
-    $products = $product_data->{'products'};
-} else {
-    $products = false;
-}
-
 ?>
 
 <?php
