@@ -8,14 +8,21 @@ if ($status != false) {
     $customers = false;
 }
 
-$product_data = CallAPI('GET', $product_url, 'get_all_products');
-$product_status = checkSuccessOrFailure($product_data);
-
-if ($product_status != false) {
-    $products = $product_data->{'products'};
-} else {
-    $products = false;
+if (isset($_GET["category_id"])) {
+    $GET_data = [
+        "category_id" => $_GET["category_id"]
+    ];
+    $product_data = CallAPI('GET', $product_url, 'get_products_by_category/', $GET_data);
+    $product_status = checkSuccessOrFailure($product_data);
+    if ($product_status != false) {
+        $products = $product_data->{'products'};
+    } else {
+        $products = false;
+    }
+    
 }
+
+
 ?>
 
 <?php

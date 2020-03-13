@@ -17,6 +17,15 @@ if (isset($_SESSION['customer_id'])) {
         $customer = false;
     }
 
+    $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
+    $categories_data_status = checkSuccessOrFailure($categories_data);
+    if ($categories_data_status != false) {
+        $categories = $categories_data->{'categories'};
+    } else {
+        $categories = false;
+    }
+
+
     $is_loggedin = true;
     $quantity = 0;
 
@@ -38,6 +47,7 @@ else {
 
 }
 
+
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="index.php">Python Shoes</a>
@@ -50,10 +60,13 @@ else {
             <li class="nav-item active">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="index.php">Shop All</a>
-                    <a class="dropdown-item" href="#">Shop by Category</a>
+                    <?php
+                        foreach ($categories as $category){
+                            echo "<a class='dropdown-item' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
+                        }
+                    ?>
                 </div>
             </li>
         </ul>

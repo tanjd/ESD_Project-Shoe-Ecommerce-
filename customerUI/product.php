@@ -14,6 +14,7 @@ if (isset($_GET["product_id"])) {
     } else {
         $product = false;
     }
+    var_dump($product_data);
 }
 ?>
 
