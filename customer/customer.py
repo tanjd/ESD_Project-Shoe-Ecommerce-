@@ -115,7 +115,7 @@ def fb_login():
         else:
             return_message = ({"status": "fail",
                            "message": "Invalid Email"})
-        return jsonify(return_message)
+    return jsonify(return_message)
 
 
 # @app.route('/fb_register', methods=['POST'])
