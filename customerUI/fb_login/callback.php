@@ -5,41 +5,46 @@ require_once '../include/autoload.php';
 try {
 
     $accessToken = $handler->getAccessToken();
-}catch(\Facebook\Exceptions\FacebookResponseException $e){
-    echo "Response Exception: ". $e->getMessage();
-}catch(\Facebook\Exceptions\FacebookSDKException $e){
-    echo "SDK Exception: ". $e->getMessage();
+} catch (\Facebook\Exceptions\FacebookResponseException $e) {
+    echo "Response Exception: " . $e->getMessage();
+} catch (\Facebook\Exceptions\FacebookSDKException $e) {
+    echo "SDK Exception: " . $e->getMessage();
     exit();
 }
 
-if (!$accessToken){
-    header('Location: test_login.php');
+if (!$accessToken) {
+    header('Location: ../login.php');
 }
 
-$oAuth2Client = $FBObject ->getOAuth2Client();
+$oAuth2Client = $FBObject->getOAuth2Client();
 if (!$accessToken->isLongLived())
     $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
 
-    $response = $FBObject->get("/me?fields=id, name, email", $accessToken);
-    $userData = $response->getGraphNode()->asArray();
+$response = $FBObject->get("/me?fields=id, name, email", $accessToken);
+$userData = $response->getGraphNode()->asArray();
 
-    $_SESSION['userData'] = $userData;
-    $_SESSION['access_token'] = (string) $accessToken;
+$name = $userData['name'];
+$email = $userData['email'];
 
-    $email = $_SESSION['userData']['email'];
-    $name = $_SESSION['userData']['name'];
-    $POST_data = [
-        "name" => $name,
-        "email" => $email
-    ];
-
-    $data = CallAPI('POST', $customer_url, 'fb_login', $POST_data);
+$POST_data = [
+    "name" => $name,
+    "email" => $email
+];
+$data = CallAPI('POST', $customer_url, 'fb_login', $POST_data);
+$status = checkSuccessOrFailure($data);
+if ($status != false) {
+    $customer_id = $data->{'customer_id'};
+    $_SESSION['customer_id'] = $customer_id;
     header('Location: ../index.php');
     exit();
-
-   
-
-
-
-
+} else {
+    if (isset($data->{'message'})) {
+        $_SESSION['error'] = $data->{'message'};
+    } else {
+        //However, autoload should handle this...
+        $_SESSION['error'] = 'Server is temporarily unavailable';
+    }
+    header('Location: ../login.php');
+    exit();
+}
 ?>

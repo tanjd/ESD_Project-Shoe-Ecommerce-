@@ -107,29 +107,15 @@ def fb_login():
             db.session.commit()
         except:
             return jsonify({"status": "fail",
-                        "message": "An error occurred creating customer."})
+                            "message": "An error occurred creating customer."})
         customer = Customer.query.filter_by(email=email).first()
         if customer:
             return_message = ({"status": "success",
-                            "customer_id": customer.id})
+                               "customer_id": customer.id})
         else:
             return_message = ({"status": "fail",
-                           "message": "Invalid Email"})
-        return jsonify(return_message)
-
-
-# @app.route('/fb_register', methods=['POST'])
-# def fb_register():
-#     fb_data = request.get_json()
-#     fb_data['password'] = 'password'
-#     try:
-#         cust = Customer(**fb_data)
-#         db.session.add(cust)
-#         db.session.commit()
-#     except:
-#         return jsonify({"status": "fail",
-#                         "message": "An error occurred creating customer."})
-#     return jsonify({"status": "success"})
+                               "message": "Invalid Email"})
+    return jsonify(return_message)
 
 
 @app.route('/get_all_customers', methods=['GET'])
@@ -189,11 +175,6 @@ def load_customers():
                             "message": "An error occurred creating customer."})
     return jsonify({"status": "success"})
 
-#FOR TESTING
-@app.route('/test_data', methods=['POST'])
-def test_data():
-    test_data = request.get_json()
-    return jsonify(test_data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
