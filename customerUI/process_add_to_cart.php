@@ -44,8 +44,10 @@
     // if cart not empty
     if (isset($_SESSION['cart'])){
 
-        // product is already in cart
+        
         foreach ($_SESSION['cart'] as $contentArray){
+
+            // product is already in cart
             if (in_array($id, $contentArray)){
                 $_SESSION['message'] = 'Product is already in cart!'; 
                 break; 
