@@ -40,8 +40,13 @@ require_once 'template/header.php';
                         <td><img src='../image/{$product->image}' style='width:150px;height:100px'></td>
                         <td><a href='product.php?product_id={$product->id}'>{$product->name}</a></td>
                         <td>{$product->description}</td>
-                        <td>{$product->unit_price}</td>
-                        <td><button></button></td>
+                        <td>\${$product->unit_price}</td>
+                        <td>
+                            <a href='process_add_to_cart.php?product_id={$product->id}'>
+                                <button type='button' class='btn btn-dark' style='width:120px;height:70px'>Add To Cart</button>
+                            </a>
+                        </td>
+
                     </tr>";
                 }
                 echo "</table>";
