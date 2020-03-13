@@ -52,7 +52,7 @@ if (isset($_SESSION['customer_id'])) {
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <?php
                         foreach ($categories as $category){
-                            echo "<a class='dropdown-item' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
+                            echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
                         }
                     ?>
                 </div>
