@@ -107,7 +107,7 @@ def get_category():
 @app.route('/get_product/', methods=['GET'])
 def get_product():
     product_id = request.args.get('product_id')
-    product = Category.query.filter_by(id=product_id).first()
+    product = Product.query.filter_by(id=product_id).first()
     if product:
         return_message = ({"status": "success",
                            "product": product.json()})
