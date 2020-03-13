@@ -40,7 +40,7 @@
     }
 
     // if cart not empty
-    if (isset($_SESSION['cart'])){
+    if (isset($_SESSION['cart']) && ! empty($_SESSION['cart'])){
 
         // check if product is already in cart
         foreach ($_SESSION['cart'] as $contentArray){
@@ -50,16 +50,16 @@
             if (in_array($id, $contentArray)){
                 $_SESSION['message'] = 'Product is already in cart!'; 
                 break; 
-                //header("Location: product.php?product_id=$id"); 
-                //exit(); 
+                header("Location: product.php?product_id=$id"); 
+                exit(); 
             }
 
             // product is not in cart
             else{
                 array_push($_SESSION['cart'], $selectedItem);
                 $_SESSION['message'] = 'Product successfully added to cart!'; 
-                //header("Location: product.php?product_id=$id"); 
-                //exit(); 
+                header("Location: product.php?product_id=$id"); 
+                exit(); 
             }
         }
 
@@ -72,8 +72,8 @@
     {
         array_push($_SESSION['cart'], $selectedItem);
         $_SESSION['message'] = 'Product added to cart!';  
-        //header("Location: product.php?product_id=$id"); 
-        //exit(); 
+        header("Location: product.php?product_id=$id"); 
+        exit(); 
     }
 var_dump($_SESSION['cart']); 
 var_dump($_SESSION['message']); 
