@@ -23,33 +23,45 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 ?>
 <main role="main" class="container">
-    <div class="starter-template">
-        <p class="lead"></p>
+    <!-- <div class='card-columns'> -->
+    <div class="row">
         <?php
         if ($products != false) {
-            echo "<table class='table'>
-                    <thead class='thead-dark'>
-                    <tr>
-                        <th scope='col' colspan='2'>Shoe</th>
-                        <th scope='col'>Description</th>
-                        <th scope='col'>Price</th>
-                        <th scope='col'>Add to Cart</th>
-                    </tr>";
             foreach ($products as $product) {
-                echo "<tr>
-                        <td><img src='../image/{$product->image}' style='width:150px;height:100px'></td>
-                        <td><a href='product.php?product_id={$product->id}'>{$product->name}</a></td>
-                        <td>{$product->description}</td>
-                        <td>\${$product->unit_price}</td>
-                        <td>
+                echo "
+                <div class='col-sm-4 py-2'>
+                    <div class='card card-body h-100'>
+                        <div class='card-header'>
+                            <a href='product.php?product_id={$product->id}'><h5 class='card-title'>{$product->name}</h5></a>
+                        </div>
+                        <a href='product.php?product_id={$product->id}'><img class='card-img-top' src='../image/{$product->image}' alt='Card image cap' style=
+                        'margin-left: auto;
+                        margin-right: auto;
+                        width: 85%;'></a>
+                        <div class='card-body'>
+                            <p class='card-text'>{$product->description}</p>
+                        </div>
+                        <div class='card-footer text-center'>
                             <a href='process_add_to_cart.php?product_id={$product->id}'>
-                                <button type='button' class='btn btn-dark' style='width:120px;height:70px'>Add To Cart</button>
+                                <button type='button' class='btn btn-dark' >Add To Cart</button>
                             </a>
-                        </td>
-
-                    </tr>";
+                        </div>
+                    </div>
+                </div>";
+                // echo
+                //     "<div class='col-sm-6'>
+                //             <div class='card' style='width: 18rem;'
+                //                 <img class='card-img-top' src='../image/{$product->image}>
+                //                     <div class='card-body'>
+                //                         <a href='product.php?product_id={$product->id}'><h5 class='card-title'>{$product->name}</h5></a>
+                //                             <p class='card-text'>{$product->description}</p>
+                //                             <a href='process_add_to_cart.php?product_id={$product->id}'>
+                //                                 <button type='button' class='btn btn-primary' style='width:120px;height:70px'>Add To Cart</button>
+                //                             </a>
+                //                     </div>
+                //             </div>
+                //         </div>";
             }
-            echo "</table>";
         }
         ?>
     </div>
