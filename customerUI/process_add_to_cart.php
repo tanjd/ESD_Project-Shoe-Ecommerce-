@@ -48,8 +48,8 @@
             
             // product is already in cart
             if (in_array($id, $contentArray)){
+                // break;
                 $_SESSION['message'] = 'Product is already in cart!'; 
-                break; 
                 header("Location: product.php?product_id=$id"); 
                 exit(); 
             }
