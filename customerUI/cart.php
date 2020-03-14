@@ -23,11 +23,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data);
 
-    // console_log($order_data);
-    //print_r($order_data);
-    console_log($data);
-    //print_r($data); 
-
     if ($status != false) {
         //if data is sent successfully to order.py then the ui page changes
         #header('Location: delivery.php');
@@ -37,12 +32,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     //error msg in the UI     
     }
 } 
-
-    // $cart = []; 
-    // if (isset($_SESSION['cart']))
-    // {
-    //     $cart = $_SESSION['cart'];
-    // }
 
     $cart_total = 0; 
 ?>
@@ -76,7 +65,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                 // display items in cart
 
                 foreach($_SESSION['cart'] as $contentArray){
-                var_dump($contentArray); 
                 $id = $contentArray['id']; 
                 $name = $contentArray['name'];
                 $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
@@ -99,38 +87,22 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                 $cart_total += $unit_price * $quantity; 
                 $cart_total = number_format($cart_total, 2, '.', ' '); 
             }
-
-
             ?>
 
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><form action='' method='post'>
-                    <input type='submit' name='submit' class='btn btn-primary btn-sm'>
+                <th colspan ='2'>Total:</th>
+                <th><?php echo "\$$cart_total"?></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <td colspan = '2'><input class='btn btn-dark' type='submit' value='Checkout'></td>
+                <td colspan = '2'><form action='' method='post'>
+                    <input type='submit' name='submit' class='btn btn-dark'>
                     </form></td>
                 <td></td>
-            </tr>
 
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-
-            <tr>
-                <th colspan = '2'>Total:</th>
-                <th>$<?php$cart_total ?></th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            <tr>
-                <td colspan = '5'><input class='btn btn-primary btn-sm' type='submit' value='Checkout'></td>
             </tr>
         </table> <?php } ?>    
 
