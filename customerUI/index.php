@@ -43,7 +43,7 @@ require_once 'template/header.php';
                         </div>
                         <div class='card-footer text-center'>
                         <p class='card-text'><h2><center>\${$product->unit_price}</center></h2></p>
-                            <a href='process_add_to_cart.php?product_id={$product->id}'>
+                            <a href='process_add_to_cart.php?product_id={$product->id}&from=index.php'>
                                 <button type='button' class='btn btn-dark' >Add To Cart</button>
                             </a>
                         </div>
