@@ -3,13 +3,13 @@
 require_once 'include/autoload.php';
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-    $categories_data_status = checkSuccessOrFailure($categories_data);
-    
-    if ($categories_data_status != false) {
-        $categories = $categories_data->{'categories'};
-    } else {
-        $categories = false;
-    }
+$categories_data_status = checkSuccessOrFailure($categories_data);
+
+if ($categories_data_status != false) {
+    $categories = $categories_data->{'categories'};
+} else {
+    $categories = false;
+}
 
 if (isset($_SESSION['customer_id'])) {
 
@@ -29,22 +29,21 @@ if (isset($_SESSION['customer_id'])) {
     $is_loggedin = true;
     $quantity = 0;
 
-    if (isset($_SESSION['cart'])){
+    if (isset($_SESSION['cart'])) {
 
-        if ($_SESSION['cart'] != []){
-            foreach($_SESSION['cart'] as $one_item){
-                $quantity += 1; 
+        if ($_SESSION['cart'] != []) {
+            foreach ($_SESSION['cart'] as $one_item) {
+                $quantity += 1;
             }
         }
     }
-} 
+}
 
 // ! isset $_SESSION['customer_id']
 else {
 
     $quantity = 0;
     $is_loggedin = false;
-
 }
 
 
@@ -63,9 +62,9 @@ else {
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <?php
-                        foreach ($categories as $category){
-                            echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
-                        }
+                    foreach ($categories as $category) {
+                        echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
+                    }
                     ?>
                 </div>
             </li>
@@ -74,34 +73,37 @@ else {
             <?php if ($is_loggedin) {
                 echo "<li class='nav-item'>
                     <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
-                            echo " $quantity";
-                        } echo"</span>  
+                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
+                if ($quantity != 0) {
+                    echo " $quantity";
+                }
+                echo "</span>
                     </a>
                 </li>
                 <li class='nav-item'>
-                    <a class='nav-link' href='#'><span class='fas fa-user' aria-hidden='true'></span></a>
+                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
                  </li>";
-            }
-            else {
+            } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
-                if ($actual_link != 'login.php'){
+                if ($actual_link != 'login.php') {
                     echo "
                     <li class='nav-item'>
                     <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";if ($quantity != 0) {
-                            echo " $quantity";
-                        } echo"</span>
+                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
+                    if ($quantity != 0) {
+                        echo " $quantity";
+                    }
+                    echo "</span>
                     </a>
                 </li>
 
                 <li class='nav-item'>
                 <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>"; 
+                </li>";
                 }
             }
             ?>
@@ -119,4 +121,3 @@ else {
         <p>We don't just sell snakeskin shoes.</p>
     </div>
 </div>
-

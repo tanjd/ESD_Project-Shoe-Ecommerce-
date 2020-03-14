@@ -181,13 +181,15 @@ def remove_subscription():
     customer_id = sub_data['customer_id']
     category_id = sub_data['category_id']
     try:
-        Subscription.query.filter(Subscription.customer_id == customer_id, Subscription.category_id == category_id).delete()
+        Subscription.query.filter(
+            Subscription.customer_id == customer_id, Subscription.category_id == category_id).delete()
         db.session.add(subscription)
         db.session.commit()
     except:
         return jsonify({"status": "fail",
                         "message": "An error occurred in adding subscription."})
     return jsonify({"status": "success"})
+
 
 @app.route('/load_customers', methods=['GET'])
 def load_customers():
