@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
@@ -32,21 +31,28 @@
   
   </body>
 
-<!-- <php>
-  $_ total = 0
-  for c_list in cart:
-      product_price = c_list['unit_price']
-      total += product_price
-</php> -->
+<?php
+  $_SESSION["cart"] = [
+    [ 'id' => 223, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
+    [ 'id' => 334, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]
+                    ];
+
+  $_total = 0;  
+  foreach ($_SESSION['cart'] as $c_list){
+        $product_price = $c_list['unit_price'];
+        $_total += $product_price;
+      }
+?>
 
   <script>
+  var total = "<?php echo $_total ?>";
   paypal.Buttons({
     createOrder: function(data, actions) {
       // This function sets up the details of the transaction, including the amount and line item details.
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: '111'
+            value: total
           }
         }]
       });
