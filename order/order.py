@@ -97,9 +97,12 @@ def create_order():
                         "message": "An error occurred creating order."})
         return jsonify({"status": "success"})
 
-@app.route('/get_invoice/<string:id>')
-def get_invoice(id):
-    invoice = Order_invoice.query.filter_by(id=id).first()
+
+
+@app.route('/get_invoice/', methods=['GET'])
+def get_invoice():
+    invoice_id = request.args.get('invoice_id')
+    invoice = Order_invoice.query.filter_by(id=invoice_id).first()
     if invoice:
         return_message = ({"status": "success",
                            "invoice": invoice.json()})
@@ -107,8 +110,11 @@ def get_invoice(id):
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
-@app.route("/get_all_orders/<string:invoice_id>")
-def get_all_orders(invoice_id):
+
+
+@app.route("/get_all_orders/", methods=['GET'])
+def get_all_orders():
+    invoice_id = request.args.get('invoice_id')
     order = [order.json() for order in Order.query.filter_by(invoice_id=invoice_id).all()]
     if order:
         return_message =({"status": "success",
