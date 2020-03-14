@@ -2,6 +2,15 @@
 
 require_once 'include/autoload.php';
 
+$categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
+    $categories_data_status = checkSuccessOrFailure($categories_data);
+    
+    if ($categories_data_status != false) {
+        $categories = $categories_data->{'categories'};
+    } else {
+        $categories = false;
+    }
+
 if (isset($_SESSION['customer_id'])) {
 
     $customer_id = $_SESSION['customer_id'];
@@ -19,12 +28,25 @@ if (isset($_SESSION['customer_id'])) {
 
     $is_loggedin = true;
     $quantity = 0;
-} else {
+
+    if (isset($_SESSION['cart'])){
+
+        if ($_SESSION['cart'] != []){
+            foreach($_SESSION['cart'] as $one_item){
+                $quantity += 1; 
+            }
+        }
+    }
+} 
+
+// ! isset $_SESSION['customer_id']
+else {
 
     $quantity = 0;
     $is_loggedin = false;
 
 }
+
 
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -38,10 +60,13 @@ if (isset($_SESSION['customer_id'])) {
             <li class="nav-item active">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="index.php">Shop All</a>
-                    <a class="dropdown-item" href="#">Shop by Category</a>
+                    <?php
+                        foreach ($categories as $category){
+                            echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
+                        }
+                    ?>
                 </div>
             </li>
         </ul>
@@ -59,7 +84,7 @@ if (isset($_SESSION['customer_id'])) {
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                 </li> -->";
+                 </li>";
             }
             else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
@@ -75,7 +100,7 @@ if (isset($_SESSION['customer_id'])) {
                 </li>
 
                 <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
                 </li>"; 
                 }
             }

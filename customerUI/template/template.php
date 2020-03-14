@@ -10,6 +10,7 @@ require_once 'template/header.php';
 <main role="main" class="container">
     <div class="starter-template">
         <p class="lead">ALL YOUR HTML CODES WILL COME IN HERE</p>
+        
         <?php
         ?>
     </div>

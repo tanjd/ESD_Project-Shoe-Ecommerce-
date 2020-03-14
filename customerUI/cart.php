@@ -1,7 +1,8 @@
 <?php
-    require_once 'include/autoload.php';
-    require_once 'template/head.php';
-    require_once 'template/header.php';
+require_once 'include/autoload.php';
+
+require_once 'template/head.php';
+require_once 'template/header.php';
 
 function console_log($output, $with_script_tags = true) {
     $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
@@ -11,13 +12,6 @@ function console_log($output, $with_script_tags = true) {
     }
     echo $js_code;}
 
-$_SESSION["cart"] = [
-    [ 'id' => 223, "name" => "Snakeskin1","quantity"=>1, "unit_price"=>75],
-    [ 'id' => 334, "name" => "Snakeskin2", "quantity"=>1, "unit_price"=>89]
-                    ];
-
-$_SESSION['customer_id'] = 
-    $customer_id = 444 ;
 
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
@@ -29,11 +23,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data);
 
-    // console_log($order_data);
-    //print_r($order_data);
-    console_log($data);
-    //print_r($data); 
-
     if ($status != false) {
         //if data is sent successfully to order.py then the ui page changes
         #header('Location: delivery.php');
@@ -44,107 +33,83 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     }
 } 
 
-    // $cart = []; 
-    // if (isset($_SESSION['cart']))
-    // {
-    //     $cart = $_SESSION['cart'];
-    // }
-
-    
-
     $cart_total = 0; 
-
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-</head>
-<body>
 
-<div class="starter-template">
+<main role="main" class="container">
+    <div class="starter-template">
         <p class="lead">
-        <form action = 'checkout.php' method = 'post'></form>
-        <?php
-                echo "<h2>My Shopping Cart </h2>";
-
-                if (! isset($_SESSION['cart'])){
-                    echo '<div style="margin-left: 8px; font-size: 1.75em;">
-                    <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
-                    </div> ';
-                }
-                
-                else {
-
-                    echo "<table class='table table-hover'>";
-                        echo "<tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th></th>
-                                <th></th>
-                        </tr>"; 
-                    foreach($_SESSION['cart'] as $contentArray)
-                    {
-                        $id = $contentArray['id']; 
-                        $name = $contentArray['name'];
-                        $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
-                        $quantity = $contentArray['quantity'];
-
-                        echo "<tr>
-                                <td>$id</td>
-                                <td>$name</td>
-                                <td>$$unit_price</td>
-                                <td>$quantity</td>
-                                <td><input type='hidden' cart_item[] = $id></td>
-                                <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
-                            </tr>";
-
-                        $cart_total += $unit_price * $quantity; 
-                        $cart_total = number_format($cart_total, 2, '.', ' '); 
-                    }
-
-                        echo "<tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        
-                        
-                            <tr>
-                                <th colspan = '3'>Total:</th>
-                                <th colspan = '3'>$$cart_total</th>
-                            </tr>
-
-                        
-                            <tr>
-                                <td colspan = '6'><input class='btn btn-primary btn-sm' type='submit' value='Checkout'></td>
-                            </tr>
-                            </table>";
-                }
-
-
-                /*
-                if ($success)
-                {
-                    outputCart_success();
-                    $success = 0;
-                    unset($_SESSION['success']);
-                }
-                
-                if ($error)
-                {
-                    outputCart_error();
-                    $error = 0;
-                    unset($_SESSION['cart_error']);
-                }
-                */
+            <form action = 'checkout.php' method = 'post'></form>
+            <h2>My Shopping Cart </h2>
+            <?php
+            if (! isset($_SESSION['cart']) or $_SESSION['cart'] == []){
+                echo '<div style="margin-left: 8px; font-size: 1.75em;">
+                <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
+                </div> ';
+            }
             
+            else {
 
+                echo "<table class='table table-hover'>";
+                    echo "<tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>"; 
+        
+            
+            
+                // display items in cart
+
+                foreach($_SESSION['cart'] as $contentArray){
+                $id = $contentArray['id']; 
+                $name = $contentArray['name'];
+                $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
+
+                if (isset($_POST['submit']) && isset($_POST['quantity'][$id])) {
+                    $quantity = $_POST['quantity'][$id];
+                } else { 
+                    $quantity = 1;
+                }
+
+                echo "<tr>
+                        <td>$id</td>
+                        <td>$name</td>
+                        <td>$$unit_price</td>
+                        <td><input type='number' class='form-control' size = '20' name='quantity[$id]' value='$quantity' min='1' style = 'width: 150px'>
+                            </td>
+                        <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
+                    </tr>";
+
+                $cart_total += $unit_price * $quantity; 
+                $cart_total = number_format($cart_total, 2, '.', ' '); 
+            }
+            ?>
+
+            <tr>
+                <th colspan ='2'>Total:</th>
+                <th><?php echo "\$$cart_total"?></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            <tr>
+                <td colspan = '2'><input class='btn btn-dark' type='submit' value='Checkout'></td>
+                <td colspan = '2'><form action='' method='post'>
+                    <input type='submit' name='submit' class='btn btn-dark'>
+                    </form></td>
+                <td></td>
+
+            </tr>
+        </table> <?php } ?>    
+
+        </p>
+        </div>
+
+        <?php
         function outputCart_error()
         {
             if (isset($_SESSION['cart_error'])){
@@ -162,20 +127,13 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                 echo "Checkout successful, order created."; 
                 echo "</div>";
             }
-                
-                
-            
         }
+        ?>
+
+</main>
         
-    ?>
-        </p></form>
-    </div>
+        <?php
+        
 
-
-
-</body>
-
-<?php
 require_once 'template/footer.php';
 ?>
-</html>

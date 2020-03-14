@@ -68,18 +68,40 @@ def get_all_products():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
-# # [GET] all categories
-# @app.route("/category")
-# def get_all():
-#     return jsonify({"category": [Category.json() for category in Category.query.all()]})
+# [GET] all categories
+@app.route("/get_all_categories")
+def get_all_categories():
+    categories = [Category.json()
+                  for Category in Category.query.all()]
+    if categories:
+        return_message = ({"status": "success",
+                           "categories": categories})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
-# #[GET] products by category
-# @app.route("/product/category/<int:category_id>")
-# def find_by_category_id(category_id):
-#     product = Product.query.filter_by (category_id = category_id).all()
-#     if product:
-#         return jsonify({"product": [product.json() for product in Product.query.filter_by (category_id = category_id).all()]})
-#     return jsonify({"message": "Products not found"}), 404
+@app.route("/get_products_by_category/")
+def get_products_by_id():
+    category_id = request.args.get('category_id')
+    products = [Product.json()
+                for Product in Product.query.filter_by(category_id=category_id).all()]
+    if products:
+        return_message = ({"status": "success",
+                           "products": products})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
+
+@app.route("/get_category", methods=['GET'])
+def get_category():
+    category_id = request.args.get('category_id')
+    category = Category.query.filter_by(id=category_id).first()
+    if category:
+        return_message = ({"status": "success",
+                           "category": category.json()})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
 
 @app.route('/get_product/', methods=['GET'])

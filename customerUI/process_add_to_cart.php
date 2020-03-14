@@ -1,8 +1,8 @@
 <?php
     require_once 'include/autoload.php';
 
+    // session_start(); 
 
-    // if there is no session for cart --> create one
     if (! isset($_SESSION['cart'])){
         $_SESSION['cart'] = []; 
     }
@@ -13,7 +13,7 @@
     $id = ''; 
 
     if (isset($_GET["product_id"])) {
-
+        $id = $_GET['product_id']; 
         $GET_data = [
             "product_id" => $_GET["product_id"]
         ];
@@ -23,18 +23,16 @@
         if ($product_status != false) {
             $product = $product_data->{'product'};
         } 
-        /*else {
-            $product = false;
-        }*/
     }
 
+
+    
     // create the selected item
     $selectedItem = []; 
-    if ($product != false){
-        $id = $_GET['product_id'];
+    if ($product != false && $id != ''){
 
         $selectedItem = [
-            'id' => $product->id,
+            'id' => $id,
             'name' => $product->name, 
             'unit_price' => $product->unit_price,
             'quantity' => 1
@@ -42,11 +40,12 @@
     }
 
     // if cart not empty
-    if (isset($_SESSION['cart'])){
+    if (isset($_SESSION['cart']) && ! empty($_SESSION['cart'])){
 
-        
+        // check if product is already in cart
         foreach ($_SESSION['cart'] as $contentArray){
 
+            
             // product is already in cart
             if (in_array($id, $contentArray)){
                 $_SESSION['message'] = 'Product is already in cart!'; 
@@ -57,7 +56,7 @@
 
             // product is not in cart
             else{
-                $_SESSION["cart"][] = $selectedItem;
+                array_push($_SESSION['cart'], $selectedItem);
                 $_SESSION['message'] = 'Product successfully added to cart!'; 
                 header("Location: product.php?product_id=$id"); 
                 exit(); 
@@ -71,11 +70,11 @@
     // if cart empty
     else 
     {
-        $_SESSION['cart'] = $selectedItem;
+        array_push($_SESSION['cart'], $selectedItem);
         $_SESSION['message'] = 'Product added to cart!';  
         header("Location: product.php?product_id=$id"); 
         exit(); 
     }
-
-
+var_dump($_SESSION['cart']); 
+var_dump($_SESSION['message']); 
 ?>
