@@ -39,9 +39,9 @@ class Delivery_location(db.Model):
          return {"coordinates": self.coordinates, "address": self.address}
 
 
-@app.route('/get_deliveries/', methods=['GET'])
+@app.route('/get_deliveries', methods=['GET'])
 def get_deliveries():
-    status = request.args.get('status')
+    status = "NULL"
     delivery = [delivery.json() for delivery in Delivery.query.filter_by(status=status).all()]
     if delivery:
         return_message = ({"status": "success",
