@@ -24,10 +24,10 @@ require_once 'template/header.php';
 ?>
 <main role="main" class="container">
     <div class="starter-template">
-        <p class="lead">
-            <?php
-            if ($products != false) {
-                echo "<table class='table'>
+        <p class="lead"></p>
+        <?php
+        if ($products != false) {
+            echo "<table class='table'>
                     <thead class='thead-dark'>
                     <tr>
                         <th scope='col' colspan='2'>Shoe</th>
@@ -35,8 +35,8 @@ require_once 'template/header.php';
                         <th scope='col'>Price</th>
                         <th scope='col'>Add to Cart</th>
                     </tr>";
-                foreach ($products as $product) {
-                    echo "<tr>
+            foreach ($products as $product) {
+                echo "<tr>
                         <td><img src='../image/{$product->image}' style='width:150px;height:100px'></td>
                         <td><a href='product.php?product_id={$product->id}'>{$product->name}</a></td>
                         <td>{$product->description}</td>
@@ -48,11 +48,10 @@ require_once 'template/header.php';
                         </td>
 
                     </tr>";
-                }
-                echo "</table>";
             }
-            ?>
-        </p>
+            echo "</table>";
+        }
+        ?>
     </div>
 </main>
 <?php

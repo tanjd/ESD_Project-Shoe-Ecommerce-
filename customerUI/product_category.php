@@ -19,9 +19,35 @@ if (isset($_GET["category_id"])) {
     } else {
         $products = false;
     }
-    
-}
 
+    $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
+    $categories_data_status = checkSuccessOrFailure($categories_data);
+    if ($categories_data_status != false) {
+        $categories = $categories_data->{'categories'};
+    } else {
+        $categories = false;
+    }
+    foreach ($categories as $category) {
+        if ($_GET["category_id"] == $category->id) {
+            $category_name = $category->name;
+        }
+    }
+    $is_login = false;
+    if (isset($_SESSION['customer_id'])) {
+        $is_login = true;
+        $category_id = $_GET["category_id"];
+        $customer_id = $_SESSION["customer_id"];
+        $POST_data = [
+            "category_id" => $category_id,
+            "customer_id" => $customer_id
+        ];
+        $sub_data = CALLAPI('POST', $customer_url, 'is_subscribed', $POST_data);
+        $status = checkSuccessOrFailure($sub_data);
+        if ($status != false) {
+            $message = $sub_data->{'message'};
+        }
+    }
+}
 
 ?>
 
@@ -31,10 +57,26 @@ require_once 'template/header.php';
 ?>
 <main role="main" class="container">
     <div class="starter-template">
-        <p class="lead">
-            <?php
-            if ($products != false) {
-                echo "<table class='table'>
+        <p class="lead"></p>
+        <h1><?php echo "$category_name" ?></h1>
+        <hr>
+        <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
+        <?php if ($is_login == true) {
+            echo "<h5>To receive updates on products in this category, click subscribe!</h5>";
+            if ($message == false) {
+                echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=add_subscription'>
+                        <button type='button' id='subscribe' class='btn btn-danger'>Subscribe</button>
+                    </a>";
+            } else {
+                echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=remove_subscription'>
+                        <button type='button' id='unsubscribe' class='btn btn-danger'>Unsubscribe</button>
+                    </a>";
+            }
+        } ?>
+        <hr>
+        <?php
+        if ($products != false) {
+            echo "<table class='table'>
                     <thead class='thead-dark'>
                     <tr>
                         <th scope='col' colspan='2'>Shoe</th>
@@ -42,8 +84,8 @@ require_once 'template/header.php';
                         <th scope='col'>Price</th>
                         <th scope='col'>Add to Cart</th>
                     </tr>";
-                foreach ($products as $product) {
-                    echo "<tr>
+            foreach ($products as $product) {
+                echo "<tr>
                         <td><img src='../image/{$product->image}' style='width:150px;height:100px'></td>
                         <td><a href='product.php?product_id={$product->id}'>{$product->name}</a></td>
                         <td>{$product->description}</td>
@@ -55,11 +97,10 @@ require_once 'template/header.php';
                         </td>
 
                         </tr>";
-                }
-                echo "</table>";
             }
-            ?>
-        </p>
+            echo "</table>";
+        }
+        ?>
     </div>
 </main>
 <?php
