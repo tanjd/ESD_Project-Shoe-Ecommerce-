@@ -48,19 +48,6 @@ require_once 'template/header.php';
                         </div>
                     </div>
                 </div>";
-                // echo
-                //     "<div class='col-sm-6'>
-                //             <div class='card' style='width: 18rem;'
-                //                 <img class='card-img-top' src='../image/{$product->image}>
-                //                     <div class='card-body'>
-                //                         <a href='product.php?product_id={$product->id}'><h5 class='card-title'>{$product->name}</h5></a>
-                //                             <p class='card-text'>{$product->description}</p>
-                //                             <a href='process_add_to_cart.php?product_id={$product->id}'>
-                //                                 <button type='button' class='btn btn-primary' style='width:120px;height:70px'>Add To Cart</button>
-                //                             </a>
-                //                     </div>
-                //             </div>
-                //         </div>";
             }
         }
         ?>
