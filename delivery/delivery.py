@@ -49,7 +49,7 @@ def get_deliveries():
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
-    
+
 
 """ @app.route('/delivery/', methods=['PATCH'])
 def update_status():
@@ -75,6 +75,24 @@ def update_status(id):
             return jsonify({"status": "fail",
                         "message": "An error occurred updating delivery status."})
     return jsonify({"status": "success"})
+
+
+
+""" @app.route('/create_delivery', methods=['POST'])
+def create_delivery():
+    delivery_data = request.get_json()
+    invoice_id = delivery_data['invoice_id']
+    address = delivery_data['address']
+    status = delivery_data['status']
+    new_delivery = Delivery( invoice_id = invoice_id,address = address, status = status) 
+    try:
+        db.session.add(new_delivery)
+        db.session.commit()
+    except:
+            return jsonify({"status": "fail",
+                        "message": "An error occurred creating delivery."})
+    return jsonify({"status": "success"}) """
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5002, debug=True)
