@@ -10,7 +10,7 @@ import sys
 sys.path.insert(1, 'customer')
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/customer_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -161,6 +161,33 @@ def update_setting():
                         "message": "An error occurred creating customer."})
     return jsonify({"status": "success"})
 
+
+@app.route('/add_subscription', methods=['POST'])
+def add_subscription():
+    sub_data = request.get_json()
+    try:
+        subscription = Subscription(**sub_data)
+        db.session.add(subscription)
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred in adding subscription."})
+    return jsonify({"status": "success"})
+
+
+@app.route('/remove_subscription', methods=['POST'])
+def remove_subscription():
+    sub_data = request.get_json()
+    customer_id = sub_data['customer_id']
+    category_id = sub_data['category_id']
+    try:
+        Subscription.query.filter(Subscription.customer_id == customer_id, Subscription.category_id == category_id).delete()
+        db.session.add(subscription)
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred in adding subscription."})
+    return jsonify({"status": "success"})
 
 @app.route('/load_customers', methods=['GET'])
 def load_customers():
