@@ -1,8 +1,7 @@
 <?php
     require_once 'include/autoload.php';
     
-    // start session
-    session_start();
+    $temp_cart = []; 
      
     if (isset($_SESSION['cart'])){
 
@@ -10,26 +9,32 @@
         if (isset($_GET['id'])){
             $id = $_GET['id']; 
         
-        // remove the item from the array
-        foreach ($_SESSION['cart'] as $contentArray){
-            if ($contentArray['id'] = $id){
-                unset($_SESSION['cart'][$contentArray]);
+            // check each item in cart
+            foreach ($_SESSION['cart'] as $contentArray){
+
+                // if id of item is not the GET['id'] --> store in temp cart --> overwrite $_SESSION['cart']
+                if ($contentArray['id'] != $id){
+                    array_push($temp_cart, $contentArray); 
+                }
             }
-        }
+
+            // overwrites $_SESSION['cart']
+            $_SESSION['cart'] = $temp_cart; 
+            header('Location: cart.php'); 
+            exit(); 
         }
 
         else{
-            unset($_SESSION['cart']); 
+            echo 'error in removing item'; 
         }
-
-        header('Location: cart.php'); 
-        exit(); 
     }
 
+        
+
+        
+
     else{
-        unset($_SESSION['cart']);
-        header('Location: cart.php'); 
-        exit(); 
+        echo 'nothing in session cart'; 
 
     }
 
