@@ -61,7 +61,7 @@ $product_table = "<table class='table table-bordered'>
                 </tr>
                 <tr>
                     <td scope='row'>
-                        <a href='process_add_to_cart.php?product_id={$product->id}'>
+                        <a href='process_add_to_cart.php?product_id={$product->id}&from=product.php?product_id={$product->id}'>
                             <button type='button' class='btn btn-dark' style='width:150px;height:100px'>Add To Cart</button>
                         </a>
                     </td>

@@ -7,6 +7,8 @@
         $_SESSION['cart'] = []; 
     }
 
+    $from = $_GET['from'];
+    
 
     // get product id, name, price, quantity
     $product = false; 
@@ -50,7 +52,7 @@
             if (in_array($id, $contentArray)){
                 // break;
                 $_SESSION['message'] = 'Product is already in cart!'; 
-                header("Location: product.php?product_id=$id"); 
+                header("Location: $from"); 
                 exit(); 
             }
 
@@ -58,7 +60,7 @@
             else{
                 array_push($_SESSION['cart'], $selectedItem);
                 $_SESSION['message'] = 'Product successfully added to cart!'; 
-                header("Location: product.php?product_id=$id"); 
+                header("Location: $from"); 
                 exit(); 
             }
         }
@@ -72,7 +74,7 @@
     {
         array_push($_SESSION['cart'], $selectedItem);
         $_SESSION['message'] = 'Product added to cart!';  
-        header("Location: product.php?product_id=$id"); 
+        header("Location: $from"); 
         exit(); 
     }
 var_dump($_SESSION['cart']); 
