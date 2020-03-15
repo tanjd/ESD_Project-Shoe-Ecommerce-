@@ -103,7 +103,9 @@ else {
                 
                     <a class='nav-link' href='cart.php'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                echo "$quantity"; 
+                if ($quantity != 0) {
+                    echo " $quantity";
+                }
                 echo "</span>
                     </a>
                 </li>
@@ -121,7 +123,9 @@ else {
                     <li class='nav-item'>
                     <a class='nav-link' href='cart.php'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                    echo " $quantity";
+                    if ($quantity != 0) {
+                        echo " $quantity";
+                    }
                     echo "</span>
                     </a>
                 </li>
