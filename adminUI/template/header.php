@@ -56,9 +56,7 @@ else {
     </button>
     <?php
 
-        $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=0");
-        $count = mysqli_num_rows($sql_get);
-
+   
 
     ?>
 
@@ -80,21 +78,10 @@ else {
         <ul class="navbar-nav right">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count"><?php echo $count ?></span>
+                    <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count">1</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
-                <?php 
-                    $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
-                    if (mysqli_num_rows($sql_get1)>0){
-                        while($result=mysqli_fetch_assoc($sql_get1)){
-                           echo '<a class="dropdown-item text-primary" href="read_msg.php?id='.$result['id'].'">'.$result['content_message'].'</a>';
-                            echo '<div class="dropdown-divider"></div>';
-                        }
-                    }
-                    else{
-                        echo '<a class="dropdown-item text-danger" href="#"><i class="fas fa-frown-open"></i> Sorry! No messages</a>';
-                    }
-                    ?>
+                <
                 </div>
             </li>
                     
