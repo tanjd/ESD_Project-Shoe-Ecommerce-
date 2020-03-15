@@ -54,6 +54,7 @@ else {
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <?php
 
         $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=0");
@@ -61,7 +62,6 @@ else {
 
 
     ?>
-
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -83,16 +83,14 @@ else {
                     <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count"><?php echo $count ?></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
-                <?php 
+                    
+                    <?php 
                     $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
                     if (mysqli_num_rows($sql_get1)>0){
-                        while($result=mysqli_fetch_assoc($sql_get1)){
-                           echo '<a class="dropdown-item text-primary" href="read_msg.php?id='.$result['id'].'">'.$result['content_message'].'</a>';
-                            echo '<div class="dropdown-divider"></div>';
-                        }
+
                     }
                     else{
-                        echo '<a class="dropdown-item text-danger" href="#"><i class="fas fa-frown-open"></i> Sorry! No messages</a>';
+                        echo '<a class="dropdown-item text-danger" href="#">Sorry! No messages</a>';
                     }
                     ?>
                 </div>
