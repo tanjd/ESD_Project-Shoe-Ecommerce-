@@ -34,7 +34,7 @@ if (isset($_SESSION['customer_id'])) {
 
         if ($_SESSION['cart'] != []) {
             foreach ($_SESSION['cart'] as $one_item) {
-                $quantity += 1;
+                $quantity += $one_item['quantity']; 
             }
         }
     }
