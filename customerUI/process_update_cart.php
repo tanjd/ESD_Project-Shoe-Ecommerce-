@@ -5,35 +5,59 @@ if (isset($_POST['submit']) && isset($_SESSION['cart'])){
 
     if (isset($_POST['item'])){
         $updated_cart_items = $_POST['item']; 
-        var_dump($updated_cart_items); 
     }
 
     else {
-        echo 'PROBLEM WITH POST ITEM'; 
+        $_SESSION['message'] = 'An error occured. Please try again!'; 
     }
     
 }
 
 else {
-    echo 'PROBLEM WITH SUBMIT BUTTON'; 
+    $_SESSION['message'] = 'An error occured. Please try again!'; 
 }
 
-// get product id, name, price, quantity
-$product = false; 
-$id = ''; 
+$temp_cart = []; 
 
-if (isset($_GET["product_id"])) {
-    $id = $_GET['product_id']; 
-    $GET_data = [
-        "product_id" => $_GET["product_id"]
-    ];
+foreach ($updated_cart_items as $id => $quantity){
+    
+    // get product id, name, price, quantity from database
+    $product = false; 
+    $GET_data = ['product_id' => $id]; 
 
     $product_data = CallAPI('GET', $product_url, 'get_product/', $GET_data);
     $product_status = checkSuccessOrFailure($product_data);
     if ($product_status != false) {
         $product = $product_data->{'product'};
-    } 
+    }
+    
+    $temp_item = []; 
+    if ($product != false && $id != ''){
+
+        $temp_item = [
+            'id' => $id,
+            'name' => $product->name, 
+            'unit_price' => $product->unit_price,
+            'quantity' => $quantity
+            ]; 
+
+        // append item array to temp_cart
+        array_push($temp_cart, $temp_item); 
+    }
+
 }
+
+// overwrites data in SESSION cart with temp_cart
+$_SESSION['cart'] = $temp_cart; 
+$_SESSION['message'] = 'Cart successfully updated'; 
+header('Location: cart.php'); 
+exit(); 
+
+var_dump($_SESSION['cart']); 
+
+
+
+
 
 
 ?>

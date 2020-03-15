@@ -32,6 +32,7 @@ $cart_total = 0;
         <p class="lead">
             <form action='checkout.php' method='post'></form>
             <h2>My Shopping Cart </h2>
+            
             <?php
             if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
                 echo '<div style="margin-left: 8px; font-size: 1.75em;">
@@ -56,20 +57,20 @@ $cart_total = 0;
                 foreach ($_SESSION['cart'] as $contentArray) {
                     $id = $contentArray['id'];
                     $name = $contentArray['name'];
-                    $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
+                    $unit_price = number_format($contentArray['unit_price'], 2, '.', ',');
                     $quantity = $contentArray['quantity']; 
 
                     echo "<tr>
                         <td>$id</td>
                         <td>$name</td>
                         <td>$$unit_price</td>
-                        <td><input type='number' class='form-control' size = '20' name='item[$id][quantity]' value='$quantity' min='1' style = 'width: 150px'>
+                        <td><input type='number' class='form-control' size = '20' name='item[$id]' value='$quantity' min='1' style = 'width: 150px'>
                             </td>
                         <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
                     </tr>";
 
                     $cart_total += $unit_price * $quantity;
-                    $cart_total = number_format($cart_total, 2, '.', ' ');
+                    $cart_total = number_format($cart_total, 2, '.', ',');
                 }
             ?>
                 <tr>
