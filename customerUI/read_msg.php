@@ -1,13 +1,14 @@
 <?php
 
-require_once('fb_login/config.php');
+require_once 'include/autoload.php';
+
+require_once 'template/head.php';
+require_once 'template/header.php';
 
 ?>
 
 <?php
-require_once 'template/head.php';
-require_once 'template/header.php';
-require_once 'include/autoload.php';
+
 
 if(isset($_GET['id'])){
 

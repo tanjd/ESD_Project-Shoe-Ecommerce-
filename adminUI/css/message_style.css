@@ -1,0 +1,19 @@
+#count{
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+
+
+#centre{
+    position: absolute;
+    top:50%;
+    left: 40%;
+
+}
+
+
+#table1{
+    margin-top: 5% !important;
+}
