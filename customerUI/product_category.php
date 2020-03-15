@@ -57,29 +57,30 @@ require_once 'template/header.php';
 ?>
 <main role="main" class="container">
     <div class="starter-template">
-            <p class="lead"></p>
-            <h1 style='text-transform:capitalize'><?php echo "$category_name" ?></h1>
-            <hr>
-            <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
-            <?php if ($is_login == true) {
-                echo "<h5>To receive updates on products in this category, click subscribe!</h5>";
-                if ($message == false) {
-                    echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=add_subscription'>
+        <p class="lead"></p>
+        <h1 style='text-transform:capitalize'><?php echo "$category_name" ?></h1>
+        <hr>
+        <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
+        <?php if ($is_login == true) {
+            echo "<h5>To receive updates on products in this category, click subscribe!</h5>";
+            if ($message == false) {
+                echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=add_subscription'>
                             <button type='button' id='subscribe' class='btn btn-danger'>Subscribe</button>
                         </a>";
-                } else {
-                    echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=remove_subscription'>
+                // echo "<button type='button' id='subscribe' class='btn btn-danger'>Subscribe</button>";
+            } else {
+                echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=remove_subscription'>
                             <button type='button' id='unsubscribe' class='btn btn-danger'>Unsubscribe</button>
                         </a>";
-                }
-            } ?>
-            <hr>
-    <!-- <div class='card-columns'> -->
-    <div class="row">
-        <?php
-        if ($products != false) {
-            foreach ($products as $product) {
-                echo "
+            }
+        } ?>
+        <hr>
+        <!-- <div class='card-columns'> -->
+        <div class="row">
+            <?php
+            if ($products != false) {
+                foreach ($products as $product) {
+                    echo "
                 <div class='col-sm-4 py-2'>
                     <div class='card card-body h-100'>
                         <div class='card-header'>
@@ -100,11 +101,48 @@ require_once 'template/header.php';
                         </div>
                     </div>
                 </div>";
+                }
             }
-        }
-        ?>
-    </div>
+            ?>
+        </div>
 </main>
+
 <?php
 require_once 'template/footer.php';
 ?>
+<!-- <script>
+    async function postData(serviceURL, requestBody) {
+        console.log(JSON.stringify(requestBody))
+        console.log((serviceURL))
+        var requestParam = {
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            method: 'POST',
+            body: JSON.stringify(requestBody)
+        }
+        try {
+            const response = await fetch(serviceURL, requestParam);
+            data = await response.json();
+            console.log(data);
+            if (data.status == 'success') {
+                console.log(data.status);
+                echo $message?>
+            } else {
+                console.log('failed');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    $('#subscribe').click( function() {
+        var serviceURL = "<?php echo "$customer_url" ?>" + "is_subscribed";
+        var requestBody = {
+            "category_id": <?php echo $category_id ?>,
+            "customer_id": <?php echo $customer_id ?>
+        };
+        console.log(requestBody)
+        // postData(serviceURL, requestBody);
+    });
+</script> -->
