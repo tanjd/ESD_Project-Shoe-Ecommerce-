@@ -40,6 +40,7 @@ $cart_total = 0;
             } else {
 
                 echo "<table class='table table-hover'>";
+                echo "<form action='process_update_cart.php' method='post'>"; 
                 echo "<tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -56,18 +57,13 @@ $cart_total = 0;
                     $id = $contentArray['id'];
                     $name = $contentArray['name'];
                     $unit_price = number_format($contentArray['unit_price'], 2, '.', ' ');
-
-                    if (isset($_POST['submit']) && isset($_POST['quantity'][$id])) {
-                        $quantity = $_POST['quantity'][$id];
-                    } else {
-                        $quantity = 1;
-                    }
+                    $quantity = $contentArray['quantity']; 
 
                     echo "<tr>
                         <td>$id</td>
                         <td>$name</td>
                         <td>$$unit_price</td>
-                        <td><input type='number' class='form-control' size = '20' name='quantity[$id]' value='$quantity' min='1' style = 'width: 150px'>
+                        <td><input type='number' class='form-control' size = '20' name='item[$id][quantity]' value='$quantity' min='1' style = 'width: 150px'>
                             </td>
                         <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
                     </tr>";
@@ -76,6 +72,15 @@ $cart_total = 0;
                     $cart_total = number_format($cart_total, 2, '.', ' ');
                 }
             ?>
+                <tr>
+                    <td colspan='3'></td>
+                    <td>
+                            <input type='submit' name='submit' value = 'Update Cart' class='btn btn-dark'>
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>
+
 
                 <tr>
                     <th colspan='2'>Total:</th>
@@ -85,21 +90,21 @@ $cart_total = 0;
                 </tr>
 
                 <tr>
-                    <td colspan='2'><input class='btn btn-dark' type='submit' value='Checkout'></td>
-                    <td colspan='2'>
-                        <form action='' method='post'>
-                            <input type='submit' name='submit' class='btn btn-dark'>
-                        </form>
-                    </td>
-                    <td></td>
+                    <td colspan = '5'></td>
+                </tr>
 
+                <tr>
+                    <td colspan='5'><input class='btn btn-dark' type='submit' value='Checkout'></td>
                 </tr>
                 </table> <?php } ?>
 
         </p>
     </div>
 
+
+
     <?php
+    // Checkout Cart
     function outputCart_error()
     {
         if (isset($_SESSION['cart_error'])) {
