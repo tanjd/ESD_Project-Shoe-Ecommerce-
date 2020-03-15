@@ -78,7 +78,7 @@ def update_status(id):
 
 
 
-""" @app.route('/create_delivery', methods=['POST'])
+@app.route('/create_delivery', methods=['POST'])
 def create_delivery():
     delivery_data = request.get_json()
     invoice_id = delivery_data['invoice_id']
@@ -91,7 +91,7 @@ def create_delivery():
     except:
             return jsonify({"status": "fail",
                         "message": "An error occurred creating delivery."})
-    return jsonify({"status": "success"}) """
+    return jsonify({"status": "success"})
 
 
 if __name__ == "__main__":
