@@ -56,6 +56,24 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 ?>
 <main role="main" class="container">
+    <div class="starter-template">
+            <p class="lead"></p>
+            <h1 style='text-transform:capitalize'><?php echo "$category_name" ?></h1>
+            <hr>
+            <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
+            <?php if ($is_login == true) {
+                echo "<h5>To receive updates on products in this category, click subscribe!</h5>";
+                if ($message == false) {
+                    echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=add_subscription'>
+                            <button type='button' id='subscribe' class='btn btn-danger'>Subscribe</button>
+                        </a>";
+                } else {
+                    echo "<a href='process_subscribe.php?category_id={$category_id}&customer_id={$customer_id}&method=remove_subscription'>
+                            <button type='button' id='unsubscribe' class='btn btn-danger'>Unsubscribe</button>
+                        </a>";
+                }
+            } ?>
+            <hr>
     <!-- <div class='card-columns'> -->
     <div class="row">
         <?php
