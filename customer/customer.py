@@ -35,18 +35,6 @@ class Customer(db.Model):
     subscriptions = db.relationship(
         'Subscription', backref='subscriber', lazy=True)
 
-    # def __init__(self, id, email, name, telegram_id, password, address, postal_code, email_setting, telegram_setting, created_at):
-    #     self.id = id
-    #     self.email = email
-    #     self.name = name
-    #     self.telegram_id = telegram_id
-    #     self.password = password
-    #     self.address = address
-    #     self.postal_code = postal_code
-    #     self.email_setting = email_setting
-    #     self.telegram_setting = telegram_setting
-    #     self.created_at = created_at
-
     def json(self):
         return {"id": self.id, "email": self.email, "name": self.name, "telegram_id": self.telegram_id, "password": self.password,
                 "address": self.address, "postal_code": self.postal_code, "email_setting": self.email_setting, "telegram_setting": self.telegram_setting, "created_at": self.created_at}
@@ -56,10 +44,6 @@ class Subscription(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey(
         'customer.id'), primary_key=True, nullable=False)
     category_id = db.Column(db.Integer, primary_key=True)
-
-    # def __init__(self, customer_id, category_id):
-    #     self.customer_id = customer_id
-    #     self.category_id = category_id
 
     def json(self):
         return {"customer_id": self.customer_id, "category_id": self.category_id}
@@ -118,7 +102,7 @@ def fb_login():
     return jsonify(return_message)
 
 
-@app.route('/get_all_customers', methods=['GET'])
+@app.route('/get_all_customers/', methods=['GET'])
 def get_all_customers():
     customers = [Customer.json()
                  for Customer in Customer.query.all()]
@@ -141,16 +125,19 @@ def get_customer():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
+
 @app.route('/get_customer_ids_by_cat/', methods=['GET'])
 def get_customer_ids_by_cat():
     category_id = request.args.get('category_id')
-    subscribers = {"subscribers": [subscription.json() for subscription in Subscription.query.filter_by(category_id=category_id)]}
+    subscribers = [subscription.json(
+    ) for subscription in Subscription.query.filter_by(category_id=category_id)]
     if subscribers:
-        subscribers["status"] = "success"
-        return_message = subscribers
+        return_message = ({"status": "success",
+                           "subscribers": subscribers})
     else:
         return_message = ({"status": "fail"})
     return return_message
+
 
 @app.route('/update_setting', methods=['POST'])
 def update_setting():
@@ -164,8 +151,6 @@ def update_setting():
     customer.postal_code = setting_data['postal_code']
     try:
         db.session.commit()
-        # admin = User.query.filter_by(username='admin').update(dict(email='my_new_email@example.com')))
-        # db.session.commit()
     except:
         return jsonify({"status": "fail",
                         "message": "An error occurred creating customer."})
