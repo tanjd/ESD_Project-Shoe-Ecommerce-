@@ -64,7 +64,7 @@ else {
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
@@ -107,18 +107,9 @@ else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
-                    echo "
-                    <li class='nav-item'>
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                    echo " $quantity";
-                    echo "</span>
-                    </a>
-                </li>
-
-                <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>";
+                    echo "<li class='nav-item'>
+                            <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
+                        </li>";
                 }
             }
             ?>
@@ -134,5 +125,17 @@ else {
     <div class="container text-center">
         <h1>Python Shoes</h1>
         <p>We don't just sell snakeskin shoes.</p>
+        
+        <?php
+        if (isset($_SESSION['header_display'])){
+            if ($_SESSION['header_display']){
+                echo "
+                <div class='p-3 mb-2 bg-dark text-white'>
+                <p><h3>{$_SESSION['message']}</h3></p>";
+                $_SESSION['header_display'] = FALSE;
+                echo '</div>';
+            }
+        }
+        ?>
     </div>
 </div>

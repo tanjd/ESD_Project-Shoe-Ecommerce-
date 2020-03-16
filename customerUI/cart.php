@@ -43,7 +43,6 @@ $cart_total = 0;
                 echo "<table class='table table-hover'>";
                 echo "<form action='process_update_cart.php' method='post'>"; 
                 echo "<tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -61,7 +60,6 @@ $cart_total = 0;
                     $quantity = $contentArray['quantity']; 
 
                     echo "<tr>
-                        <td>$id</td>
                         <td>$name</td>
                         <td>$$unit_price</td>
                         <td><input type='number' class='form-control' size = '20' name='item[$id]' value='$quantity' min='1' style = 'width: 150px'>
@@ -74,7 +72,7 @@ $cart_total = 0;
                 }
             ?>
                 <tr>
-                    <td colspan='3'></td>
+                    <td colspan='2'></td>
                     <td>
                             <input type='submit' name='submit' value = 'Update Cart' class='btn btn-dark'>
                         </form>
@@ -85,17 +83,15 @@ $cart_total = 0;
 
                 <tr>
                     <th colspan='2'>Total:</th>
-                    <th><?php echo "\$$cart_total" ?></th>
-                    <th></th>
-                    <th></th>
+                    <th colspan = '2'><?php echo "\$$cart_total" ?></th>
                 </tr>
 
                 <tr>
-                    <td colspan = '5'></td>
+                    <td colspan = '4'></td>
                 </tr>
 
                 <tr>
-                    <td colspan='5'><input class='btn btn-dark' type='submit' value='Checkout'></td>
+                    <td colspan='4'><input class='btn btn-dark' type='submit' value='Checkout'></td>
                 </tr>
                 </table> <?php } ?>
 
