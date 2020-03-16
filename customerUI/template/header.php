@@ -64,7 +64,7 @@ else {
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
@@ -78,10 +78,26 @@ else {
             </li>
         </ul>
         <ul class="navbar-nav right">
+        <?php if ($is_loggedin){
+            echo "<li class='nav-item active'>
+                    <a class='nav-link'>
+                        Hello, $customer->name!
+                    </a>
+                </li>"; 
+        } ?>
+                    
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count">1</span>
                 </a>
+            </li>
+            <?php
+            echo "<li class='nav-item'>
+                <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
+                    <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
+                </a>
+            </li>"; 
+            ?>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
                 <?php 
                     // $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
@@ -100,35 +116,19 @@ else {
                     
             <?php if ($is_loggedin) {
                 echo "<li class='nav-item'>
-                
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                echo "$quantity"; 
-                echo "</span>
-                    </a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                 </li>";
+                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                    </li>
+
+                    <li class='nav-item'>
+                        <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                    </li>";
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
-                    echo "
-                    <li class='nav-item'>
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                    echo " $quantity";
-                    echo "</span>
-                    </a>
-                </li>
-
-                <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>";
+                    echo "<li class='nav-item'>
+                            <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
+                        </li>";
                 }
             }
             ?>
