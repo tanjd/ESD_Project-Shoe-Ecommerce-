@@ -52,6 +52,7 @@
             if (in_array($id, $contentArray)){
                 // break;
                 $_SESSION['message'] = 'Product is already in cart!'; 
+                $_SESSION['header_display'] = TRUE;
                 header("Location: $from"); 
                 exit(); 
             }
@@ -60,6 +61,7 @@
             else{
                 array_push($_SESSION['cart'], $selectedItem);
                 $_SESSION['message'] = 'Product successfully added to cart!'; 
+                $_SESSION['header_display'] = TRUE;
                 header("Location: $from"); 
                 exit(); 
             }
@@ -74,6 +76,7 @@
     {
         array_push($_SESSION['cart'], $selectedItem);
         $_SESSION['message'] = 'Product added to cart!';  
+        $_SESSION['header_display'] = TRUE;
         header("Location: $from"); 
         exit(); 
     }

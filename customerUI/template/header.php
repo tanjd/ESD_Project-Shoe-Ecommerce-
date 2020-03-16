@@ -144,5 +144,15 @@ else {
     <div class="container text-center">
         <h1>Python Shoes</h1>
         <p>We don't just sell snakeskin shoes.</p>
+        
+        <?php
+            if ($_SESSION['header_display']){
+                echo "
+                <div class='p-3 mb-2 bg-dark text-white'>
+                <p><h3>{$_SESSION['message']}</h3></p>";
+                $_SESSION['header_display'] = FALSE;
+                echo '</div>';
+            }
+        ?>
     </div>
 </div>
