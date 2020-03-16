@@ -91,7 +91,7 @@ $cart_total = 0;
                 </tr>
 
                 <tr>
-                    <td colspan='4'><input class='btn btn-dark' type='submit' value='Checkout'></td>
+                    <td colspan='4'><input class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
                 </tr>
                 </table> <?php } ?>
 
