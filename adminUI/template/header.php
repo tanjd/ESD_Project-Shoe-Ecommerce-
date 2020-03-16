@@ -1,7 +1,7 @@
 <?php
 
 require_once 'include/autoload.php';
-$con = mysqli_connect("localhost", "root", "", "notify");
+//$con = mysqli_connect("localhost", "root", "", "notify");
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 $categories_data_status = checkSuccessOrFailure($categories_data);
