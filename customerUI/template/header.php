@@ -77,41 +77,66 @@ else {
                 </div>
             </li>
         </ul>
+        
         <ul class="navbar-nav right">
             
+                
+                <?php
+                    // echo '<div class="dropdown-menu" aria-labelledby="dropdown02">'; 
+                    // $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
+                    // if (mysqli_num_rows($sql_get1)>0){
+                    //     while($result=mysqli_fetch_assoc($sql_get1)){
+                    //        echo '<a class="dropdown-item text-primary" href="read_msg.php?id='.$result['id'].'">'.$result['content_message'].'</a>';
+                    //         echo '<div class="dropdown-divider"></div>';
+                    //     }
+                    // }
+                    // else{
+                    //     echo '<a class="dropdown-item text-danger" href="#"><i class="fas fa-frown-open"></i> Sorry! No messages</a>';
+                    // }
+                    // echo '</div>'; 
+                    ?>
+                
+            <?php
+            echo "<li class='nav-item'>
+                
+                    <a class='nav-link' href='read_msg.php'>
+                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
+                        echo "$quantity"; 
+                        echo "</span>
+                    </a>
+                </li>"; 
+            
+            echo "<li class='nav-item'>
+                    <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
+                        <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
+                    </a>
+                </li>"; 
+
+            
+            ?>
                     
             <?php if ($is_loggedin) {
-                echo "<li class='nav-item'>
                 
-                <a class='nav-link' href='read_msg.php'>
-                    <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                    echo "$quantity"; 
-                    echo "</span>
-                </a>
-                </li>";
-                echo "<li class='nav-item'>
-                
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                echo "$quantity"; 
-                echo "</span>
-                    </a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                 </li>";
+                echo"
+                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                    </li>
+
+                    <li class='nav-item active'>
+                        <a class='nav-link'>$customer->name</a>
+                    </li>
+
+                    <li class='nav-item'>
+                        <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                    </li>";
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
                     echo "<li class='nav-item'>
-                            <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                        </li>";
-                }
+                    <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
+                </li>";
             }
+        }
             ?>
         </ul>
         <!-- <form class="form-inline my-2 my-lg-0">
