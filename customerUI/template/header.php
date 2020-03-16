@@ -146,6 +146,7 @@ else {
         <p>We don't just sell snakeskin shoes.</p>
         
         <?php
+        if (isset($_SESSION['header_display'])){
             if ($_SESSION['header_display']){
                 echo "
                 <div class='p-3 mb-2 bg-dark text-white'>
@@ -153,6 +154,7 @@ else {
                 $_SESSION['header_display'] = FALSE;
                 echo '</div>';
             }
+        }
         ?>
     </div>
 </div>
