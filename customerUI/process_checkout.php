@@ -37,7 +37,7 @@ else{
     else{
         $_SESSION['message'] = 'Your cart is empty. Start shopping now!'; 
         header('Location: cart.php'); 
-        exit(); 
+        exit();              
     }
 }
 
