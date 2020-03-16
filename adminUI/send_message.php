@@ -8,21 +8,9 @@ require_once 'include/autoload.php';
 
 include_once 'connection.php';
 
-if(isset($_POST['send'])){
-  $name = $_POST['name'];
-  $msg = $_POST['msg'];
-  $date = date('y-m-d h:i:s');
+$categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 
-  $sql_insert = mysqli_query($con, "INSERT INTO message(name,content_message,scheduled_date_time) VALUES ('$name','$msg','$date')");
-  if($sql_insert){
 
-    echo "<script>alert('message send successfully');</script>";
-  }
-  else{
-    echo mysqli_error($con);
-    exit;
-  }
-};
 ?>
 
 
@@ -33,12 +21,16 @@ if(isset($_POST['send'])){
   <body>
     <div class = "container" id="centre">
       <div class="row">
-          <form method="post">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Name</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" value="Admin">
-              
-            </div>
+      <div class="dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <?php
+                    foreach ($categories as $category) {
+                        echo "<a class='dropdown-item' style='text-transform:capitalize' href='#'>{$category->name}</a>";
+                    }
+                    ?>
+                </div>
+            </li>
               <div class="form-group">
                 <label for="exampleFormControlTextarea1">Enter Message</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="msg"></textarea>
