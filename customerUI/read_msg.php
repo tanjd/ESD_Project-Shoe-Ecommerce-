@@ -10,11 +10,11 @@ require_once 'template/header.php';
 <?php
 
 
-if(isset($_GET['id'])){
+// if(isset($_GET['id'])){
 
-    $main_id = $_GET['id'];
-    $sql_update = mysqli_query($con, "UPDATE message SET status=1 WHERE id='$main_id'");
-}
+//     $main_id = $_GET['id'];
+//     $sql_update = mysqli_query($con, "UPDATE message SET status=1 WHERE id='$main_id'");
+// }
 
 ?>
 <link rel="stylesheet" href="css/login_style.css">
@@ -38,18 +38,18 @@ if(isset($_GET['id'])){
     <tbody>
         <?php 
         $sr_no=1;
-        $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=1");
-        while($main_result = mysqli_fetch_assoc($sql_get)):
+        // $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=1");
+        // while($main_result = mysqli_fetch_assoc($sql_get)):
         
         ?>
         <tr>
         <th scope="row"><?php echo $sr_no++; ?></th>
-        <td><?php echo $main_result['name']; ?></td>
-        <td><?php echo$main_result['content_message']; ?></td>
-        <td><?php echo $main_result['scheduled_date_time']; ?></td>
-        <td><a href="delete.php?id=<?php echo $main_result['id'];?>" class="text-danger"><i class="fas fa-trash"></i></a></td>
+        <td><?php //echo $main_result['name']; ?></td>
+        <td><?php //echo$main_result['content_message']; ?></td>
+        <td><?php //echo $main_result['scheduled_date_time']; ?></td>
+        <td><a href="delete.php?id=<?php //echo $main_result['id'];?>" class="text-danger"><i class="fas fa-trash"></i></a></td>
         </tr>
-        <?php endwhile ?>
+        <?php //endwhile ?>
     </tbody>
     </table>
     </div>
