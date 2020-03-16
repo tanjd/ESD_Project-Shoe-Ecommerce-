@@ -4,6 +4,8 @@ from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
+import json
+import requests
 
 
 app = Flask(__name__)
@@ -13,6 +15,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 CORS(app)
+
+customerURL = "http://localhost:5000/"
 
 
 class Inbox(db.Model):
@@ -45,6 +49,51 @@ class Message(db.Model):
 def home():
     return 'Hello, message microservice is up!'
 
+
+@app.route('/send_message_by_category', methods=['POST'])
+def send_message():
+    data = request.get_json()
+    category_id = data['category_id']
+    # message_content = data['message']
+
+    GET_data = {
+        'category_id': category_id
+    }
+    subscriber_data = requests.get(
+        customerURL + 'get_customer_ids_by_cat', params=GET_data)
+    subscriber_data = subscriber_data.json()
+
+    if subscriber_data['status'] == 'success':
+        for subscriber in subscriber_data['subscribers']:
+            customer_id = subscriber['customer_id']
+            inbox = Inbox.query.filter_by(customer_id=customer_id).first()
+            try:
+                message = Message()
+                message.inbox_id = inbox.id
+                message.content_message = message_content
+                db.session.add(message)
+                db.session.commit()
+            except:
+                return jsonify({"status": "fail",
+                                "message": "An error occurred in sending message."})
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred in sending message."})
+    return subscriber_data
+
+
+@app.route('/broadcast_message', methods=['POST'])
+def broadcast_message():
+    msg_data = request.get_json()
+    try:
+        message = Message(**msg_data)
+        db.session.add(message)
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred in sending message."})
+    return jsonify({"status": "success"})
 
 # @app.route('/authenticate', methods=['POST'])
 # def authenticate():

@@ -141,6 +141,16 @@ def get_customer():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
+@app.route('/get_customer_ids_by_cat/', methods=['GET'])
+def get_customer_ids_by_cat():
+    category_id = request.args.get('category_id')
+    subscribers = {"subscribers": [subscription.json() for subscription in Subscription.query.filter_by(category_id=category_id)]}
+    if subscribers:
+        subscribers["status"] = "success"
+        return_message = subscribers
+    else:
+        return_message = ({"status": "fail"})
+    return return_message
 
 @app.route('/update_setting', methods=['POST'])
 def update_setting():
