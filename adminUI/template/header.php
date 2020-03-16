@@ -1,7 +1,6 @@
 <?php
 
 require_once 'include/autoload.php';
-$con = mysqli_connect("localhost", "root", "", "notify");
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 $categories_data_status = checkSuccessOrFailure($categories_data);
@@ -34,7 +33,7 @@ if (isset($_SESSION['customer_id'])) {
 
         if ($_SESSION['cart'] != []) {
             foreach ($_SESSION['cart'] as $one_item) {
-                $quantity += 1;
+                $quantity += $one_item['quantity']; 
             }
         }
     }
@@ -54,11 +53,7 @@ else {
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <?php
-
-   
-
-    ?>
+    
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -76,23 +71,22 @@ else {
             </li>
         </ul>
         <ul class="navbar-nav right">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count">1</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown02">
-                <
-                </div>
-            </li>
+            
                     
             <?php if ($is_loggedin) {
                 echo "<li class='nav-item'>
                 
+                <a class='nav-link' href='send_message.php'>
+                    <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
+                    echo "$quantity"; 
+                    echo "</span>
+                </a>
+                </li>";
+                echo "<li class='nav-item'>
+                
                     <a class='nav-link' href='cart.php'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                if ($quantity != 0) {
-                    echo " $quantity";
-                }
+                echo "$quantity"; 
                 echo "</span>
                     </a>
                 </li>
@@ -110,9 +104,7 @@ else {
                     <li class='nav-item'>
                     <a class='nav-link' href='cart.php'>
                         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                    if ($quantity != 0) {
-                        echo " $quantity";
-                    }
+                    echo " $quantity";
                     echo "</span>
                     </a>
                 </li>
