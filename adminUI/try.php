@@ -48,7 +48,7 @@ if ($delivery != false) {
         <td>{$delivery->invoice_id}</td>
         <td>{$delivery->address}</td>
         <td>{$delivery->status}</td>
-        <td><form id=searchOrder action = 'redirect_try.php' method = 'post'>
+        <td><form id=searchOrder action = 'dispatch_delivery.php' method = 'post'>
             <button name='invoice_id' type='submit' value= {$delivery->invoice_id}>Show More</button></td>
         </form>
         </tr>";

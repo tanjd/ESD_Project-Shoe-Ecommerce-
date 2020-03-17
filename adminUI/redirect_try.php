@@ -51,7 +51,7 @@ if(isset($_POST['invoice_id'])){
         
         echo "</table>";
 
-        echo "<form action = 'redirect_try.php' method = 'post'>
+        echo "<form action = 'dispatch_delivery.php' method = 'post'>
         <button name='update_id' type='submit' value= {$invoice_id}>Dispatch</button></td>
         </form>";
 
@@ -68,7 +68,7 @@ if(isset($_POST['invoice_id'])){
                 "invoice_id" => $_POST['update_id']];
             $update = CallAPI('GET', $delivery_url, 'delivery/',$update_data);
             if($update != False){
-                $URL="http://localhost/esd/adminui/try.php";
+                $URL="http://localhost/esd/adminui/view_delivery.php";
                 echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
                 echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
             }
