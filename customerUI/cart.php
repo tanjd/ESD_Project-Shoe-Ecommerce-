@@ -34,6 +34,7 @@ $cart_total = 0;
             <h2>My Shopping Cart </h2>
             
             <?php
+
             if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
                 echo '<div style="margin-left: 8px; font-size: 1.75em;">
                 <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
