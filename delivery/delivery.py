@@ -51,30 +51,17 @@ def get_deliveries():
     return jsonify(return_message)
 
 
-""" @app.route('/delivery/', methods=['PATCH'])
+@app.route('/delivery/', methods=['GET'])
 def update_status():
     invoice_id = request.args.get('invoice_id')
-    delivery = Delivery.query.get(invoice_id)
-    status = 'Dispatch'
-    delivery.status = status
-    try:
+    update_this = Delivery.query.filter_by(invoice_id = invoice_id).first()
+    if update_this:
+        update_this.status = "Dispatched"
         db.session.commit()
-    except:
-            return jsonify({"status": "fail",
-                        "message": "An error occurred updating delivery status."}) """
-
-
-@app.route('/delivery/<id>', methods=['PATCH'])
-def update_status(id):
-    delivery = Delivery.query.get(id)
-    status = 'Dispatch'
-    delivery.status = status
-    try:
-        db.session.commit()
-    except:
+        return jsonify({"status": "success"})
+    else:
             return jsonify({"status": "fail",
                         "message": "An error occurred updating delivery status."})
-    return jsonify({"status": "success"})
 
 
 
