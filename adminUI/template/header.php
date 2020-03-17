@@ -48,7 +48,7 @@ else {
 
 
 ?>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-danger fixed-top">
     <a class="navbar-brand" href="index.php">Python Shoes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -74,24 +74,36 @@ else {
             
                     
             <?php if ($is_loggedin) {
-                echo "<li class='nav-item'>
+                // echo "<li class='nav-item'>
                 
-                <a class='nav-link' href='send_message.php'>
-                    <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                    echo "$quantity"; 
-                    echo "</span>
-                </a>
-                </li>";
-                echo "<li class='nav-item'>
+                // <a class='nav-link' href='send_message.php'>
+                //     <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
+                //     echo "$quantity"; 
+                //     echo "</span>
+                // </a>
+                // </li>";
+                // echo "<li class='nav-item'>
                 
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                echo "$quantity"; 
-                echo "</span>
-                    </a>
+                //     <a class='nav-link' href='cart.php'>
+                //         <i class='fa fa-shopping-cart'></i><span class='badge'>";
+                // echo "$quantity"; 
+                // echo "</span>
+                //     </a>
+                // </li>
+                // <li class='nav-item'>
+                //     <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                // </li>
+                // <li class='nav-item active'>
+                //      <a class='nav-link'>$customer->name</a>
+                // </li>
+                // <li class='nav-item'>
+                //     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                //  </li>";
+
+                echo "
                 </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                <li class='nav-item active'>
+                     <a class='nav-link'>Administrator</a>
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
@@ -100,18 +112,18 @@ else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
-                    echo "
-                    <li class='nav-item'>
-                    <a class='nav-link' href='cart.php'>
-                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                    echo " $quantity";
-                    echo "</span>
-                    </a>
-                </li>
+                //     echo "
+                //     <li class='nav-item'>
+                //     <a class='nav-link' href='cart.php'>
+                //         <i class='fa fa-shopping-cart'></i><span class='badge'>";
+                //     echo " $quantity";
+                //     echo "</span>
+                //     </a>
+                // </li>
 
-                <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>";
+                // <li class='nav-item'>
+                // <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
+                // </li>";
                 }
             }
             ?>

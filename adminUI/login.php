@@ -19,7 +19,7 @@ require_once 'include/autoload.php';
             <input type="text" name="input_email" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus="">
             <input type="password" name="input_password" id="inputPassword" class="form-control" placeholder="Password" required="">
 
-            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+            <button class="btn btn-danger btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
             <!-- <p>Don't have an account!</p>  -->

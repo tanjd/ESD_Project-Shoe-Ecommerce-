@@ -101,7 +101,7 @@ else {
                 
                     <a class='nav-link' href='read_msg.php'>
                         <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                        echo "$quantity"; 
+                        echo "1"; 
                         echo "</span>
                     </a>
                 </li>"; 
