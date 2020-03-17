@@ -124,7 +124,19 @@ def update_message_status():
         db.session.commit()
     except:
         return jsonify({"status": "fail",
-                        "message": "An error occurred creating customer."})
+                        "message": "An error occured updating message."})
+    return jsonify({"status": "success"})
+
+
+@app.route('/delete_message/', methods=['GET'])
+def delete_message():
+    message_id = request.args.get('message_id')
+    try:
+        Message.query.filter_by(id=message_id).delete()
+        db.session.commit()
+    except:
+        return jsonify({"status": "fail",
+                        "message": "An error occurred deleting customer."})
     return jsonify({"status": "success"})
 
 
