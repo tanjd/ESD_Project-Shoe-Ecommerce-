@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
 import json
+import pika
 import requests
 from sqlalchemy import desc
 
@@ -31,6 +32,38 @@ class Message(db.Model):
 
     def json(self):
         return {"id": self.id, "customer_id": self.customer_id, "content_message": self.content_message, "status": self.status, "created_at": self.created_at}
+
+
+def send_notification(message):
+    # default username / password to the borker are both 'guest'
+    # default broker hostname. Web management interface default at http://localhost:15672
+    hostname = "localhost"
+    # default messaging port.
+    port = 5672
+    # connect to the broker and set up a communication channel in the connection
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=hostname, port=port))
+    # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
+    # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
+    channel = connection.channel()
+
+    exchangename = "notification_topic"
+    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+    # prepare the message body content
+    # convert a JSON object to a string
+    message = json.dumps(message, default=str)
+
+    # make sure the queue used by Shipping exist and durable
+    channel.queue_declare(queue='shipping', durable=True)
+    # make sure the queue is bound to the exchange
+    # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
+    channel.queue_bind(exchange=exchangename,
+                       queue='shipping', routing_key='*.order')
+    channel.basic_publish(exchange=exchangename, routing_key="shipping.order", body=message,
+                          properties=pika.BasicProperties(delivery_mode=2,))
+    print("")
+    # close the connection to the broker
+    connection.close()
 
 
 @app.route('/')
@@ -130,6 +163,7 @@ def update_message_status():
 
 @app.route('/delete_message/', methods=['GET'])
 def delete_message():
+    send_notification()
     message_id = request.args.get('message_id')
     try:
         Message.query.filter_by(id=message_id).delete()
