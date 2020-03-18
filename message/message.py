@@ -72,7 +72,7 @@ def home():
 
 
 @app.route('/send_message_by_category', methods=['POST'])
-def send_message():
+def send_message_by_category():
     data = request.get_json()
     category_id = data['category_id']
     message_content = data['message']
