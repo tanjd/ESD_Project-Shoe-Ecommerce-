@@ -112,7 +112,7 @@ def broadcast_message():
 
     try:
         customer_data = requests.get(
-            customerURL + 'get_all_customers/', params=GET_data)
+            customerURL + 'get_all_customers/')
         customer_data = customer_data.json()
     except:
         return jsonify({"status": "fail",
