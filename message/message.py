@@ -72,7 +72,7 @@ def home():
 
 
 @app.route('/send_message_by_category', methods=['POST'])
-def send_message():
+def send_message_by_category():
     data = request.get_json()
     category_id = data['category_id']
     message_content = data['message']
@@ -112,14 +112,14 @@ def broadcast_message():
 
     try:
         customer_data = requests.get(
-            customerURL + 'get_all_customers/', params=GET_data)
+            customerURL + 'get_all_customers/')
         customer_data = customer_data.json()
     except:
         return jsonify({"status": "fail",
                         "message": "An error occurred in retrieving customers."})
     if customer_data['status'] == 'success':
         for customer in customer_data['customers']:
-            customer_id = customer['customer_id']
+            customer_id = customer['id']
             try:
                 message = Message(content_message=message_content,
                                   customer_id=customer_id)
