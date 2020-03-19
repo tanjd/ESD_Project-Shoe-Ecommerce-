@@ -119,7 +119,7 @@ def broadcast_message():
                         "message": "An error occurred in retrieving customers."})
     if customer_data['status'] == 'success':
         for customer in customer_data['customers']:
-            customer_id = customer['customer_id']
+            customer_id = customer['id']
             try:
                 message = Message(content_message=message_content,
                                   customer_id=customer_id)
@@ -137,7 +137,7 @@ def broadcast_message():
 @app.route('/get_messages_by_customer', methods=['POST'])
 def get_messages_by_customer():
     data = request.get_json()
-    customer_id = data['customer_id']
+    customer_id = data['id']
     messages = [Message.json()
                 for Message in Message.query.filter_by(customer_id=customer_id).order_by(desc(Message.created_at))]
     if messages:

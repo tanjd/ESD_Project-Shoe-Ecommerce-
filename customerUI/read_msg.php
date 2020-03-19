@@ -48,18 +48,25 @@ $cart_total = 0;
             </thead>
             <tbody>
                 <?php 
-                $sr_no=1;
-                // $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=1");
-                // while($main_result = mysqli_fetch_assoc($sql_get)):
+                $POST_data = [
+                    "id" => 1
+                ];
+                $data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
                 
+                var_dump($data);
+                foreach ($data as $msg) {
+                    var_dump($msg);
+                    echo "<tr>
+                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    </tr>";
+                }
+
                 ?>
-                <tr>
-                <th scope="row"><?php echo $sr_no++; ?></th>
-                <td><?php //echo $main_result['name']; ?></td>
-                <td><?php //echo$main_result['content_message']; ?></td>
-                <td><?php //echo $main_result['scheduled_date_time']; ?></td>
-                <td><a href="delete.php?id=<?php //echo $main_result['id'];?>" class="text-danger"><i class="fas fa-trash"></i></a></td>
-                </tr>
+                
                 <?php //endwhile ?>
             </tbody>
             </table>
