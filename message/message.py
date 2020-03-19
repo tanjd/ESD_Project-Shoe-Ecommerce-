@@ -119,7 +119,7 @@ def broadcast_message():
                         "message": "An error occurred in retrieving customers."})
     if customer_data['status'] == 'success':
         for customer in customer_data['customers']:
-            customer_id = customer['customer_id']
+            customer_id = customer['id']
             try:
                 message = Message(content_message=message_content,
                                   customer_id=customer_id)

@@ -49,7 +49,7 @@ $cart_total = 0;
             <tbody>
                 <?php 
                 $POST_data = [
-                    "customer_id" => 1
+                    "customer_id" => $_SESSION['customer_id']
                 ];
                 $data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
                 
