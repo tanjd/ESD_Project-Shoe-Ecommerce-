@@ -6,7 +6,7 @@ if (isset($_POST['message'])) {
     $POST_data = [
         "message" => $_POST['message']
     ];
-    
+
     var_dump($_POST['message']);
     $data = CallAPI('POST', $message_url, 'broadcast_message', $POST_data);
     var_dump($data);
@@ -26,5 +26,5 @@ if (isset($_POST['message'])) {
         // header('Location: send_message.php');
         // exit();
     }
-} 
+}
 ?>
