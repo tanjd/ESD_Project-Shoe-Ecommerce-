@@ -18,28 +18,9 @@ require_once 'template/header.php';
 $markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
 $markers_status = checkSuccessOrFailure($markers_data);
 if ($markers_status != false) {
-    $markers = true;
-} else {
-    $markers = false;
-}
-var_dump($markers_data); #null
-var_dump($markers_status); #false
-var_dump($markers); #false
-?>
-
-<!-- 
-$product_data = CallAPI('GET', $product_url, 'get_all_products');
-$product_status = checkSuccessOrFailure($product_data);
-
-if ($product_status != false) {
-    $products = $product_data->{'products'};
-} else {
-    $products = false;
-}
-var_dump($product_data); #null
-var_dump($product_status); #false
-var_dump($products); #false -->
-
+    $markers = true;} else {
+    $markers = false;}
+?> 
 
 <main role="main" class="container">
     <div class="starter-template">
@@ -60,13 +41,13 @@ var_dump($products); #false -->
                 $quantity = $contentArray['quantity']; 
 
                 echo "<tr>
-                <td>$name</td>
-                <td>$$unit_price</td>
-                </tr>";
- 
-                $cart_total += $unit_price * $quantity;
-            }
+                        <td>$name</td>
+                        <td>$$unit_price</td>
+                    </tr>";
+                    $cart_total += $unit_price * $quantity;
+                }
         ?>
+        
         <tr>
             <th colspan='1'>Total</th>
             <th colspan = '1'><?php echo "\$$cart_total" ?></th>
@@ -77,7 +58,6 @@ var_dump($products); #false -->
         <tr>
             <td colspan='2'><h2>Delivery Address</h2></td>
         </tr>
-            
         <tr>
             <td colspan='2'>
                 <meta name="viewport" content="initial-scale=1.0">
@@ -108,17 +88,16 @@ var_dump($products); #false -->
                 </td>
             </tr>
             
-            <tr>
-            <th>Address for Delivery</th>
-                <td>
-                    <select id="cars" name="cars" size="1">
-                    <option value="volvo">pasir ris dr 10 singapore 510733 #12-111</option>
-                    <option value="saab">Saab</option>
-                    <option value="fiat">Fiat</option>
-                    <option value="audi">Audi</option>
-                    </select>
-                </td>
-            </tr>
+                     
+            <tr><th>Address for Delivery</th><td>
+        <?php
+                $markers = $markers_data->{'markers'};
+                echo "<select id='location' name='location' size='1'>";
+                foreach($markers as $marker_object){
+                    $location_name = $marker_object->{'name'};
+                    echo '<option value="'.$location_name.'" selected>'.$location_name.'</option>';}
+        ?>
+            </td></tr>
 
 
         <tr><td><br><br></td></tr>

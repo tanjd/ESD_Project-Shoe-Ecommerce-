@@ -28,25 +28,25 @@ class Delivery(db.Model):
          return {"invoice_id": self.invoice_id, "address": self.address, "status": self.status}
 
 
-class Delivery_location(db.Model):
-    coordinates = db.Column(db.Integer,primary_key=True)
-    address = db.Column(db.String(1000), nullable=False)
+# class Delivery_location(db.Model):
+#     coordinates = db.Column(db.Integer,primary_key=True)
+#     address = db.Column(db.String(1000), nullable=False)
 
-    def init(self, coordinates, address):
-        self.coordinates = coordinates
-        self.address = address
+#     def init(self, coordinates, address):
+#         self.coordinates = coordinates
+#         self.address = address
     
-    def json(self):
-         return {"coordinates": self.coordinates, "address": self.address}
+#     def json(self):
+#          return {"coordinates": self.coordinates, "address": self.address}
 
 class Markers(db.Model):
-    __tablename__ = "markers"
+    __tablename__ = 'markers'
 
     id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String( 60 ), nullable=False)
     address = db.Column(db.String(80), nullable=False, primary_key=True)
-    lat = db.Column(db.Float(10,6), nullable=False)
-    lng = db.Column(db.Float(10,6), nullable=False)
+    lat = db.Column(db.Integer, nullable=False)
+    lng = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String(30), nullable=False)
 
     def init(self, id, name, address, lat, lng, type):
@@ -62,16 +62,6 @@ class Markers(db.Model):
 
 @app.route('/get_all_markers')
 def get_all_markers():
-    # status = "NULL"
-    # delivery = [delivery.json() for delivery in Delivery.query.filter_by(status=status).all()]
-    # status = "NULL"
-    # markers = Delivery_location.query.all()
-    # if markers:
-    #     return_message = ({"status": "success",
-    #                        "markers": markers})
-    # else:
-    #     return_message = ({"status": "fail"})
-    # return jsonify(return_message)
     markers = [Markers.json()
             for Markers in Markers.query.all()]
     if markers:
