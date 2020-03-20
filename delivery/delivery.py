@@ -7,7 +7,8 @@ from os import environ
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/delivery_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/delivery_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/markers_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
@@ -37,6 +38,48 @@ class Delivery_location(db.Model):
     
     def json(self):
          return {"coordinates": self.coordinates, "address": self.address}
+
+class Markers(db.Model):
+    __tablename__ = "markers"
+
+    id = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String( 60 ), nullable=False)
+    address = db.Column(db.String(80), nullable=False, primary_key=True)
+    lat = db.Column(db.Float(10,6), nullable=False)
+    lng = db.Column(db.Float(10,6), nullable=False)
+    type = db.Column(db.String(30), nullable=False)
+
+    def init(self, id, name, address, lat, lng, type):
+        self.id = id
+        self.name = name
+        self.address = address
+        self.lat = lat
+        self.lng = lng
+        self.type = type
+    
+    def json(self):
+         return {"id": self.id, "name": self.name, "address": self.address, "lat": self.lat, "lng": self.lng, "type": self.type}
+
+@app.route('/get_all_markers')
+def get_all_markers():
+    # status = "NULL"
+    # delivery = [delivery.json() for delivery in Delivery.query.filter_by(status=status).all()]
+    # status = "NULL"
+    # markers = Delivery_location.query.all()
+    # if markers:
+    #     return_message = ({"status": "success",
+    #                        "markers": markers})
+    # else:
+    #     return_message = ({"status": "fail"})
+    # return jsonify(return_message)
+    markers = [Markers.json()
+            for Markers in Markers.query.all()]
+    if markers:
+        return_message = ({"status": "success",
+                           "markers": markers})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
 
 
 @app.route('/get_deliveries', methods=['GET'])

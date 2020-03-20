@@ -13,6 +13,34 @@ require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
 ?>
+
+<?php
+$markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
+$markers_status = checkSuccessOrFailure($markers_data);
+if ($markers_status != false) {
+    $markers = true;
+} else {
+    $markers = false;
+}
+var_dump($markers_data); #null
+var_dump($markers_status); #false
+var_dump($markers); #false
+?>
+
+<!-- 
+$product_data = CallAPI('GET', $product_url, 'get_all_products');
+$product_status = checkSuccessOrFailure($product_data);
+
+if ($product_status != false) {
+    $products = $product_data->{'products'};
+} else {
+    $products = false;
+}
+var_dump($product_data); #null
+var_dump($product_status); #false
+var_dump($products); #false -->
+
+
 <main role="main" class="container">
     <div class="starter-template">
         <?php
@@ -35,17 +63,17 @@ require_once 'template/header.php';
                 <td>$name</td>
                 <td>$$unit_price</td>
                 </tr>";
-
+ 
                 $cart_total += $unit_price * $quantity;
-                //$cart_total = number_format($cart_total, 2, '.', ',')
-                ;
             }
         ?>
         <tr>
-            <th colspan='1'>Total:</th>
+            <th colspan='1'>Total</th>
             <th colspan = '1'><?php echo "\$$cart_total" ?></th>
         </tr>
 
+
+        <tr><td><br><br></td></tr>
         <tr>
             <td colspan='2'><h2>Delivery Address</h2></td>
         </tr>
@@ -57,26 +85,43 @@ require_once 'template/header.php';
                 <style>      
                 #map {
                     height:400px;
-                    width:80%;
+                    width:78%;
                     }
                 </style>
                     <body>
                         <div id="map"></div>
                         <script>
                             var map;
+                            var singapore = {lat: 1.3521, lng: 103.8198};
+                            
                             function initMap() {
                             map = new google.maps.Map(document.getElementById('map'), {
-                            center: {lat: 1.3521, lng: 103.8198},
-                            zoom:12
-                            });
-                            }
+                            center: singapore,
+                            zoom:12});
+                            
+                            var marker = new google.maps.Marker({position: singapore, map: map});}
                         </script>
+
                         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyM4GQOCDrKyOUqS-Kc87Os2om92jSQS4&callback=initMap"
                         async defer></script>
                     </body>
-            <td>
-        </tr>
+                </td>
+            </tr>
+            
+            <tr>
+            <th>Address for Delivery</th>
+                <td>
+                    <select id="cars" name="cars" size="1">
+                    <option value="volvo">pasir ris dr 10 singapore 510733 #12-111</option>
+                    <option value="saab">Saab</option>
+                    <option value="fiat">Fiat</option>
+                    <option value="audi">Audi</option>
+                    </select>
+                </td>
+            </tr>
 
+
+        <tr><td><br><br></td></tr>
         <tr>
             <td colspan='2'><h2>Payment</h2></td>
         </tr>
@@ -114,7 +159,7 @@ require_once 'template/header.php';
             },
         onApprove: function(data, actions) {
         // This function captures the funds from the transaction.
-            window.location.href="http://localhost/esd/customerui/try.php";
+            window.location.href="http://localhost/esd_project/customerUI/completed.php";
             return actions.order.capture().then(function(details) {
         // This function shows a transaction success message to your buyer.
             alert('Transaction completed by ' + details.payer.name.given_name);
