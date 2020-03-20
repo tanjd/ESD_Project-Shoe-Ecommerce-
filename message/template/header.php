@@ -83,16 +83,7 @@ else {
                     <i class="fas fa-envelope"></i> <span class="badge badge-danger" id = "count"><?php echo $count ?></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown02">
-                    
-                    <?php 
-                    $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
-                    if (mysqli_num_rows($sql_get1)>0){
-
-                    }
-                    else{
-                        echo '<a class="dropdown-item text-danger" href="#">Sorry! No messages</a>';
-                    }
-                    ?>
+                   
                 </div>
             </li>
                     

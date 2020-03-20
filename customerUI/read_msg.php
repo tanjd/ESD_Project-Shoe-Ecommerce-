@@ -24,13 +24,20 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 }
 
 $cart_total = 0;
+
+$POST_data = [
+    "customer_id" => $_SESSION['customer_id']
+];
+$data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
+$message = $data->{'messages'};
+$sr_no=1;
 ?>
 
 
-<main role="main" class="container">
+<main role="main" class="container" id="text_msg">
     <div class="starter-template">
         <p class="lead">
-            <form action='checkout.php' method='post'></form>
+            <i class="fas fa-inbox"></i>
             <h2>My Inbox </h2>
 
 
@@ -38,36 +45,33 @@ $cart_total = 0;
             <div class = "row">
             <table class="table table-hover">
             <thead class="thead-dark">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
                 <tr>
                 <th scope="col">S. no</th>
                 <th scope="col">Message</th>
-                <th scope="col"></th>
                 <th scope="col">Date</th>
                 <th scope="col">Delete</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+            
                 <?php 
-                $POST_data = [
-                    "customer_id" => $_SESSION['customer_id']
-                ];
-                $data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
-                
-                var_dump($data);
-                foreach ($data as $msg) {
-                    var_dump($msg);
+                foreach ($message as $msg) {
                     echo "<tr>
-                    
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>$sr_no</td>
+                    <td>{$msg->content_message}</td>
+                    <td>{$msg->created_at}</td>
                     <td></td>
                     </tr>";
+                    $sr_no++;
                 }
 
                 ?>
+               
+
                 
-                <?php //endwhile ?>
+               
             </tbody>
             </table>
             </div>

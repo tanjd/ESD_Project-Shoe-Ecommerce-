@@ -20,6 +20,7 @@ if (isset($_SESSION['customer_id'])) {
         "customer_id" => $customer_id,
     ];
     $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
+    $message_data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
     $data_status = checkSuccessOrFailure($data);
     if ($data_status != false) {
         $customer = $data->{'customer'};
@@ -38,6 +39,9 @@ if (isset($_SESSION['customer_id'])) {
             }
         }
     }
+   
+    $num_of_msg=count($message_data->messages);
+    
 }
 
 // ! isset $_SESSION['customer_id']
@@ -101,7 +105,9 @@ else {
                 
                     <a class='nav-link' href='read_msg.php'>
                         <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                        echo "1"; 
+                        if ($is_loggedin) {
+                            $num_of_msg;
+                        }
                         echo "</span>
                     </a>
                 </li>"; 
