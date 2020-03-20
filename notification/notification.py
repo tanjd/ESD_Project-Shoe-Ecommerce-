@@ -1,24 +1,24 @@
+import os
+import json
+import pika
+import requests
+import sys
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
-import os
-import json
-import pika
-import requests
-import sys
 from sqlalchemy import desc
 
 
-app = Flask(__name__)
+# app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/message_db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/message_db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-CORS(app)
+# db = SQLAlchemy(app)
+# CORS(app)
 
 customerURL = "http://localhost:5000/"
 
@@ -43,8 +43,6 @@ def receive_notification_message():
         queue=queue_name, on_message_callback=receive_notification_message_callback, auto_ack=True)
     channel.start_consuming()
 
-# required signature for the callback; no return
-
 
 def receive_notification_message_callback(channel, method, properties, body):
     print("Received a notificiation message")
@@ -58,7 +56,7 @@ def receive_notification_message_callback(channel, method, properties, body):
 
 def process_notification_message(data):
     exchange_name = "notify_topic"
-    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+    channel.exchange_declare(exchange=exchange_name, exchange_type='topic')
 
     message_content = data['message_content']
     customer_id = data['customer_id']
@@ -76,40 +74,48 @@ def process_notification_message(data):
     except:
         return ({"status": "fail",
                  "message": "An error occurred in retrieving customer."})
+    if customer_data['status'] == "success":
+        customer = customer_data['customer']
+        email_setting = customer['email_setting']
+        telegram_setting = customer['telegram_setting']
+        telegram_id = customer['telegram_id']
+        email = customer['email']
 
-    email_setting = customer_data['email_setting']
-    telegram_setting = customer_data['telegram_setting']
-    telegram_id = customer_data['telegram_id']
-    email = customer_data['email']
+        publish_message = {
+            'message_content': message_content,
+            'name': customer['name'],
+            'telegram_id': customer['telegram_id'],
+            'email': customer['email'],
+        }
+        publish_message = json.dumps(publish_message, default=str)
 
-    publish_message = {
-        'message_content': message_content,
-        'customer_name': customer_data['name']
-    }
+        if (email_setting == True and telegram_setting == True):
+            # publish to both telegram and email
+            channel.queue_declare(queue='notify_telegram', durable=True)
+            channel.queue_bind(exchange=exchange_name,
+                               queue='', routing_key='notify.*')
+            channel.basic_publish(exchange=exchange_name, routing_key='notify.*', body=publish_message,
+                                  properties=pika.BasicProperties(delivery_mode=2,))
+            return 'sent to email and telegram'
 
-    # convert a JSON object to a string
-    publish_message = json.dumps(publish_message, default=str)
-    if (email_setting == True and telegram_setting == True):
-        # publish to both telegram and email
-        channel.queue_declare(queue='', durable=True)
-        channel.queue_bind(exchange=exchange_name,
-                           queue='', routing_key='notify.*')
-        channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
-                              properties=pika.BasicProperties(delivery_mode=2,))
-    elif (email_setting == True):
-        channel.queue_declare(queue='', durable=True)
-        channel.queue_bind(exchange=exchange_name,
-                           queue='notify_email', routing_key='*.email')
-        channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
-                              properties=pika.BasicProperties(delivery_mode=2,))
-    elif (telegram_setting == True):
-        channel.queue_declare(queue='', durable=True)
-        channel.queue_bind(exchange=exchange_name,
-                           queue='notify_telegram', routing_key='*.telegram')
-        channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
-                              properties=pika.BasicProperties(delivery_mode=2,))
-    connection.close()
-    return True
+    else:
+        return ({"status": "fail",
+                 "message": "An error occurred in retrieving customer."})
+
+    # elif (email_setting == True):
+    #     channel.queue_declare(queue='', durable=True)
+    #     channel.queue_bind(exchange=exchange_name,
+    #                        queue='notify_email', routing_key='*.email')
+    #     channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
+    #                           properties=pika.BasicProperties(delivery_mode=2,))
+    # elif (telegram_setting == True):
+    #     channel.queue_declare(queue='', durable=True)
+    #     channel.queue_bind(exchange=exchange_name,
+    #                        queue='notify_telegram', routing_key='*.telegram')
+    #     channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
+    #                           properties=pika.BasicProperties(delivery_mode=2,))
+    # connection.close()
+    # return True
 
 
 # execute this program only if it is run as a script (not by 'import')

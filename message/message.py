@@ -126,6 +126,7 @@ def broadcast_message():
             except:
                 return jsonify({"status": "fail",
                                 "message": "An error occurred in sending message."})
+            send_notification(message_content, customer_id)
         return jsonify({"status": "success"})
     else:
         return jsonify({"status": "fail",
