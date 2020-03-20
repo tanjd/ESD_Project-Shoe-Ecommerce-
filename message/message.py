@@ -34,40 +34,37 @@ class Message(db.Model):
         return {"id": self.id, "customer_id": self.customer_id, "content_message": self.content_message, "status": self.status, "created_at": self.created_at}
 
 
-def send_notification(message):
+def send_notification(message_content, customer_id):
     # default username / password to the borker are both 'guest'
     # default broker hostname. Web management interface default at http://localhost:15672
     hostname = "localhost"
-    # default messaging port.
     port = 5672
-    # connect to the broker and set up a communication channel in the connection
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=hostname, port=port))
-    # Note: various network firewalls, filters, gateways (e.g., SMU VPN on wifi), may hinder the connections;
-    # If "pika.exceptions.AMQPConnectionError" happens, may try again after disconnecting the wifi and/or disabling firewalls
     channel = connection.channel()
 
-    exchangename = "notification_topic"
-    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
-    # prepare the message body content
-    # convert a JSON object to a string
-    message = json.dumps(message, default=str)
+    exchangename = "notification_direct"
+    queue = "message_notification"
+    routing_key="notification.message"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
-    # make sure the queue used by Shipping exist and durable
-    channel.queue_declare(queue='shipping', durable=True)
-    # make sure the queue is bound to the exchange
-    # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
+    publish_message = {
+        'message_content': message_content,
+        'customer_id': customer_id
+    }
+    publish_message = json.dumps(publish_message, default=str)
+
+    channel.queue_declare(queue=queue, durable=True)
     channel.queue_bind(exchange=exchangename,
-                       queue='shipping', routing_key='*.order')
-    channel.basic_publish(exchange=exchangename, routing_key="shipping.order", body=message,
+                       queue=queue, routing_key=routing_key)
+    channel.basic_publish(exchange=exchangename, routing_key=routing_key, body=publish_message,
                           properties=pika.BasicProperties(delivery_mode=2,))
-    print("")
-    # close the connection to the broker
     connection.close()
 
 
 @app.route('/')
 def home():
+    send_notification('message', 1)
     return 'message microservice is working'
 
 
@@ -99,6 +96,7 @@ def send_message_by_category():
             except:
                 return jsonify({"status": "fail",
                                 "message": "An error occurred in sending message."})
+            send_notification(message_content, customer_id)
         return jsonify({"status": "success"})
     else:
         return jsonify({"status": "fail",
@@ -163,7 +161,6 @@ def update_message_status():
 
 @app.route('/delete_message/', methods=['GET'])
 def delete_message():
-    send_notification()
     message_id = request.args.get('message_id')
     try:
         Message.query.filter_by(id=message_id).delete()
