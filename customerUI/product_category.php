@@ -1,16 +1,10 @@
 <?php
 require_once 'include/autoload.php';
-$data = CallAPI('GET', $customer_url, 'get_all_customers');
-$status = checkSuccessOrFailure($data);
-if ($status != false) {
-    $customers = $data->{'customers'};
-} else {
-    $customers = false;
-}
 
 if (isset($_GET["category_id"])) {
+    $category_id = $_GET["category_id"];
     $GET_data = [
-        "category_id" => $_GET["category_id"]
+        "category_id" => $category_id
     ];
     $product_data = CallAPI('GET', $product_url, 'get_products_by_category/', $GET_data);
     $product_status = checkSuccessOrFailure($product_data);
@@ -20,23 +14,18 @@ if (isset($_GET["category_id"])) {
         $products = false;
     }
 
-    $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-    $categories_data_status = checkSuccessOrFailure($categories_data);
-    if ($categories_data_status != false) {
-        $categories = $categories_data->{'categories'};
+    $category_data = CALLAPI('GET', $product_url, 'get_category/', $GET_data);
+    $category_data_status = checkSuccessOrFailure($category_data);
+    if ($category_data_status != false) {
+        $category = $category_data->{'category'};
+        $category_name = $category->{'name'};
     } else {
-        $categories = false;
-    }
-    foreach ($categories as $category) {
-        if ($_GET["category_id"] == $category->id) {
-            $category_name = $category->name;
-        }
+        $category = false;
     }
     $is_login = false;
     if (isset($_SESSION['customer_id'])) {
+        $customer_id = $_SESSION['customer_id'];
         $is_login = true;
-        $category_id = $_GET["category_id"];
-        $customer_id = $_SESSION["customer_id"];
         $POST_data = [
             "category_id" => $category_id,
             "customer_id" => $customer_id
@@ -58,7 +47,9 @@ require_once 'template/header.php';
 <main role="main" class="container">
     <div class="starter-template">
         <p class="lead"></p>
-        <h1 style='text-transform:capitalize'><?php echo "$category_name" ?></h1>
+        <h1 style='text-transform:capitalize'><?php if ($category != false) {
+                                                    echo "$category_name";
+                                                }  ?></h1>
         <hr>
         <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
         <?php if ($is_login == true) {
