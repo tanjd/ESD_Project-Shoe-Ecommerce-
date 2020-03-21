@@ -15,6 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
+delivery_url = 'http://localhost:5002/'
 
 class Order_invoice(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -95,12 +96,15 @@ def create_order():
         total += product_price
         #print(product_price)
 
-    new_order_invoice = Order_invoice( customer_id = order_data['id'], total_amount = total, 
-    id = 555) #find sth to generate id)
+    new_order_invoice = Order_invoice( customer_id = customer_id, total_amount = total, 
+    id = 15314) #find sth to generate id)
 
     try:
         db.session.add(new_order_invoice)
         db.session.commit()
+        invoice_id = new_order_invoice.id
+        message_content = "Invoice" + invoice_id + " have been confirmed."
+        order_notification(message_content, customer_id)
     
     except:
             return jsonify({"status": "fail",
@@ -112,21 +116,34 @@ def create_order():
             product_price = c_list['unit_price']
             product_id = c_list['id']
             quantity = c_list['quantity']
-            new_order = (Order( id= 333, invoice_id = 555,
+            new_order = (Order( id= 1245, invoice_id = invoice_id,
                                     customer_id = customer_id,
                                     product_id = product_id,
                                     quantity = quantity,
                                     price = product_price))
             db.session.add(new_order)
             db.session.commit()
-            message_content = "Invoice" + invoice_id + " have been confirmed."
-            order_notification(message_content, customer_id)
-    
         except:
             return jsonify({"status": "fail",
                         "message": "An error occurred creating order."})
-        return jsonify({"status": "success"})
+        #return jsonify({"status": "success"})
+    
+    POST_data = {
+        "invoice_id" : invoice_id,
+        "address" : order_data['address'],
+        "status" : "NULL",
+        "customer_id" : customer_id
+    }
+    try:
+        request.post(delivery_url + 'create_delivery/', params=POST_data)
+    except:
+            return jsonify({"status": "fail",
+                        "message": "An error occurred creating delivery."})
+    
+    return jsonify({"status": "success"})
 
+
+    
 
 
 @app.route('/get_invoice/', methods=['GET'])
@@ -152,6 +169,8 @@ def get_all_orders():
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
+    
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5003, debug=True)
