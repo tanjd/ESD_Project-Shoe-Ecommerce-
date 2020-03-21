@@ -7,8 +7,8 @@ from os import environ
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/delivery_db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/markers_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/delivery_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/markers_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
@@ -26,18 +26,6 @@ class Delivery(db.Model):
     
     def json(self):
          return {"invoice_id": self.invoice_id, "address": self.address, "status": self.status}
-
-
-# class Delivery_location(db.Model):
-#     coordinates = db.Column(db.Integer,primary_key=True)
-#     address = db.Column(db.String(1000), nullable=False)
-
-#     def init(self, coordinates, address):
-#         self.coordinates = coordinates
-#         self.address = address
-    
-#     def json(self):
-#          return {"coordinates": self.coordinates, "address": self.address}
 
 class Markers(db.Model):
     __tablename__ = 'markers'
