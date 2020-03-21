@@ -20,7 +20,20 @@ $markers_status = checkSuccessOrFailure($markers_data);
 if ($markers_status != false) {
     $markers = true;} else {
     $markers = false;}
+
+$markers = $markers_data->{'markers'};
+
+$marker_coords = array();
+foreach($markers as $marker_object){
+    $location_lat = $marker_object->{'lat'} ;
+    $location_lng = $marker_object->{'lng'} ;
+
+    $indv_coords = array($location_lat, $location_lng);
+    array_push($marker_coords, $indv_coords);
+    }
+//var_dump($marker_coords);
 ?> 
+
 
 <main role="main" class="container">
     <div class="starter-template">
@@ -70,24 +83,37 @@ if ($markers_status != false) {
                 </style>
                     <body>
                         <div id="map"></div>
+
                         <script>
-                            var map;
-                            var singapore = {lat: 1.3521, lng: 103.8198};
-                            
-                            function initMap() {
-                            map = new google.maps.Map(document.getElementById('map'), {
-                            center: singapore,
-                            zoom:12});
-                            
-                            var marker = new google.maps.Marker({position: singapore, map: map});}
+                                // Initialize and add the map
+                                function initMap() {
+                                // The location of singapore
+                                var locations = <?php echo json_encode($marker_coords)?>
+                                // The map, centered at singapore
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                    zoom: 10,
+                                    center: new google.maps.LatLng(1.3521, 103.8198),
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    });
+
+                                var marker, i;
+                                    for (i = 0; i < locations.length; i++) {  
+                                    marker = new google.maps.Marker({
+                                        position: new google.maps.LatLng(locations[i][0], locations[i][1]),
+                                        map: map
+                                    });
+                                }
+                            }
+                        </script>
+                        
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyM4GQOCDrKyOUqS-Kc87Os2om92jSQS4&callback=initMap"
+                        async defer>
                         </script>
 
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyM4GQOCDrKyOUqS-Kc87Os2om92jSQS4&callback=initMap"
-                        async defer></script>
                     </body>
                 </td>
             </tr>
-            
+
                      
             <tr><th>Address for Delivery</th><td>
         <?php
@@ -154,3 +180,23 @@ if ($markers_status != false) {
 <?php
 //require_once 'template/footer.php';
 ?>
+
+
+
+<!-- <script>
+// Initialize and add the map
+function initMap() {
+// The location of singapore
+var singapore = {lat: 1.3521, lng: 103.8198};
+var pasir_ris = {lat: 1.3692, lng: 103.9500};
+// The map, centered at singapore
+var map = new google.maps.Map(
+document.getElementById('map'), {zoom: 12, center: singapore});
+
+function addMarkers(coords){
+var marker = new google.maps.Marker({position: coords, map: map});
+}
+addMarkers(singapore);
+addMarkers(pasir_ris);
+}
+</script> -->
