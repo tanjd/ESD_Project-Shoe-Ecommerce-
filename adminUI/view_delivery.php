@@ -42,12 +42,14 @@ if ($delivery != false) {
             <th>Invoice ID</th>
             <th>Address</th>
             <th>Status</th>
+            <th>Customer ID</th>
         </tr>";
     foreach ($delivery as $delivery) {
         echo "<tr>
         <td>{$delivery->invoice_id}</td>
         <td>{$delivery->address}</td>
         <td>{$delivery->status}</td>
+        <td>{$delivery->customer_id}</td>
         <td><form id=searchOrder action = 'dispatch_delivery.php' method = 'post'>
             <button name='invoice_id' type='submit' value= {$delivery->invoice_id}>Show More</button></td>
         </form>
