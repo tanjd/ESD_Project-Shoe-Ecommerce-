@@ -4,6 +4,10 @@ from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
+import json
+import pika
+import requests
+from sqlalchemy import desc
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -50,9 +54,33 @@ class Order(db.Model):
         return {"id": self.id, "invoice_id": self.invoice_id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
                 "timestamp": self.timestamp}
 
-    def json(self):
-        return {"id": self.id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
-                "timestamp": self.timestamp}
+ 
+def order_notification(message_content, customer_id):
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    exchangename = "notification_direct"
+    queue = "message_notification"
+    routing_key="notification.message"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
+
+    publish_message = {
+        'message_content': message_content,
+        'customer_id': customer_id
+    }
+    publish_message = json.dumps(publish_message, default=str)
+
+    channel.queue_declare(queue=queue, durable=True)
+    channel.queue_bind(exchange=exchangename,
+                       queue=queue, routing_key=routing_key)
+    channel.basic_publish(exchange=exchangename, routing_key=routing_key, body=publish_message,
+                          properties=pika.BasicProperties(delivery_mode=2,))
+    print("Order details sent to notification")
+    connection.close()
+
 
 @app.route('/create_order', methods=['POST'])
 def create_order():
@@ -91,6 +119,8 @@ def create_order():
                                     price = product_price))
             db.session.add(new_order)
             db.session.commit()
+            message_content = "Invoice" + invoice_id + " have been confirmed."
+            order_notification(message_content, customer_id)
     
         except:
             return jsonify({"status": "fail",
