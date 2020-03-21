@@ -92,7 +92,7 @@ def get_products_by_id():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
-@app.route("/get_category", methods=['GET'])
+@app.route("/get_category/", methods=['GET'])
 def get_category():
     category_id = request.args.get('category_id')
     category = Category.query.filter_by(id=category_id).first()
