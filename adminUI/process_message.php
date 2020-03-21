@@ -8,10 +8,11 @@ if (isset($_POST['submit1'])) {
     ];
 
     $data = CallAPI('POST', $message_url, 'broadcast_message', $POST_data);
+    var_dump($data);
     $status = checkSuccessOrFailure($data);
     if ($status != false) {
-        $customer_id = $data->{'customer_id'};
-        $_SESSION['customer_id'] = $customer_id;
+        // $customer_id = $data->{'customer_id'};
+        // $_SESSION['customer_id'] = $customer_id;
         // header('Location: index.php');
         // exit();
     } else {
