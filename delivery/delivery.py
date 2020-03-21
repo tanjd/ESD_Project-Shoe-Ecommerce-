@@ -4,6 +4,10 @@ from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
+import json
+import pika
+import requests
+from sqlalchemy import desc
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -18,14 +22,16 @@ class Delivery(db.Model):
     invoice_id = db.Column(db.Integer,primary_key=True)
     address = db.Column(db.String(1000), nullable=False)
     status = db.Column(db.String(120), nullable=True)
+    customer_id = db.Column(db.Integer,nullable=False)
 
-    def init(self, invoice_id, address, status):
+    def init(self, invoice_id, address, status, customer_id):
         self.invoice_id = invoice_id
         self.address = address
         self.status = status
+        self.customer_id = customer_id
     
     def json(self):
-         return {"invoice_id": self.invoice_id, "address": self.address, "status": self.status}
+         return {"invoice_id": self.invoice_id, "address": self.address, "status": self.status, "customer_id":self.customer_id}
 
 class Markers(db.Model):
     __tablename__ = 'markers'
@@ -47,6 +53,34 @@ class Markers(db.Model):
     
     def json(self):
          return {"id": self.id, "name": self.name, "address": self.address, "lat": self.lat, "lng": self.lng, "type": self.type}
+
+
+def delivery_notification(message_content, customer_id):
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    exchangename = "notification_direct"
+    queue = "message_notification"
+    routing_key="notification.message"
+    channel.exchange_declare(exchange=exchangename, exchange_type='direct')
+
+    publish_message = {
+        'message_content': message_content,
+        'customer_id': customer_id
+    }
+    publish_message = json.dumps(publish_message, default=str)
+
+    channel.queue_declare(queue=queue, durable=True)
+    channel.queue_bind(exchange=exchangename,
+                       queue=queue, routing_key=routing_key)
+    channel.basic_publish(exchange=exchangename, routing_key=routing_key, body=publish_message,
+                          properties=pika.BasicProperties(delivery_mode=2,))
+    print("Delivery details sent to notification")
+    connection.close()
+
 
 @app.route('/get_all_markers')
 def get_all_markers():
@@ -79,6 +113,8 @@ def update_status():
     if update_this:
         update_this.status = "Dispatched"
         db.session.commit()
+        message_content = "Invoice" + invoice_id + " have been dispatched." 
+        delivery_notification(message_content, update_this.customer_id)
         return jsonify({"status": "success"})
     else:
             return jsonify({"status": "fail",
@@ -92,7 +128,8 @@ def create_delivery():
     invoice_id = delivery_data['invoice_id']
     address = delivery_data['address']
     status = delivery_data['status']
-    new_delivery = Delivery( invoice_id = invoice_id,address = address, status = status) 
+    customer_id = delivery_data['customer_id']
+    new_delivery = Delivery( invoice_id = invoice_id,address = address, status = status, customer_id = customer_id) 
     try:
         db.session.add(new_delivery)
         db.session.commit()
