@@ -3,13 +3,7 @@ import os
 import json
 import pika
 import sys
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 from datetime import datetime
-from sqlalchemy.sql import func
-
-customerURL = "http://localhost:5000/"
 
 
 bot_token = '837612960:AAGrKl0XmNQAoN3ZCb-VIOpJz0w6HWypPrw'
@@ -38,7 +32,7 @@ def receive_telegram_message():
 
 
 def receive_telegram_message_callback(channel, method, properties, body):
-    print("Received a telegram message")
+    print("Received a telegram message to notify")
     result = process_telegram_message(json.loads(body))
     # # print processing result; not really needed
     # # convert the JSON object to a string and print out on screen
@@ -53,7 +47,8 @@ def process_telegram_message(data):
     telegram_id = data['telegram_id']
     telegram_message = 'hi ' + name + ', ' + message_content
     send_text_url = telegram_bot_url + \
-        '/sendMessage?chat_id=' + telegram_id + '&parse_mode=Markdown&text=' + telegram_message
+        '/sendMessage?chat_id=' + telegram_id + \
+        '&parse_mode=Markdown&text=' + telegram_message
     response = requests.get(send_text_url)
     return response.json()
 
@@ -61,5 +56,5 @@ def process_telegram_message(data):
 # execute this program only if it is run as a script (not by 'import')
 if __name__ == "__main__":
     print("This is " + os.path.basename(__file__) +
-          ": receiving a message to notify...")
+          ": receiving a telegram message to notify...")
     receive_telegram_message()

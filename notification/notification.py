@@ -78,8 +78,6 @@ def process_notification_message(data):
         customer = customer_data['customer']
         email_setting = customer['email_setting']
         telegram_setting = customer['telegram_setting']
-        telegram_id = customer['telegram_id']
-        email = customer['email']
 
         publish_message = {
             'message_content': message_content,
@@ -88,34 +86,50 @@ def process_notification_message(data):
             'email': customer['email'],
         }
         publish_message = json.dumps(publish_message, default=str)
-
+        return_msg = ({"status": "success",
+                       "message": "Customer does not want to be notified through email and telegram"})
         if (email_setting == True and telegram_setting == True):
             # publish to both telegram and email
-            channel.queue_declare(queue='notify_telegram', durable=True)
-            channel.queue_bind(exchange=exchange_name,
-                               queue='', routing_key='notify.*')
-            channel.basic_publish(exchange=exchange_name, routing_key='notify.*', body=publish_message,
-                                  properties=pika.BasicProperties(delivery_mode=2,))
-            return 'sent to email and telegram'
-
+            try:
+                channel.queue_declare(queue='notify_email', durable=True)
+                channel.queue_bind(exchange=exchange_name,
+                                   queue='', routing_key='notify.*')
+                channel.basic_publish(exchange=exchange_name, routing_key='notify.*', body=publish_message,
+                                      properties=pika.BasicProperties(delivery_mode=2,))
+            except:
+                return_msg = ({"status": "failure",
+                               "message": "An error occurred in notifying customer through email and telegram"})
+            return_msg = ({"status": "success",
+                           "message": "Message has been been notified through email and telegram"})
+        elif (email_setting == True):
+            try:
+                channel.queue_declare(queue='notify_email', durable=True)
+                channel.queue_bind(exchange=exchange_name,
+                                   queue='', routing_key='*.email')
+                channel.basic_publish(exchange=exchange_name, routing_key='*.email', body=publish_message,
+                                      properties=pika.BasicProperties(delivery_mode=2,))
+            except:
+                return_msg = ({"status": "failure",
+                               "message": "An error occurred in notifying customer through email"})
+            return_msg = ({"status": "success",
+                           "message": "Message has been been notified through email"})
+        elif (telegram_setting == True):
+            try:
+                channel.queue_declare(queue='notify_telegram', durable=True)
+                channel.queue_bind(exchange=exchange_name,
+                                   queue='', routing_key='*.telegram')
+                channel.basic_publish(exchange=exchange_name, routing_key='*.telegram', body=publish_message,
+                                      properties=pika.BasicProperties(delivery_mode=2,))
+            except:
+                return_msg = ({"status": "failure",
+                               "message": "An error occurred in notifying customer through telegram"})
+            return_msg = ({"status": "success",
+                           "message": "Message has been been notified through telegram"})
+        # connection.close()
+        return return_msg
     else:
         return ({"status": "fail",
                  "message": "An error occurred in retrieving customer."})
-
-    # elif (email_setting == True):
-    #     channel.queue_declare(queue='', durable=True)
-    #     channel.queue_bind(exchange=exchange_name,
-    #                        queue='notify_email', routing_key='*.email')
-    #     channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
-    #                           properties=pika.BasicProperties(delivery_mode=2,))
-    # elif (telegram_setting == True):
-    #     channel.queue_declare(queue='', durable=True)
-    #     channel.queue_bind(exchange=exchange_name,
-    #                        queue='notify_telegram', routing_key='*.telegram')
-    #     channel.basic_publish(exchange=exchange_name, routing_key='', body=publish_message,
-    #                           properties=pika.BasicProperties(delivery_mode=2,))
-    # connection.close()
-    # return True
 
 
 # execute this program only if it is run as a script (not by 'import')
