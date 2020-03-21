@@ -30,7 +30,7 @@ if (! $is_loggedin){
 else{
 
     if (isset($_SESSION['cart']) && $_SESSION['cart'] != []){
-        header('Location: payment.php'); 
+        header('Location: process_payment.php'); 
         exit(); 
     }
 
