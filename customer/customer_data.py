@@ -32,7 +32,7 @@ customers = [
         'postal_code': '123456'
     },
     {
-        'email': '',
+        'email': 'shannoncyj@gmail.com',
         'name': 'shannon',
         'telegram_id': '',
         'password': 'hello',
