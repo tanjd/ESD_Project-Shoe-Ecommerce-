@@ -48,9 +48,9 @@ customers = [
         'postal_code': '123456'
     },
     {
-        'email': 'veronicalee.swift23@gmail.com', 
-        'name': 'Veronica', 
-        'telegram_id': '360279534', 
+        'email': 'veronicalee.swift23@gmail.com',
+        'name': 'Veronica',
+        'telegram_id': '360279534',
         'password': 'hello',
         'address': '123 smu road',
         'postal_code': '123456'
