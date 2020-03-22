@@ -59,46 +59,36 @@ else {
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <?php
-                    foreach ($categories as $category) {
-                        echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
-                    }
+                    // foreach ($categories as $category) {
+                    //     echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
+                    // }
                     ?>
                 </div>
-            </li>
+            </li> -->
         </ul>
         <ul class="navbar-nav right">
             
                     
             <?php if ($is_loggedin) {
-                // echo "<li class='nav-item'>
-                
-                // <a class='nav-link' href='send_message.php'>
-                //     <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                //     echo "$quantity"; 
-                //     echo "</span>
-                // </a>
-                // </li>";
-                // echo "<li class='nav-item'>
-                
-                //     <a class='nav-link' href='cart.php'>
-                //         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                // echo "$quantity"; 
-                // echo "</span>
-                //     </a>
-                // </li>
-                // <li class='nav-item'>
-                //     <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
-                // </li>
-                // <li class='nav-item active'>
-                //      <a class='nav-link'>$customer->name</a>
-                // </li>
-                // <li class='nav-item'>
-                //     <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                //  </li>";
+               echo "<li class='nav-item'>";
+               
+                   echo "<a class='nav-link' href='read_msg.php'>
+                       <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
+                   </a>
+               </li>
+                <li class='nav-item'>
+                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                </li>
+                <li class='nav-item active'>
+                     <a class='nav-link'>$customer->name</a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                 </li>";
 
                 echo "
                 </li>
@@ -112,18 +102,18 @@ else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
-                //     echo "
-                //     <li class='nav-item'>
-                //     <a class='nav-link' href='cart.php'>
-                //         <i class='fa fa-shopping-cart'></i><span class='badge'>";
-                //     echo " $quantity";
-                //     echo "</span>
-                //     </a>
-                // </li>
+                    echo "
+                    <li class='nav-item'>
+                    <a class='nav-link' href='cart.php'>
+                        <i class='fa fa-shopping-cart'></i><span class='badge'>";
+                    echo " $quantity";
+                    echo "</span>
+                    </a>
+                </li>
 
-                // <li class='nav-item'>
-                // <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                // </li>";
+                <li class='nav-item'>
+                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
+                </li>";
                 }
             }
             ?>
