@@ -10,6 +10,13 @@
 }
 
 #text_msg {
-    text-align: center;
+    color: blue;
   }
 
+  b {
+    color: blue;
+  }
+ 
+h6 {
+    color:blue;
+  }
