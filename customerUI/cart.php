@@ -37,24 +37,27 @@ $cart_total = 0;
             
             <?php
 
-            // var_dump($_SESSION['cart']); 
+            // var_dump($_SESSION['cart']);
+            
+            if ($is_loggedin){
+                if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
+                    echo '<div style="margin-left: 8px; font-size: 1.75em;">
+                    <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
+                    </div> ';
+                } else {
+    
+                    echo "<table class='table table-hover'>";
+                    echo "<form action='process_update_cart.php' method='post'>"; 
+                    echo "<tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th></th>
+                            </tr>";
+            }
+        
 
-
-            if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
-                echo '<div style="margin-left: 8px; font-size: 1.75em;">
-                <span class="error text-danger span-error">Your cart is empty. Start shopping now!</span>
-                </div> ';
-            } else {
-
-                echo "<table class='table table-hover'>";
-                echo "<form action='process_update_cart.php' method='post'>"; 
-                echo "<tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th></th>
-                        </tr>";
-
+            
 
 
                 // display items in cart
@@ -100,7 +103,15 @@ $cart_total = 0;
                 <tr>
                     <td colspan='4'><input type= 'button' class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
                 </tr>
-                </table> <?php } ?>
+                </table> 
+                <?php }
+                
+                else{
+                    echo '<div style="margin-left: 8px; font-size: 1.75em;">
+                        <span class="error text-danger span-error">Please log in to start shopping now!</span>
+                        </div> ';
+                }
+    ?>
 
         </p>
     </div>

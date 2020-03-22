@@ -16,39 +16,41 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 
 <!doctype html>
   <html lang="en">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
   <body>
-    <div class="w3-container">
 
-    <h2>Broadcast Message</h2>
+    <div class="container">
+      <h2>Broadcast Message</h2>
 
-    <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-black w3-left-align">Broadcast Message to All</button>
-    <div id="Demo1" class="w3-hide w3-container">
-        <p><main role="main" class="container">
-    
-    <div id="logreg-forms">
-        <form class="form-signin" action="process_message.php" method="post">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Broadcast Message to All</a></li>
+        <li><a data-toggle="tab" href="#menu1">Broadcast by Subscription</a></li>
+        
+      </ul>
+
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+          <h3>Broadcast Message to All</h3>
+          <p><form class="form-signin" action="process_message.php" method="post">
             <div class="form-group">
             <center><label for="exampleInputPassword1">Message</label></center>
               <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message">
             </div>
             <p>
             <button type="submit" name='submit1' class="btn btn-secondary btn-block"><i class="fas fa-paper-plane"></i> Broadcast Message</button>
-          </form>
-
-       
-        <br>
-
-    </div></p>
-    </div>
-
-    <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-black w3-left-align">Broadcast by Subscription</button>
-    <div id="Demo2" class="w3-hide w3-container">
-        <p><main role="main" class="container">
-    
-    <div id="logreg-forms2">
-        <form class="form-signin" action="process_message.php" method="post">
+          </form></p>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+          <h3>Broadcast by Subscription</h3>
+          <p><form class="form-signin" action="process_message.php" method="post">
             <div class="form-group">
             <center><label for="exampleInputPassword1">Message</label></center>
             <select id="categories1" name="categories1">
@@ -61,32 +63,11 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
             </div>
             <p>
             <button type="submit" name='submit2' class="btn btn-secondary btn-block"><i class="fas fa-paper-plane"></i> Broadcast Message</button>
-          </form>
-
-       
-        <br>
-
-    </div></p>
+          </form></p>
+        </div>
+      </div>  
     </div>
 
-    </div>
-    <script>
-      function myFunction(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-          x.className += " w3-show";
-          x.previousElementSibling.className = 
-          x.previousElementSibling.className.replace("w3-black", "w3-red");
-        } else { 
-          x.className = x.className.replace(" w3-show", "");
-          x.previousElementSibling.className = 
-          x.previousElementSibling.className.replace("w3-red", "w3-black");
-        }
-      }
-    </script>
-  <head></head>
-
-  <body>
   
   
     <p style="text-align:center">
