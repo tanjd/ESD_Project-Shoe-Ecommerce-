@@ -8,7 +8,7 @@ customers = [
         'postal_code': '123456'
     },
     {
-        'email': '',
+        'email': 'eijgnoygnet@gmail.com',
         'name': 'mike teng',
         'telegram_id': '167560833',
         'password': 'hello',
