@@ -41,7 +41,6 @@ if (isset($_SESSION['customer_id'])) {
     }
    
     $num_of_msg=count($message_data->messages);
-    
 }
 
 // ! isset $_SESSION['customer_id']
@@ -84,31 +83,17 @@ else {
         
         <ul class="navbar-nav right">
             
-                
-                <?php
-                    // echo '<div class="dropdown-menu" aria-labelledby="dropdown02">'; 
-                    // $sql_get1 = mysqli_query($con, "SELECT * FROM message WHERE status=0");
-                    // if (mysqli_num_rows($sql_get1)>0){
-                    //     while($result=mysqli_fetch_assoc($sql_get1)){
-                    //        echo '<a class="dropdown-item text-primary" href="read_msg.php?id='.$result['id'].'">'.$result['content_message'].'</a>';
-                    //         echo '<div class="dropdown-divider"></div>';
-                    //     }
-                    // }
-                    // else{
-                    //     echo '<a class="dropdown-item text-danger" href="#"><i class="fas fa-frown-open"></i> Sorry! No messages</a>';
-                    // }
-                    // echo '</div>'; 
-                    ?>
-                
             <?php
-            echo "<li class='nav-item'>
-                
-                    <a class='nav-link' href='read_msg.php'>
-                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>";
-                        if ($is_loggedin) {
-                            $num_of_msg;
+            echo "<li class='nav-item'>";
+                if (isset($_SESSION['customer_id'])) {
+                    echo "<a class='nav-link' href='read_msg.php'>
+                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>";
                         }
-                        echo "</span>
+                        else{
+                        echo "<a class='nav-link' href='read_msg.php'>
+                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>";
+                        }
+                        echo "
                     </a>
                 </li>"; 
             
