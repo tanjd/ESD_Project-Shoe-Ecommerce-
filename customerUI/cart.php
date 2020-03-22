@@ -4,24 +4,24 @@ require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
 
-if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
+// if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
-    $order_data = [
-        "cart" => $_SESSION['cart'],
-        "id" => $_SESSION['customer_id']
-    ];
+//     $order_data = [
+//         "cart" => $_SESSION['cart'],
+//         "id" => $_SESSION['customer_id']
+//     ];
 
-    $data = CallAPI('POST', $order_url, 'create_order', $order_data);
-    $status = checkSuccessOrFailure($data);
+//     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
+//     $status = checkSuccessOrFailure($data);
 
-    if ($status != false) {
-        //if data is sent successfully to order.py then the ui page changes
-        #header('Location: delivery.php');
-        session_destroy();
-    } else {
-        //error msg in the UI
-    }
-}
+//     if ($status != false) {
+//         //if data is sent successfully to order.py then the ui page changes
+//         #header('Location: delivery.php');
+//         session_destroy();
+//     } else {
+//         //error msg in the UI
+//     }
+// }
 
 $cart_total = 0;
 ?>
@@ -32,8 +32,13 @@ $cart_total = 0;
         <p class="lead">
             <form action='checkout.php' method='post'></form>
             <h2>My Shopping Cart </h2>
+
+            
             
             <?php
+
+            // var_dump($_SESSION['cart']); 
+
 
             if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
                 echo '<div style="margin-left: 8px; font-size: 1.75em;">
@@ -71,6 +76,7 @@ $cart_total = 0;
                     $cart_total += $unit_price * $quantity;
                     $cart_total = number_format($cart_total, 2, '.', ',');
                 }
+            var_dump($_SESSION['cart']);    
             ?>
                 <tr>
                     <td colspan='2'></td>
@@ -92,7 +98,7 @@ $cart_total = 0;
                 </tr>
 
                 <tr>
-                    <td colspan='4'><input class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
+                    <td colspan='4'><input type= 'button' class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
                 </tr>
                 </table> <?php } ?>
 
