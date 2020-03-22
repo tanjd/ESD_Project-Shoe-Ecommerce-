@@ -79,7 +79,7 @@ $cart_total = 0;
                     $cart_total += $unit_price * $quantity;
                     $cart_total = number_format($cart_total, 2, '.', ',');
                 }
-            var_dump($_SESSION['cart']);    
+            // var_dump($_SESSION['cart']);    
             ?>
                 <tr>
                     <td colspan='2'></td>

@@ -11,40 +11,11 @@ if ($categories_data_status != false) {
     $categories = false;
 }
 
-if (isset($_SESSION['customer_id'])) {
-
-    $customer_id = $_SESSION['customer_id'];
-
-    $POST_data = [
-        "customer_id" => $customer_id,
-    ];
-    $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
-    $data_status = checkSuccessOrFailure($data);
-    if ($data_status != false) {
-        $customer = $data->{'customer'};
-    } else {
-        $customer = false;
-    }
-
-    $is_loggedin = true;
-    $quantity = 0;
-
-    if (isset($_SESSION['cart'])) {
-
-        if ($_SESSION['cart'] != []) {
-            foreach ($_SESSION['cart'] as $one_item) {
-                $quantity += $one_item['quantity']; 
-            }
-        }
-    }
+$is_loggedin = False; 
+if (isset($_SESSION['admin'])) {
+        $is_loggedin = True; 
 }
 
-// ! isset $_SESSION['customer_id']
-else {
-
-    $quantity = 0;
-    $is_loggedin = false;
-}
 
 
 ?>
@@ -74,31 +45,34 @@ else {
             
                     
             <?php if ($is_loggedin) {
-               echo "<li class='nav-item'>";
                
-                   echo "<a class='nav-link' href='send_message.php'>
-                       <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
-                   </a>
-               </li>";
-
-                echo "
-                </li>
-                <li class='nav-item active'>
-                     <a class='nav-link'>Administrator</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                 </li>";
+                   echo "<li class='nav-item'>
+                            <a class='nav-link' href='read_msg.php'>
+                                <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
+                            </a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                        </li>
+                        <li class='nav-item active'>
+                            <a class='nav-link'>Administrator</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                        </li>";
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
                     echo "
-                    
 
-                <li class='nav-item'>
-                <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>";
+                        <li class='nav-item active'>
+                        <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                        </li>
+                        
+                        <li class='nav-item active'>
+                            <a class='nav-link' href='login.php'>Login</a>
+                        </li>";
                 }
             }
             ?>
