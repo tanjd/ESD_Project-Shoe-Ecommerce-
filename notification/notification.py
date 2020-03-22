@@ -92,6 +92,7 @@ def process_notification_message(data):
             # publish to both telegram and email
             try:
                 channel.queue_declare(queue='notify_email', durable=True)
+                channel.queue_declare(queue='notify_telegram', durable=True)
                 channel.queue_bind(exchange=exchange_name,
                                    queue='', routing_key='notify.*')
                 channel.basic_publish(exchange=exchange_name, routing_key='notify.*', body=publish_message,
