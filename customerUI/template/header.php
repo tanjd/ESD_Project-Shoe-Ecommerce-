@@ -95,24 +95,33 @@ else {
         <ul class="navbar-nav right">
             
             <?php
-            echo "<li class='nav-item'>";
                 if (isset($_SESSION['customer_id'])) {
-                    echo "<a class='nav-link' href='read_msg.php'>
-                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>";
+                    echo "<li class='nav-item'>
+                            <a class='nav-link' href='read_msg.php'>
+                                <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
+                            </a>
+                        </li>";
+
+                    echo "<li class='nav-item'>
+                            <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
+                                <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
+                            </a>
+                        </li>"; 
                         }
+
                         else{
-                        echo "<a class='nav-link' href='read_msg.php'>
-                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>";
-                        }
-                        echo "
-                    </a>
-                </li>"; 
+                        echo "<li class='nav-item'>
+                                <a class='nav-link' href='read_msg.php'>
+                                    <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
+                                </a>
+                            </li>";
+                        echo "<li class='nav-item'>
+                            <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
+                                <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'></span>
+                            </a>
+                            </li>"; 
+                        } 
             
-            echo "<li class='nav-item'>
-                    <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
-                        <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
-                    </a>
-                </li>"; 
 
             
             ?>
@@ -134,9 +143,12 @@ else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
                 if ($actual_link != 'login.php') {
-                    echo "<li class='nav-item'>
-                    <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'>  Login</span></a>
-                </li>";
+                    echo "<li class='nav-item active'>
+                            <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                        </li>
+                        <li class='nav-item active'>
+                            <a class='nav-link' href = 'login.php'>Login</a>
+                    </li>";
             }
         }
             ?>
