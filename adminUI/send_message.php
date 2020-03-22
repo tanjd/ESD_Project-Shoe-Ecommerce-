@@ -1,7 +1,4 @@
 <?php
-
-
-
 require_once 'template/head.php';
 require_once 'template/header.php';
 require_once 'include/autoload.php';
@@ -41,7 +38,7 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
           <h3>Broadcast Message to All</h3>
           <p><form class="form-signin" action="process_message.php" method="post">
             <div class="form-group">
-            <center><label for="exampleInputPassword1">Message</label></center>
+            <center><label for="exampleInputPassword1"></label></center>
               <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message">
             </div>
             <p>
@@ -52,13 +49,15 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
           <h3>Broadcast by Subscription</h3>
           <p><form class="form-signin" action="process_message.php" method="post">
             <div class="form-group">
-            <center><label for="exampleInputPassword1">Message</label></center>
+            <center><label for="exampleInputPassword1"></label></center>
             <select id="categories1" name="categories1">
                 <?php
                     foreach ($categories as $category) {
                         echo "<option value='$category->id' name='$category->name' >{$category->name}</option>";
                     }
                     ?>
+                    
+              <p></p>
               <input type="text" class="form-control" name="message2" id="message" placeholder="Enter Message">
             </div>
             <p>

@@ -8,7 +8,6 @@ if (isset($_POST['submit1'])) {
     ];
 
     $data = CallAPI('POST', $message_url, 'broadcast_message', $POST_data);
-    var_dump($data);
     $status = checkSuccessOrFailure($data);
     if ($status != false) {
         // $customer_id = $data->{'customer_id'};
@@ -33,10 +32,9 @@ if (isset($_POST['submit2'])) {
         "message" => $_POST['message2'],
         "category_id"=> $_POST['categories1']
     ];
-    var_dump($POST_data);
 
     $data = CallAPI('POST', $message_url, 'send_message_by_category', $POST_data);
-    var_dump($data);
+
     $status = checkSuccessOrFailure($data);
     if ($status != false) {
         
