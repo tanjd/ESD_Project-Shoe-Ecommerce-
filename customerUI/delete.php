@@ -1,19 +1,15 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "notify");
 
-if(isset($_GET['id'])){
+var_dump($_GET['id']);
+    
+require_once 'include/autoload.php';
 
-    $delete_id = $_GET['id'];
 
+$POST_data = [
+    "message" => $_POST['message']
+];
 
-    $sql_delete =mysqli_query($con, "DELETE FROM message where id='$delete_id'");
-    if($sql_delete){
-        header('location: read_msg.php');
-        
-    }
-    else{
-        echo mysqli_error($con);
-    }
-}
-
+$data = CallAPI('GET', $message_url, 'broadcast_message', $POST_data);
+var_dump($data);
+    
 ?>
