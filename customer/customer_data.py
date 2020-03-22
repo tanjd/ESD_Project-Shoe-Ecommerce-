@@ -34,15 +34,15 @@ customers = [
     {
         'email': 'shannoncyj@gmail.com',
         'name': 'shannon',
-        'telegram_id': '',
+        'telegram_id': '646290696',
         'password': 'hello',
         'address': '123 smu road',
         'postal_code': '123456'
     },
     {
-        'email': '',
+        'email': 'kqyeong.2018@sis.smu.edu.sg',
         'name': 'ashley',
-        'telegram_id': '',
+        'telegram_id': '217352926',
         'password': 'hello',
         'address': '123 smu road',
         'postal_code': '123456'
