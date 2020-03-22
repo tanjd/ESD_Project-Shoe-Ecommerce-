@@ -15,20 +15,23 @@ require_once 'template/header.php';
     </div>
 
 <?php
+#var_dump($_SESSION['cart']);
+
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
     $order_data = [
         "cart" => $_SESSION['cart'],
         "id" => $_SESSION['customer_id']
+        //"address" => $_SESSION['delivery']
     ];
-    var_dump($_SESSSION['cart']);
     
-    $data = CallAPI('POST', $order_url, 'create_order', $order_data);
+    $data = CallAPI('POST', $order_url, 'create_order/', $order_data);
     $status = checkSuccessOrFailure($data);
-
+    var_dump($data);
     if ($status != false) {
         //session_destroy();
-    } 
+        } 
+
 }
 ?>
 

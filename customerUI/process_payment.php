@@ -12,8 +12,7 @@
 require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
-
-var_dump($_SESSSION['cart']);
+var_dump($_SESSION['cart']);
 ?>
 
 <?php
@@ -118,15 +117,24 @@ foreach($markers as $marker_object){
 
                      
             <tr><th>Address for Delivery</th><td>
+        
+        <form action="process_payment.php" method="post">
         <?php
                 $markers = $markers_data->{'markers'};
                 echo "<select id='location' name='location' size='1'>";
                 foreach($markers as $marker_object){
                     $location_name = $marker_object->{'name'};
-                    echo '<option value="'.$location_name.'" selected>'.$location_name.'</option>';}
+                    echo '<option name="location" , value="'.$location_name.'" selected>'.$location_name.'</option>';}                
         ?>
+        <input type="submit">
             </td></tr>
-
+        
+        <?php 
+            if (isset( $_POST["cart"])){
+                $_SESSION['delivery'] = $_POST["location"];} 
+                ?>
+        
+        <?php var_dump( $_SESSION['delivery']); ?>
 
         <tr><td><br><br></td></tr>
         <tr>

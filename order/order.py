@@ -24,10 +24,10 @@ class Order_invoice(db.Model):
 
     Orders = db.relationship('Order',backref='orders',lazy=True)
 
-    def init(self, id, total_amount, customer_id):
-        self.id = id
-        self.customer_id = customer_id
-        self.total_amount = total_amount
+    # def init(self, id, total_amount, customer_id):
+    #     self.id = id
+    #     self.customer_id = customer_id
+    #     self.total_amount = total_amount
     
     def json(self):
          return {"id": self.id, "customer_id": self.customer_id, "total_amount": self.total_amount}
@@ -96,8 +96,7 @@ def create_order():
         total += product_price
         #print(product_price)
 
-    new_order_invoice = Order_invoice( customer_id = customer_id, total_amount = total, 
-    id = 'default') #find sth to generate id)
+    new_order_invoice = Order_invoice( customer_id = customer_id, total_amount = total) #find sth to generate id)
 
     try:
         db.session.add(new_order_invoice)
@@ -116,7 +115,7 @@ def create_order():
             product_price = c_list['unit_price']
             product_id = c_list['id']
             quantity = c_list['quantity']
-            new_order = (Order( id= "default", invoice_id = invoice_id,
+            new_order = (Order(     invoice_id = invoice_id,
                                     customer_id = customer_id,
                                     product_id = product_id,
                                     quantity = quantity,
@@ -130,7 +129,7 @@ def create_order():
     
     POST_data = {
         "invoice_id" : invoice_id,
-        "address" : order_data['address'],
+        "address" : order_d['cart'],
         "status" : "NULL",
         "customer_id" : customer_id
     }
