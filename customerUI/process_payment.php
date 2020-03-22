@@ -12,26 +12,40 @@
 require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
-var_dump($_SESSION['cart']);
+var_dump($_SESSION['cart']);        
+//var_dump( $_SESSION['delivery']);
 ?>
 
 <?php
-$markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
-$markers_status = checkSuccessOrFailure($markers_data);
-if ($markers_status != false) {
-    $markers = true;} else {
-    $markers = false;}
+if(isset($_SESSION['cart'])){
+    $markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
+    $markers_status = checkSuccessOrFailure($markers_data);
+    if ($markers_status != false) {
+        $markers = true;} else {
+        $markers = false;}
 
-$markers = $markers_data->{'markers'};
+    $markers = $markers_data->{'markers'};
 
-$marker_coords = array();
-foreach($markers as $marker_object){
-    $location_lat = $marker_object->{'lat'} ;
-    $location_lng = $marker_object->{'lng'} ;
+    $marker_coords = array();
+    foreach($markers as $marker_object){
+        $location_lat = $marker_object->{'lat'} ;
+        $location_lng = $marker_object->{'lng'} ;
 
-    $indv_coords = array($location_lat, $location_lng);
-    array_push($marker_coords, $indv_coords);
-    }
+        $indv_coords = array($location_lat, $location_lng);
+        array_push($marker_coords, $indv_coords);
+        }
+
+    //var_dump($_POST["location"]);
+    
+    if(isset($_POST['location'])){
+        $_SESSION['delivery'] = $_POST["location"];
+        var_dump( $_SESSION['delivery']);} 
+
+}else{
+    header('Location: cart.php');
+    exit();
+}
+
 //var_dump($marker_coords);
 ?> 
 
@@ -126,16 +140,9 @@ foreach($markers as $marker_object){
                     $location_name = $marker_object->{'name'};
                     echo '<option name="location" , value="'.$location_name.'" selected>'.$location_name.'</option>';}                
         ?>
-        <input type="submit">
+        <input type="submit" value = "submit">
             </td></tr>
         
-        <?php 
-            if (isset( $_POST["cart"])){
-                $_SESSION['delivery'] = $_POST["location"];} 
-                ?>
-        
-        <?php var_dump( $_SESSION['delivery']); ?>
-
         <tr><td><br><br></td></tr>
         <tr>
             <td colspan='2'><h2>Payment</h2></td>
