@@ -7,3 +7,4 @@ require_once 'include/autoload.php';
 <link rel="stylesheet" href="css/login_style.css">
 <link rel="stylesheet" href="css/use.fontawesome.comv5.3.1cssall" \ integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+<a href="send_message.php" class="btn btn-danger btn-lg active btn-block" role="button" aria-pressed="true" >Broadcast Message</a>
