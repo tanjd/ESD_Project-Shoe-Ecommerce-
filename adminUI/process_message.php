@@ -13,8 +13,8 @@ if (isset($_POST['submit1'])) {
     if ($status != false) {
         // $customer_id = $data->{'customer_id'};
         // $_SESSION['customer_id'] = $customer_id;
-        // header('Location: index.php');
-        // exit();
+        header('Location: index.php');
+        exit();
     } else {
         if (isset($data->{'message'})) {
             $_SESSION['error'] = $data->{'message'};
@@ -22,8 +22,8 @@ if (isset($_POST['submit1'])) {
             //However, autoload should handle this...
             $_SESSION['error'] = 'Server is temporarily unavailable';
         }
-        // header('Location: send_message.php');
-        // exit();
+        header('Location: send_message.php');
+        exit();
     }
 }
 
@@ -39,10 +39,9 @@ if (isset($_POST['submit2'])) {
     var_dump($data);
     $status = checkSuccessOrFailure($data);
     if ($status != false) {
-        $customer_id = $data->{'customer_id'};
-        $_SESSION['customer_id'] = $customer_id;
-        // header('Location: index.php');
-        // exit();
+        
+        header('Location: index.php');
+        exit();
     } else {
         if (isset($data->{'message'})) {
             $_SESSION['error'] = $data->{'message'};
@@ -50,8 +49,8 @@ if (isset($_POST['submit2'])) {
             //However, autoload should handle this...
             $_SESSION['error'] = 'Server is temporarily unavailable';
         }
-        // header('Location: send_message.php');
-        // exit();
+        header('Location: send_message.php');
+        exit();
     }
 }
 ?>

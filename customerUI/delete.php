@@ -1,15 +1,21 @@
 <?php
-
-var_dump($_GET['id']);
-    
 require_once 'include/autoload.php';
 
-
-$POST_data = [
-    "message" => $_POST['message']
-];
-
-$data = CallAPI('GET', $message_url, 'broadcast_message', $POST_data);
-var_dump($data);
+if (isset($_GET["message_id"])) {
+    $id = $_GET['message_id']; 
+    $GET_data = [
+        "message_id" => $_GET["message_id"]
+    ];
     
+    $message_data = CallAPI('GET', $message_url, 'delete_message/', $GET_data);
+    var_dump($message_data);
+    $message_status = checkSuccessOrFailure($message_data);
+    var_dump($message_status);
+    if ($message_status != false) {
+        
+        header('Location: read_msg.php');
+        exit();
+    } 
+}
+
 ?>

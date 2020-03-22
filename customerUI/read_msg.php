@@ -65,11 +65,21 @@ $sr_no=1;
                         if($msg->status ==0){
                         echo "<tr>
                         
-                        <td><b>{$msg->content_message}</b></td>
+                        <td><h6><b><font color='blue'>{$msg->content_message}</font></b></h6></td>
                         <td>{$msg->created_at}</td>
-                        <td ><a href='delete.php'> <i class='fas fa-trash'></i></a></td>
-                        <td><a href='seen.php'> <i class='fas fa-envelope-open-text'></i></a></td>
+                        <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-danger' >Delete</button></a></td>
+                        <td ><a href='seen.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-primary' >Read</button></a></td>
                         </tr>";
+                        $count++;
+                        }
+                        else{
+                            echo "<tr>
+                        
+                            <td><h6><font color='black'>{$msg->content_message}</font></h6></td>
+                            <td>{$msg->created_at}</td>
+                            <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-danger' >Delete</button></a></td>
+                            <td ><font color='grey'>Read</font></td>
+                            </tr>";
                         $count++;
                         }
                     }
@@ -81,37 +91,9 @@ $sr_no=1;
                     echo "Please login to view messages in inbox";
                 }
                 
-                if($is_loggedin){ ?>
-
-                <div class = "container" id="table1">
-                <div class = "row">
-                <table class="table table-hover">
-                <thead class="thead-dark bg-danger">
-                <h6 class="border-bottom border-gray pb-2 mb-0">Messages Seen</h6>
-                    <tr>
-                    <th scope="col">Message</th>
-                    <th scope="col">Date</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                    foreach ($message as $msg) {
-                        echo "<tr>
-                        
-                        <td><b>{$msg->content_message}</b></td>
-                        <td>{$msg->created_at}</td>
-                        <td ><a href='delete.php'> <i class='fas fa-trash'></i></a></td>
-                        <td><a href='seen.php'> <i class='fas fa-envelope-open-text'></i></a></td>
-                        </tr>";
-                        
-                    }
- 
-                }
+                
                 ?>
                
-
                 
                
             </tbody>
