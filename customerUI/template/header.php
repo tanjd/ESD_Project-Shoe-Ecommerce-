@@ -22,6 +22,7 @@ if (isset($_SESSION['customer_id'])) {
     $data = CallAPI('GET', $customer_url, 'get_customer/', $POST_data);
     $message_data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
     $data_status = checkSuccessOrFailure($data);
+    $msg_status = checkSuccessOrFailure($message_data);
     if ($data_status != false) {
         $customer = $data->{'customer'};
     } else {
@@ -40,7 +41,16 @@ if (isset($_SESSION['customer_id'])) {
         }
     }
    
-    $num_of_msg=count($message_data->messages);
+    if ($msg_status != false){
+        $message = $message_data->{'messages'};
+        $num_of_msg=count($message);
+    }
+    else{
+        $message =false; 
+        $num_of_msg = 0; 
+    }
+    
+    
     
 }
 
