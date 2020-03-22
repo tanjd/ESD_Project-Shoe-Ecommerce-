@@ -116,7 +116,7 @@ def create_order():
             product_price = c_list['unit_price']
             product_id = c_list['id']
             quantity = c_list['quantity']
-            new_order = (Order( id= 'default', invoice_id = invoice_id,
+            new_order = (Order( id= "default", invoice_id = invoice_id,
                                     customer_id = customer_id,
                                     product_id = product_id,
                                     quantity = quantity,

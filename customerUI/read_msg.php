@@ -24,13 +24,17 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 }
 
 $cart_total = 0;
+if($is_loggedin){
+    $POST_data = [
+        "customer_id" => $_SESSION['customer_id']
+    ];
+    $data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
+    $message = $data->{'messages'};
+    
+}
 
-$POST_data = [
-    "customer_id" => $_SESSION['customer_id']
-];
-$data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
-$message = $data->{'messages'};
 $sr_no=1;
+
 ?>
 
 
@@ -38,35 +42,73 @@ $sr_no=1;
     <div class="starter-template">
         <p class="lead">
             <i class="fas fa-inbox"></i>
+            <?php if($is_loggedin){ ?>
             <h2>My Inbox </h2>
 
 
             <div class = "container" id="table1">
             <div class = "row">
             <table class="table table-hover">
-            <thead class="thead-dark">
+            <thead class="thead-dark bg-danger">
             <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
                 <tr>
-                <th scope="col">S. no</th>
                 <th scope="col">Message</th>
                 <th scope="col">Date</th>
-                <th scope="col">Delete</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-            
-                <?php 
-                foreach ($message as $msg) {
-                    echo "<tr>
-                    <td>$sr_no</td>
-                    <td>{$msg->content_message}</td>
-                    <td>{$msg->created_at}</td>
-                    <td></td>
-                    </tr>";
-                    $sr_no++;
+            <?php   
+                    $count=0;
+                    foreach ($message as $msg) {
+                        if($msg->status ==0){
+                        echo "<tr>
+                        
+                        <td><b>{$msg->content_message}</b></td>
+                        <td>{$msg->created_at}</td>
+                        <td ><a href='delete.php'> <i class='fas fa-trash'></i></a></td>
+                        <td><a href='seen.php'> <i class='fas fa-envelope-open-text'></i></a></td>
+                        </tr>";
+                        $count++;
+                        }
+                    }
+                    if ($count==0){
+                        echo "<h4><b>No new messages</b></h4>";
+                    }
                 }
+                else{
+                    echo "Please login to view messages in inbox";
+                }
+                
+                if($is_loggedin){ ?>
 
+                <div class = "container" id="table1">
+                <div class = "row">
+                <table class="table table-hover">
+                <thead class="thead-dark bg-danger">
+                <h6 class="border-bottom border-gray pb-2 mb-0">Messages Seen</h6>
+                    <tr>
+                    <th scope="col">Message</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach ($message as $msg) {
+                        echo "<tr>
+                        
+                        <td><b>{$msg->content_message}</b></td>
+                        <td>{$msg->created_at}</td>
+                        <td ><a href='delete.php'> <i class='fas fa-trash'></i></a></td>
+                        <td><a href='seen.php'> <i class='fas fa-envelope-open-text'></i></a></td>
+                        </tr>";
+                        
+                    }
+ 
+                }
                 ?>
                
 
