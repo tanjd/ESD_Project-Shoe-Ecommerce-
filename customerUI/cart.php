@@ -4,6 +4,8 @@ require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
 
+
+
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
     $order_data = [
@@ -32,8 +34,13 @@ $cart_total = 0;
         <p class="lead">
             <form action='checkout.php' method='post'></form>
             <h2>My Shopping Cart </h2>
+
+            
             
             <?php
+
+            // var_dump($_SESSION['cart']); 
+
 
             if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
                 echo '<div style="margin-left: 8px; font-size: 1.75em;">
@@ -92,7 +99,7 @@ $cart_total = 0;
                 </tr>
 
                 <tr>
-                    <td colspan='4'><input class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
+                    <td colspan='4'><input type= 'button' class='btn btn-dark' value='Checkout' onclick ="location.href='process_checkout.php'"></td>
                 </tr>
                 </table> <?php } ?>
 

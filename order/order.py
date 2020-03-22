@@ -42,14 +42,14 @@ class Order(db.Model):
     timestamp = db.Column(
         db.DateTime, server_default=func.now(), nullable=False)
 
-    def init(self, id, invoice_id, customer_id, product_id, quantity, price, timestamp):
-        self.id = id
-        self.invoice_id = invoice_id
-        self.customer_id = customer_id
-        self.product_id = product_id
-        self.quantity = quantity
-        self.price = price
-        self.timestamp = timestamp
+    # def init(self, id, invoice_id, customer_id, product_id, quantity, price, timestamp):
+    #     self.id = id
+    #     self.invoice_id = invoice_id
+    #     self.customer_id = customer_id
+    #     self.product_id = product_id
+    #     self.quantity = quantity
+    #     self.price = price
+    #     self.timestamp = timestamp
 
     def json(self):
         return {"id": self.id, "invoice_id": self.invoice_id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
@@ -97,7 +97,7 @@ def create_order():
         #print(product_price)
 
     new_order_invoice = Order_invoice( customer_id = customer_id, total_amount = total, 
-    id = 15314) #find sth to generate id)
+    id = 'default') #find sth to generate id)
 
     try:
         db.session.add(new_order_invoice)
@@ -116,7 +116,7 @@ def create_order():
             product_price = c_list['unit_price']
             product_id = c_list['id']
             quantity = c_list['quantity']
-            new_order = (Order( id= 1245, invoice_id = invoice_id,
+            new_order = (Order( id= "default", invoice_id = invoice_id,
                                     customer_id = customer_id,
                                     product_id = product_id,
                                     quantity = quantity,
