@@ -51,6 +51,7 @@
             // product is already in cart
             if (in_array($id, $contentArray)){
                 // break;
+                $contentArray['quantity'] += 1; 
                 $_SESSION['message'] = 'Product is already in cart!'; 
                 $_SESSION['header_display'] = TRUE;
                 header("Location: $from"); 
