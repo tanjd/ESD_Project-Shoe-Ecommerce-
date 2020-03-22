@@ -12,6 +12,8 @@
 require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
+
+var_dump($_SESSSION['cart']);
 ?>
 
 <?php

@@ -48,8 +48,14 @@ CREATE TABLE IF NOT EXISTS `markers` (
 ) ENGINE = MYISAM ;
 COMMIT;
 
-INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('1', 'Pasir Ris', 'Pasir Ris Central', '1.3692', '103.8198', 'collection');
-INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('2', 'Bedok', 'Bedok Central', '1.3236', '103.9500', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('1', 'Pasir Ris White Sands Collection Point', 'Pasir Ris White Sands', '1.3724', '103.9497', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('2', 'Serangoon Nex Collection Point', 'Serangoon', '1.3508', '103.8723', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('3', 'Jurong Point Collection Point', 'Jurong', '1.3404', '103.7090', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('4', 'City Hall Collection Point', 'City Hall', '1.2907', '103.8517', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('5', 'Chinatown Collection Point', 'Chinatown', '1.2815', '103.8448', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('6', 'Clementi Collection Point', 'Clementi', '1.3162', '103.7649', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('7', 'Somerset313 Collection Point', 'Somerset', '1.3009', '103.8384', 'collection');
+INSERT INTO `markers` (`id`, `name`, `address`, `lat`, `lng`, `type`) VALUES ('8', 'Punggol Waterway Collection Point', 'Punggol', '1.3984', '103.9072', 'collection');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
