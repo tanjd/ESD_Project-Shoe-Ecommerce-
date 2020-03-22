@@ -109,7 +109,7 @@ else {
                         </li>"; 
                         }
 
-                        else{
+                        /*else{
                         echo "<li class='nav-item'>
                                 <a class='nav-link' href='read_msg.php'>
                                     <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
@@ -120,7 +120,7 @@ else {
                                 <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'></span>
                             </a>
                             </li>"; 
-                        } 
+                        } */
             
 
             
