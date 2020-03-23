@@ -5,5 +5,5 @@
     $delivery_url = 'http://localhost:5002/';
     $order_url = 'http://localhost:5003/';
     $message_url = 'http://localhost:5004/';
-
+    
 ?>
