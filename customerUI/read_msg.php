@@ -29,7 +29,7 @@ if($is_loggedin){
         "customer_id" => $_SESSION['customer_id']
     ];
     $msg_data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
-    if($msg_data!=null){
+    if($msg_data->status!='fail'){
         $message = $msg_data->{'messages'};
     }
     
@@ -44,7 +44,7 @@ $sr_no=1;
 <main role="main" class="container" id="text_msg">
     <div class="starter-template">
         <p class="lead">
-            <i class="fas fa-inbox"></i>
+            <i class="fas fa-inbox" style="font-size: 100px;"></i>
             <?php if($is_loggedin){ ?>
             <h2>My Inbox </h2>
 
@@ -65,15 +65,15 @@ $sr_no=1;
             <?php   
                 
                     $count=0;
-                    if($msg_data!=null){
+                    if($msg_data->status!='fail'){
                     foreach ($message as $msg) {
                         if($msg->status ==0){
                         echo "<tr>
                         
                         <td><h6><b><font color='blue'>{$msg->content_message}</font></b></h6></td>
                         <td>{$msg->created_at}</td>
-                        <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-danger' >Delete</button></a></td>
-                        <td ><a href='seen.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-primary' >Read</button></a></td>
+                        <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <i class='fas fa-trash' style='color:red;'></i></a></td>
+                        <td ><a href='seen.php?message_id={$msg->id}&from=read_msg.php'> <i class='far fa-eye' style='font-size: 20px; color:#4ee44e;'></i></a></td>
                         </tr>";
                         $count++;
                         }
@@ -82,8 +82,8 @@ $sr_no=1;
                         
                             <td><h6><font color='black'>{$msg->content_message}</font></h6></td>
                             <td>{$msg->created_at}</td>
-                            <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <button type='button' class='btn btn-danger' >Delete</button></a></td>
-                            <td ><font color='grey'>Read</font></td>
+                            <td ><a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <i class='fas fa-trash' style='color:red;'></i></a></td>
+                            <td ><font color='grey'><i>Read</i></font></td>
                             </tr>";
                         $count++;
                         }

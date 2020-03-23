@@ -32,7 +32,6 @@ if (isset($_POST['submit2'])) {
         "message" => $_POST['message2'],
         "category_id"=> $_POST['categories1']
     ];
-    
     $data = CallAPI('POST', $message_url, 'send_message_by_category', $POST_data);
     var_dump($data);
     $status = checkSuccessOrFailure($data);
