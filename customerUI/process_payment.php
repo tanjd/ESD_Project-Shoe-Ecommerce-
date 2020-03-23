@@ -106,8 +106,7 @@ if (isset($_SESSION['cart'])) {
                     array_push(
                         $data_arr, 
                             $lati, 
-                            $longi, 
-                            $formatted_address
+                            $longi
                         );
                      
                     return $data_arr;
@@ -126,13 +125,7 @@ if (isset($_SESSION['cart'])) {
 
         $address = "3 Simei Street 6, Singapore 528833";
         $user_address_cords = geocode($address);
-        //var_dump(geocode($address));
 
-        $user_lat = $user_address_cords[0];
-        $user_lng = $user_address_cords[1];
-        $user_coords_array = array();
-        array_push($user_coords_array, $user_lat, $user_lng);
-        //var_dump($user_coords_array);
         ?>
 
         <tr>
@@ -186,7 +179,7 @@ if (isset($_SESSION['cart'])) {
                                 })(marker, i));
                             }
                             
-                            var home_coords = <?php echo json_encode($user_coords_array) ?>
+                            var home_coords = <?php echo json_encode($user_address_cords) ?>
                             
                             var home_marker;
                             
