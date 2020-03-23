@@ -45,7 +45,13 @@ if (isset($_SESSION['customer_id'])) {
    
     if ($msg_status != false){
         $message = $message_data->{'messages'};
-        $num_of_msg=count($message);
+        $num=0;
+        foreach ($message as $msg) {
+            if($msg->status ==0){
+               $num++;
+            }
+        }
+        $num_of_msg=$num;
     }
     else{
         $message =false; 
@@ -110,7 +116,8 @@ else{
         <ul class="navbar-nav right">
             
             <?php
-                if ($is_loggedin) {
+                if (isset($_SESSION['customer_id'])) {
+                   
                     echo "<li class='nav-item'>
                             <a class='nav-link' href='read_msg.php'>
                                 <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
@@ -181,3 +188,4 @@ else{
         ?>
     </div>
 </div>
+

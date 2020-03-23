@@ -7,7 +7,8 @@ from os import environ
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/product_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/product_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///product_db.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -80,6 +81,7 @@ def get_all_categories():
         return_message = ({"status": "fail"})
     return jsonify(return_message)
 
+
 @app.route("/get_products_by_category/")
 def get_products_by_id():
     category_id = request.args.get('category_id')
@@ -91,6 +93,7 @@ def get_products_by_id():
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
+
 
 @app.route("/get_category/", methods=['GET'])
 def get_category():

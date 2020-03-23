@@ -11,36 +11,41 @@ from sqlalchemy import desc
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/order_db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/order_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///order_db.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 delivery_url = 'http://localhost:5002/'
 
+
 class Order_invoice(db.Model):
-    id = db.Column(db.Integer,primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     total_amount = db.Column(db.Integer, nullable=False)
     customer_id = db.Column(db.Integer, nullable=False)
 
-    Orders = db.relationship('Order',backref='orders',lazy=True)
+    Orders = db.relationship('Order', backref='orders', lazy=True)
 
     def json(self):
-         return {"id": self.id, "customer_id": self.customer_id, "total_amount": self.total_amount}
+        return {"id": self.id, "customer_id": self.customer_id, "total_amount": self.total_amount}
+
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    invoice_id = db.Column(db.Integer, db.ForeignKey('order_invoice.id'), nullable = False )
+    invoice_id = db.Column(db.Integer, db.ForeignKey(
+        'order_invoice.id'), nullable=False)
     customer_id = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.String(120), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float(6,2),nullable=False)
+    price = db.Column(db.Float(6, 2), nullable=False)
     timestamp = db.Column(
         db.DateTime, server_default=func.now(), nullable=False)
+
     def json(self):
         return {"id": self.id, "invoice_id": self.invoice_id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
                 "timestamp": self.timestamp}
 
- 
+
 def order_notification(message_content, customer_id):
     hostname = "localhost"
     port = 5672
@@ -50,7 +55,7 @@ def order_notification(message_content, customer_id):
 
     exchangename = "notification_direct"
     queue = "message_notification"
-    routing_key="notification.message"
+    routing_key = "notification.message"
     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
     publish_message = {
@@ -71,7 +76,7 @@ def order_notification(message_content, customer_id):
 @app.route('/create_order', methods=['POST'])
 def create_order():
     order_data = request.get_json()
-    
+
     cart = order_data['cart']
     customer_id = order_data['id']
 
@@ -79,48 +84,51 @@ def create_order():
     for c_list in cart:
         product_price = c_list['unit_price']
         total += product_price
-        #print(product_price)
+        # print(product_price)
 
-    new_order_invoice = Order_invoice( customer_id = customer_id, total_amount = total) #find sth to generate id)
+    # find sth to generate id)
+    new_order_invoice = Order_invoice(
+        customer_id=customer_id, total_amount=total)
 
     try:
         db.session.add(new_order_invoice)
         db.session.commit()
         invoice_id = new_order_invoice.id
-        #message_content = "Invoice" + invoice_id + " have been confirmed."
-        #order_notification(message_content, customer_id)
-    
+        message_content = "Invoice " + \
+            str(invoice_id) + " have been confirmed."
+        order_notification(message_content, customer_id)
+
     except:
-            return jsonify({"status": "fail",
+        return jsonify({"status": "fail",
                         "message": "An error occurred creating order invoice."})
-    #return jsonify({"status": "success"})
+    # return jsonify({"status": "success"})
     for c_list in cart:
         price = c_list['unit_price']
         product_id = c_list['id']
         quantity = c_list['quantity']
         try:
-            new_order = Order(invoice_id = invoice_id, customer_id = customer_id,
-                                product_id = product_id, quantity = quantity, price = price)
+            new_order = Order(invoice_id=invoice_id, customer_id=customer_id,
+                              product_id=product_id, quantity=quantity, price=price)
             db.session.add(new_order)
             db.session.commit()
         except:
             return jsonify({"status": "fail",
-                        "message": "An error occurred creating order."})
+                            "message": "An error occurred creating order."})
 
     POST_data = {
-        "invoice_id" : invoice_id,
-        "address" : order_data['address'],
-        "status" : "NULL",
-        "customer_id" : customer_id}
+        "invoice_id": invoice_id,
+        "address": order_data['address'],
+        "status": "NULL",
+        "customer_id": customer_id}
 
     try:
-        requests.post(delivery_url + 'create_delivery', data=POST_data)
+        requests.post(delivery_url + 'create_delivery',
+                      json=POST_data, timeout=1)
 
     except:
         return jsonify({"status": "fail", "message": "An error occurred creating delivery."})
-    
-    return jsonify({"status": "success"})
 
+    return jsonify({"status": "success"})
 
 
 
@@ -136,21 +144,19 @@ def get_invoice():
     return jsonify(return_message)
 
 
-
 @app.route("/get_all_orders/", methods=['GET'])
 def get_all_orders():
     invoice_id = request.args.get('invoice_id')
-    order = [order.json() for order in Order.query.filter_by(invoice_id=invoice_id).all()]
+    order = [order.json()
+             for order in Order.query.filter_by(invoice_id=invoice_id).all()]
     if order:
-        return_message =({"status": "success",
-                          "order": order})
+        return_message = ({"status": "success",
+                           "order": order})
     else:
         return_message = ({"status": "fail"})
     return jsonify(return_message)
-    
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5003, debug=True)
-
 
