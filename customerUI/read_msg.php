@@ -28,8 +28,11 @@ if($is_loggedin){
     $POST_data = [
         "customer_id" => $_SESSION['customer_id']
     ];
-    $data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
-    $message = $data->{'messages'};
+    $msg_data = CallAPI('POST', $message_url, 'get_messages_by_customer', $POST_data);
+    if($msg_data!=null){
+        $message = $msg_data->{'messages'};
+    }
+    
     
 }
 
@@ -60,7 +63,9 @@ $sr_no=1;
             </thead>
             <tbody>
             <?php   
+                
                     $count=0;
+                    if($msg_data!=null){
                     foreach ($message as $msg) {
                         if($msg->status ==0){
                         echo "<tr>
@@ -83,8 +88,9 @@ $sr_no=1;
                         $count++;
                         }
                     }
+                    }
                     if ($count==0){
-                        echo "<h4><b>No new messages</b></h4>";
+                        echo "<tr><td colspan='4'><h4><b>No new messages</b></h4></td></tr>";
                     }
                 }
                 else{
@@ -105,7 +111,7 @@ $sr_no=1;
         </p>
     </div>
 
-
+    
 
     <?php
     // Checkout Cart
