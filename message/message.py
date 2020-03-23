@@ -46,7 +46,7 @@ def send_notification(message_content, customer_id):
 
     exchangename = "notification_direct"
     queue = "message_notification"
-    routing_key="notification.message"
+    routing_key = "notification.message"
     channel.exchange_declare(exchange=exchangename, exchange_type='direct')
 
     publish_message = {
