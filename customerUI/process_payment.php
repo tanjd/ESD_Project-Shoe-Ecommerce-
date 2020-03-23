@@ -28,11 +28,13 @@ if (isset($_SESSION['cart'])) {
     foreach ($markers as $marker_object) {
         $location_lat = $marker_object->{'lat'};
         $location_lng = $marker_object->{'lng'};
+        $location_name = $marker_object->{'name'};
 
-        $indv_coords = array($location_lat, $location_lng);
+        $indv_coords = array($location_lat, $location_lng, $location_name);
         array_push($marker_coords, $indv_coords);
     }
-    //var_dump($_POST["location"]);
+       
+
     if (isset($_POST['location'])) {
         $_SESSION['delivery'] = $_POST["location"];
         var_dump($_SESSION['delivery']);
@@ -41,7 +43,7 @@ if (isset($_SESSION['cart'])) {
     header('Location: cart.php');
     exit();
 }
-//var_dump($marker_coords);
+
 ?>
 <main role="main" class="container">
     <div class="starter-template">
@@ -97,18 +99,29 @@ if (isset($_SESSION['cart'])) {
                         function initMap() {
                             // The location of singapore
                             var locations = <?php echo json_encode($marker_coords) ?>
+
                             // The map, centered at singapore
                             var map = new google.maps.Map(document.getElementById('map'), {
                                 zoom: 10,
                                 center: new google.maps.LatLng(1.3521, 103.8198),
                                 mapTypeId: google.maps.MapTypeId.ROADMAP
                             });
+                            var infowindow = new google.maps.InfoWindow();
+
                             var marker, i;
+                            
                             for (i = 0; i < locations.length; i++) {
                                 marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(locations[i][0], locations[i][1]),
                                     map: map
                                 });
+
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(locations[i][2]);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
                             }
                         }
                     </script>
@@ -188,20 +201,3 @@ if (isset($_SESSION['cart'])) {
 <?php
 //require_once 'template/footer.php';
 ?>
-<!-- <script>
-// Initialize and add the map
-function initMap() {
-// The location of singapore
-var singapore = {lat: 1.3521, lng: 103.8198};
-var pasir_ris = {lat: 1.3692, lng: 103.9500};
-// The map, centered at singapore
-var map = new google.maps.Map(
-document.getElementById('map'), {zoom: 12, center: singapore});
-
-function addMarkers(coords){
-var marker = new google.maps.Marker({position: coords, map: map});
-}
-addMarkers(singapore);
-addMarkers(pasir_ris);
-}
-</script> -->
