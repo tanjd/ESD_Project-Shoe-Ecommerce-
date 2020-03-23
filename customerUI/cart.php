@@ -4,24 +4,6 @@ require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
 
-// if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
-
-//     $order_data = [
-//         "cart" => $_SESSION['cart'],
-//         "id" => $_SESSION['customer_id']
-//     ];
-
-//     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
-//     $status = checkSuccessOrFailure($data);
-
-//     if ($status != false) {
-//         //if data is sent successfully to order.py then the ui page changes
-//         #header('Location: delivery.php');
-//         session_destroy();
-//     } else {
-//         //error msg in the UI
-//     }
-// }
 
 $cart_total = 0;
 ?>

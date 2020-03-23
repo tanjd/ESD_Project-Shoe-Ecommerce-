@@ -8,8 +8,6 @@
 require_once 'include/autoload.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
-//var_dump($_SESSION['cart']);
-//var_dump( $_SESSION['delivery']);
 ?>
 
 <?php
@@ -33,7 +31,6 @@ if (isset($_SESSION['cart'])) {
         $indv_coords = array($location_lat, $location_lng, $location_name);
         array_push($marker_coords, $indv_coords);
     }
-    //var_dump($marker_coords);
 
     if (isset($_POST['location'])) {
         $_SESSION['delivery'] = $_POST["location"];
@@ -122,10 +119,29 @@ if (isset($_SESSION['cart'])) {
                 return false;
             }
         }
+        
+        $GET_data = [$_SESSION['customer_id']];
+        var_dump($GET_data);
+
+        $customer_data = CallAPI('GET', $customer_url, "get_customer/", $GET_data);
+        var_dump($customer_data);
+        
+        $customer_status = checkSuccessOrFailure($customer_data);
+
+
+        if ($customer_status != false) {
+                $location_address = $customer_data->{'address'};
+                $location_postal = $customer_data->{'postal_code'};
+                var_dump($location_name);
+                var_dump($location_postal);
+
+        } else {
+            $products = false;
+        }
+
 
         $address = "3 Simei Street 6, Singapore 528833";
         $user_address_cords = geocode($address);
-
         ?>
 
         <tr>
