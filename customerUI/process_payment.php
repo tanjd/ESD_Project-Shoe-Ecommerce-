@@ -33,7 +33,7 @@ if (isset($_SESSION['cart'])) {
         $indv_coords = array($location_lat, $location_lng, $location_name);
         array_push($marker_coords, $indv_coords);
     }
-       
+    //var_dump($marker_coords);
 
     if (isset($_POST['location'])) {
         $_SESSION['delivery'] = $_POST["location"];
@@ -73,6 +73,61 @@ if (isset($_SESSION['cart'])) {
             <th colspan='1'>Total</th>
             <th colspan='1'><?php echo "\$$cart_total" ?></th>
         </tr>
+
+        <?php
+        function geocode($address){
+ 
+            // url encode the address
+            $address = urlencode($address);
+             
+            // google map geocode api url
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyAkFXEAzdyEZaQe0ZSSVtaP5yeS4vW1ygE";
+         
+            // get the json response
+            $resp_json = file_get_contents($url);
+             
+            // decode the json
+            $resp = json_decode($resp_json, true);
+         
+            // response status will be 'OK', if able to geocode given address 
+            if($resp['status']=='OK'){
+         
+                // get the important data
+                $lati = isset($resp['results'][0]['geometry']['location']['lat']) ? $resp['results'][0]['geometry']['location']['lat'] : "";
+                $longi = isset($resp['results'][0]['geometry']['location']['lng']) ? $resp['results'][0]['geometry']['location']['lng'] : "";
+                $formatted_address = isset($resp['results'][0]['formatted_address']) ? $resp['results'][0]['formatted_address'] : "";
+                 
+                // verify if data is complete
+                if($lati && $longi && $formatted_address){
+                 
+                    // put the data in the array
+                    $data_arr = array();            
+                     
+                    array_push(
+                        $data_arr, 
+                            $lati, 
+                            $longi
+                        );
+                     
+                    return $data_arr;
+                     
+                }else{
+                    return false;
+                }
+                 
+            }
+         
+            else{
+                echo "<strong>ERROR: {$resp['status']}</strong>";
+                return false;
+            }
+        }
+
+        $address = "3 Simei Street 6, Singapore 528833";
+        $user_address_cords = geocode($address);
+
+        ?>
+
         <tr>
             <td><br><br></td>
         </tr>
@@ -116,14 +171,34 @@ if (isset($_SESSION['cart'])) {
                                     map: map
                                 });
 
-                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                                return function() {
-                                    infowindow.setContent(locations[i][2]);
-                                    infowindow.open(map, marker);
-                                }
-                            })(marker, i));
+                                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                    return function() {
+                                        infowindow.setContent(locations[i][2]);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker, i));
                             }
+                            
+                            var home_coords = <?php echo json_encode($user_address_cords) ?>
+                            
+                            var home_marker;
+                            
+                            home_marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(home_coords[0], home_coords[1]),
+                                    icon: 'http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png',
+                                    map: map
+                                });
+                            
+                            var infoWindow = new google.maps.InfoWindow({
+                                content: 'home address'
+                            });
+
+                            home_marker.addListener('click', function(){
+                                infoWindow.open(map,home_marker);
+                            });
+
                         }
+
                     </script>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyM4GQOCDrKyOUqS-Kc87Os2om92jSQS4&callback=initMap" async defer>
                     </script>
@@ -146,6 +221,18 @@ if (isset($_SESSION['cart'])) {
                     <input type="submit" value="submit">
             </td>
         </tr>
+
+
+
+
+
+
+
+
+
+
+
+
 
         <tr>
             <td><br><br></td>

@@ -15,7 +15,7 @@ require_once 'template/header.php';
     </div>
 
 <?php
-#var_dump($_SESSION['cart']);
+;
 
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
@@ -24,6 +24,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         "id" => $_SESSION['customer_id'],
         "address" => $_SESSION['delivery']
     ];
+    var_Dump($order_data);
     
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data);
