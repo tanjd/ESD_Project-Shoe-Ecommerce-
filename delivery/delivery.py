@@ -39,8 +39,8 @@ class Markers(db.Model):
     id = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String( 60 ), nullable=False)
     address = db.Column(db.String(80), nullable=False, primary_key=True)
-    lat = db.Column(db.Integer, nullable=False)
-    lng = db.Column(db.Integer, nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
     type = db.Column(db.String(30), nullable=False)
 
     def init(self, id, name, address, lat, lng, type):

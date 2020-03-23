@@ -25,7 +25,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         //"address" => $_SESSION['delivery']
     ];
     
-    $data = CallAPI('POST', $order_url, 'create_order/', $order_data);
+    $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data);
     var_dump($data);
     if ($status != false) {

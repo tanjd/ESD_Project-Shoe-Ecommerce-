@@ -16,17 +16,9 @@ customers = [
         'postal_code': '123456'
     },
     {
-        'email': '',
-        'name': 'lee xuan hui',
-        'telegram_id': '',
-        'password': 'hello',
-        'address': '123 smu road',
-        'postal_code': '123456'
-    },
-    {
-        'email': '',
+        'email': 'junkit_chin@hotmail.com',
         'name': 'bryan chin',
-        'telegram_id': '',
+        'telegram_id': '287424423',
         'password': 'hello',
         'address': '123 smu road',
         'postal_code': '123456'

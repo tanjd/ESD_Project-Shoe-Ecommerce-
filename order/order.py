@@ -18,39 +18,24 @@ CORS(app)
 delivery_url = 'http://localhost:5002/'
 
 class Order_invoice(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
+    id = db.Column(db.Integer,primary_key=True, autoincrement=True)
     total_amount = db.Column(db.Integer, nullable=False)
     customer_id = db.Column(db.Integer, nullable=False)
 
     Orders = db.relationship('Order',backref='orders',lazy=True)
 
-    # def init(self, id, total_amount, customer_id):
-    #     self.id = id
-    #     self.customer_id = customer_id
-    #     self.total_amount = total_amount
-    
     def json(self):
          return {"id": self.id, "customer_id": self.customer_id, "total_amount": self.total_amount}
 
 class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    invoice_id = db.Column(db.Integer, db.ForeignKey('order_invoice.id'), nullable = False , primary_key = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    invoice_id = db.Column(db.Integer, db.ForeignKey('order_invoice.id'), nullable = False )
     customer_id = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.String(120), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(6,2),nullable=False)
     timestamp = db.Column(
         db.DateTime, server_default=func.now(), nullable=False)
-
-    # def init(self, id, invoice_id, customer_id, product_id, quantity, price, timestamp):
-    #     self.id = id
-    #     self.invoice_id = invoice_id
-    #     self.customer_id = customer_id
-    #     self.product_id = product_id
-    #     self.quantity = quantity
-    #     self.price = price
-    #     self.timestamp = timestamp
-
     def json(self):
         return {"id": self.id, "invoice_id": self.invoice_id, "customer_id": self.customer_id, "product_id": self.product_id, "quantity": self.quantity, "price": self.price,
                 "timestamp": self.timestamp}
@@ -102,47 +87,41 @@ def create_order():
         db.session.add(new_order_invoice)
         db.session.commit()
         invoice_id = new_order_invoice.id
-        message_content = "Invoice" + invoice_id + " have been confirmed."
-        order_notification(message_content, customer_id)
+        #message_content = "Invoice" + invoice_id + " have been confirmed."
+        #order_notification(message_content, customer_id)
     
     except:
             return jsonify({"status": "fail",
                         "message": "An error occurred creating order invoice."})
     #return jsonify({"status": "success"})
-    
     for c_list in cart:
+        price = c_list['unit_price']
+        product_id = c_list['id']
+        quantity = c_list['quantity']
         try:
-            product_price = c_list['unit_price']
-            product_id = c_list['id']
-            quantity = c_list['quantity']
-            new_order = (Order(     invoice_id = invoice_id,
-                                    customer_id = customer_id,
-                                    product_id = product_id,
-                                    quantity = quantity,
-                                    price = product_price))
+            new_order = Order(invoice_id = invoice_id, customer_id = customer_id,
+                                product_id = product_id, quantity = quantity, price = price)
             db.session.add(new_order)
             db.session.commit()
         except:
             return jsonify({"status": "fail",
                         "message": "An error occurred creating order."})
-        #return jsonify({"status": "success"})
-    
+
     POST_data = {
         "invoice_id" : invoice_id,
-        "address" : order_d['cart'],
+        "address" : order_data['address'],
         "status" : "NULL",
-        "customer_id" : customer_id
-    }
+        "customer_id" : customer_id}
+
     try:
-        request.post(delivery_url + 'create_delivery/', params=POST_data)
+        requests.post(delivery_url + 'create_delivery', data=POST_data)
+
     except:
-            return jsonify({"status": "fail",
-                        "message": "An error occurred creating delivery."})
+        return jsonify({"status": "fail", "message": "An error occurred creating delivery."})
     
     return jsonify({"status": "success"})
 
 
-    
 
 
 @app.route('/get_invoice/', methods=['GET'])
@@ -173,3 +152,5 @@ def get_all_orders():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5003, debug=True)
+
+
