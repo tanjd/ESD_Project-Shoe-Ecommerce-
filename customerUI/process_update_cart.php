@@ -50,6 +50,7 @@ foreach ($updated_cart_items as $id => $quantity){
 // overwrites data in SESSION cart with temp_cart
 $_SESSION['cart'] = $temp_cart; 
 $_SESSION['message'] = 'Cart successfully updated'; 
+$_SESSION['header_display'] = TRUE;
 header('Location: cart.php'); 
 exit(); 
 

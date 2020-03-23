@@ -54,7 +54,7 @@ $cart_total = 0;
                                 <th>Quantity</th>
                                 <th></th>
                             </tr>";
-            }
+            
         
 
             
@@ -105,6 +105,7 @@ $cart_total = 0;
                 </tr>
                 </table> 
                 <?php }
+            }
                 
                 else{
                     echo '<div style="margin-left: 8px; font-size: 1.75em;">

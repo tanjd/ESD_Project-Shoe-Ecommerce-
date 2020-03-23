@@ -1,7 +1,9 @@
 <?php
+require_once 'include/autoload.php';
+
 require_once 'template/head.php';
 require_once 'template/header.php';
-require_once 'include/autoload.php';
+
 
 include_once 'connection.php';
 
