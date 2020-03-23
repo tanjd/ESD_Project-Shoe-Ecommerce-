@@ -1,5 +1,6 @@
 #!/bin/bash
-python customer/customer.py & 
+python customer/customer.py &
 python product/product.py &
 python order/order.py &
-python message/message.py
+python message/message.py &
+python delivery/delivery.py
