@@ -5,7 +5,6 @@ require_once 'template/head.php';
 require_once 'template/header.php';
 
 
-include_once 'connection.php';
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 
