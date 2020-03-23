@@ -87,8 +87,9 @@ def create_order():
         db.session.add(new_order_invoice)
         db.session.commit()
         invoice_id = new_order_invoice.id
-        #message_content = "Invoice" + invoice_id + " have been confirmed."
-        #order_notification(message_content, customer_id)
+        message_content = "Invoice " + str(invoice_id) + " have been confirmed."
+        order_notification(message_content, customer_id)
+
     
     except:
             return jsonify({"status": "fail",
@@ -114,7 +115,7 @@ def create_order():
         "customer_id" : customer_id}
 
     try:
-        requests.post(delivery_url + 'create_delivery', data=POST_data)
+        requests.post(delivery_url + 'create_delivery',json=POST_data, timeout=1)
 
     except:
         return jsonify({"status": "fail", "message": "An error occurred creating delivery."})
