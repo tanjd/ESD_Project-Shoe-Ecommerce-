@@ -1,27 +1,16 @@
 <?php
 require_once 'include/autoload.php';
-
+require_once 'include/currency_convert.php';
 require_once 'template/head.php';
 require_once 'template/header.php';
 
-// if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
-//     $order_data = [
-//         "cart" => $_SESSION['cart'],
-//         "id" => $_SESSION['customer_id']
-//     ];
-
-//     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
-//     $status = checkSuccessOrFailure($data);
-
-//     if ($status != false) {
-//         //if data is sent successfully to order.py then the ui page changes
-//         #header('Location: delivery.php');
-//         session_destroy();
-//     } else {
-//         //error msg in the UI
-//     }
-// }
+if (isset($_SESSION['currency'])){
+    $selected_currency = $_SESSION['currency']; 
+}
+else{
+    $selected_currency = 'SGD'; 
+}
 
 $cart_total = 0;
 ?>
@@ -65,12 +54,13 @@ $cart_total = 0;
                 foreach ($_SESSION['cart'] as $contentArray) {
                     $id = $contentArray['id'];
                     $name = $contentArray['name'];
-                    $unit_price = number_format($contentArray['unit_price'], 2, '.', ',');
+                    $temp_price = number_format($contentArray['unit_price'], 2, '.', ',');
+                    $unit_price = convert($temp_price, $selected_currency); 
                     $quantity = $contentArray['quantity']; 
 
                     echo "<tr>
                         <td>$name</td>
-                        <td>$$unit_price</td>
+                        <td>{$selected_currency} $unit_price</td>
                         <td><input type='number' class='form-control' size = '20' name='item[$id]' value='$quantity' min='1' style = 'width: 150px'>
                             </td>
                         <td><a href = 'process_remove_from_cart.php?id={$id}'>Remove</a></td>
@@ -93,7 +83,7 @@ $cart_total = 0;
 
                 <tr>
                     <th colspan='2'>Total:</th>
-                    <th colspan = '2'><?php echo "\$$cart_total" ?></th>
+                    <th colspan = '2'><?php echo "$selected_currency $cart_total" ?></th>
                 </tr>
 
                 <tr>

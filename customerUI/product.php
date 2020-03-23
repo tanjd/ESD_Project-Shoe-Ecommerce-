@@ -1,5 +1,6 @@
 <?php
 require_once 'include/autoload.php';
+require_once 'include/currency_convert.php'; 
 
 if (isset($_GET["product_id"])) {
 
@@ -14,6 +15,13 @@ if (isset($_GET["product_id"])) {
     } else {
         $product = false;
     }
+}
+
+if (isset($_SESSION['currency'])){
+    $selected_currency = $_SESSION['currency']; 
+}
+else{
+    $selected_currency = 'SGD'; 
 }
 ?>
 
@@ -31,7 +39,7 @@ $product_table = "<table class='table table-bordered'>
                         <td scope='row' colspan = '4' align='left'>{$product->description}</td>
                     </tr>
                     <tr>
-                        <td scope='row' colspan = '4'><h2>\${$product->unit_price}</h2></td>
+                        <td scope='row' colspan = '4'><h2>{$selected_currency} ".convert($product->unit_price,$selected_currency)."</h2></td>
                     </tr>
                     <tr>
                         <td scope='row' colspan = '2'>placeholder for size drop down list</td>
@@ -57,7 +65,7 @@ $product_table = "<table class='table table-bordered'>
                     <td scope='row' colspan = '4' align='left'>{$product->description}</td>
                 </tr>
                 <tr>
-                    <td scope='row' colspan = '4'><h2>\${$product->unit_price}</h2></td>
+                    <td scope='row' colspan = '4'><h2>{$selected_currency} ".convert($product->unit_price,$selected_currency)."</h2></td>
                 </tr>
                 <tr>
                     <td scope='row'>

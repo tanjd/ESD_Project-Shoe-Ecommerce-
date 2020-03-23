@@ -1,5 +1,6 @@
 <?php
 require_once 'include/autoload.php';
+require_once 'include/currency_convert.php'; 
 
 if (isset($_GET["category_id"])) {
     $category_id = $_GET["category_id"];
@@ -45,6 +46,13 @@ if (isset($_GET["category_id"])) {
         }
     }
 }
+
+if (isset($_SESSION['currency'])){
+    $selected_currency = $_SESSION['currency']; 
+}
+else{
+    $selected_currency = 'SGD'; 
+}
 ?>
 
 <?php
@@ -87,7 +95,7 @@ require_once 'template/header.php';
                             <p class='card-text' align='justify' >{$product->description}</p>
                         </div>
                         <div class='card-footer text-center'>
-                        <p class='card-text'><h2><center>\${$product->unit_price}</center></h2></p>
+                        <p class='card-text'><h2><center>{$selected_currency} ".convert($product->unit_price, $selected_currency)."</center></h2></p>
                             <a href='process_add_to_cart.php?product_id={$product->id}&from=product_category.php?category_id={$category_id}'>
                                 <button type='button' class='btn btn-dark' >Add To Cart</button>
                             </a>

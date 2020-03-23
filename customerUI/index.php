@@ -1,5 +1,7 @@
 <?php
 require_once 'include/autoload.php';
+require_once 'process_convert_currency.php'; 
+
 $data = CallAPI('GET', $customer_url, 'get_all_customers');
 $status = checkSuccessOrFailure($data);
 if ($status != false) {
@@ -15,6 +17,13 @@ if ($product_status != false) {
     $products = $product_data->{'products'};
 } else {
     $products = false;
+}
+
+if (isset($_GET['currency'])){
+    $selected_currency = $_GET['currency']; 
+}
+else{
+    $selected_currency = 'SGD'; 
 }
 ?>
 
@@ -42,7 +51,7 @@ require_once 'template/header.php';
                             <p class='card-text' align='justify' >{$product->description}</p>
                         </div>
                         <div class='card-footer text-center'>
-                        <p class='card-text'><h2><center>\${$product->unit_price}</center></h2></p>
+                        <p class='card-text'><h2><center>{$selected_currency} ".convert($product->unit_price, $selected_currency)."</center></h2></p>
                             <a href='process_add_to_cart.php?product_id={$product->id}&from=index.php'>
                                 <button type='button' class='btn btn-dark' >Add To Cart</button>
                             </a>

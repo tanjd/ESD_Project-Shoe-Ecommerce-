@@ -1,6 +1,8 @@
 <?php
 
 require_once 'include/autoload.php';
+require_once 'include/currency_convert.php'; 
+
 //$con = mysqli_connect("localhost", "root", "", "notify");
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
@@ -61,6 +63,19 @@ else {
     $is_loggedin = false;
 }
 
+// currency
+$endpoint = 'latest';
+$access_key = '753b707189493b7ccd9a2c7d9cd5658e';
+$symbols = 'USD,SGD,GBP,EUR,AUD'; 
+$url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.'';
+$currencies = CurrencyAPI($url)['rates']; 
+
+if (isset($_SESSION['currency'])){
+    $selected_currency = $_SESSION['currency']; 
+}
+else{
+    $selected_currency = 'SGD'; 
+}
 
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -95,7 +110,7 @@ else {
         <ul class="navbar-nav right">
             
             <?php
-                if (isset($_SESSION['customer_id'])) {
+                if ($is_loggedin) {
                     echo "<li class='nav-item'>
                             <a class='nav-link' href='read_msg.php'>
                                 <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
@@ -106,39 +121,27 @@ else {
                             <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
                                 <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
                             </a>
-                        </li>"; 
-                        }
+                        </li>
 
-                        /*else{
-                        echo "<li class='nav-item'>
-                                <a class='nav-link' href='read_msg.php'>
-                                    <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
-                                </a>
-                            </li>";
-                        echo "<li class='nav-item'>
-                            <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
-                                <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'></span>
-                            </a>
-                            </li>"; 
-                        } */
-            
+                        <li>
+                            <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span>  $customer->name</a>
+                        </li>
 
-            
-            ?>
-                    
-            <?php if ($is_loggedin) {
-                
-                echo"
-                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
-                    </li>
+                        <li class='nav-item dropdown'>
+                            <a class='nav-link dropdown-toggle' id='dropdown01' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> $selected_currency</a>
+                            <div class='dropdown-menu' aria-labelledby='dropdown01'>"; 
+                                
+                                foreach ($currencies as $key => $value) {
+                                    echo "<a class='dropdown-item' style='text-transform:capitalize' href='process_convert_currency?currency=$key&from={$_SERVER["PHP_SELF"]}'>$key</a>";
+                                }
+                                
+                                echo"
+                            </div>
+                        </li>
 
-                    <li class='nav-item active'>
-                        <a class='nav-link'>$customer->name</a>
-                    </li>
-
-                    <li class='nav-item'>
-                        <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                    </li>";
+                        <li class='nav-item'>
+                            <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                        </li>";
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);

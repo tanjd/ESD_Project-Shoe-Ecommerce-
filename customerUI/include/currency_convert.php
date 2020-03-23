@@ -1,12 +1,15 @@
 <?php
 
-include 'autoload.php'; 
+
 // currency converter API
 $endpoint = 'latest';
 $access_key = '753b707189493b7ccd9a2c7d9cd5658e';
 $symbols = 'USD,SGD,GBP,EUR,AUD'; 
 $url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.''; 
 // base currency is EUROS
+
+
+
 
 function CurrencyAPI($url){
     
@@ -20,9 +23,6 @@ function CurrencyAPI($url){
 
     return $data; 
 }
-
-
-
 
 
 // currency_conversion function
@@ -44,11 +44,12 @@ function convert($SGD, $selected_currency){
 
     if (isset($exchangeRates)){
         if ($selected_currency == 'SGD'){
-            return $SGD; 
+            $result = number_format($SGD, 2, '.', ','); 
+            return $result; 
         }
         else{
             $SGDinBase = $exchangeRates['SGD'];
-            $result = round($SGD / $SGDinBase * $exchangeRates[$selected_currency], 2); 
+            $result = number_format($SGD / $SGDinBase * $exchangeRates[$selected_currency], 2, '.', ','); 
             return $result; 
         }
     }
@@ -56,6 +57,8 @@ function convert($SGD, $selected_currency){
         return false; 
     } 
 }
+
+
 
 
 
