@@ -1,6 +1,6 @@
 <?php
 require_once 'include/autoload.php';
-require_once 'process_convert_currency.php'; 
+require_once 'include/currency_convert.php'; 
 
 $data = CallAPI('GET', $customer_url, 'get_all_customers');
 $status = checkSuccessOrFailure($data);
