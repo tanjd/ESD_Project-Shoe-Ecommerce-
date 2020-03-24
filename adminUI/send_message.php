@@ -3,11 +3,7 @@ require_once 'include/autoload.php';
 
 require_once 'template/head.php';
 require_once 'template/header.php';
-
-
-
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-
 
 ?>
 
@@ -17,11 +13,11 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </main>
   </head>
   <body>
 
@@ -93,6 +89,7 @@ $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
     </p>
     <!-- </div> -->
 
-    
+
   </body>
+  </main>
 </html>
