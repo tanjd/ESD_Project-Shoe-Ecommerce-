@@ -1,6 +1,10 @@
 <?php
 require_once('fb_login/config.php');
 
+if (isset($_SESSION['customer_id'])){
+    header('Location: index.php');
+    exit();
+}
 
 $redirectTo = "http://localhost/ESD_Project/customerUI/fb_login/callback.php";
 $data = ['email'];
