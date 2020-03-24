@@ -11,7 +11,8 @@ require_once 'template/header.php';
 ?>
 
 <?php
-if (isset($_SESSION['cart'])) {
+if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
+    $customer_id = $_SESSION['customer_id'];
     $markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
     $markers_status = checkSuccessOrFailure($markers_data);
     if ($markers_status != false) {
@@ -34,8 +35,28 @@ if (isset($_SESSION['cart'])) {
 
     if (isset($_POST['location'])) {
         $_SESSION['delivery'] = $_POST["location"];
-        var_dump($_SESSION['delivery']);
+        // var_dump($_SESSION['delivery']);
     }
+
+    $GET_data = [
+        "customer_id" => $customer_id
+    ];
+    $customer_data = CallAPI('GET', $customer_url, "get_customer/", $GET_data);
+    // var_dump($customer_data);
+    $customer_status = checkSuccessOrFailure($customer_data);
+    if ($customer_status != false) {
+        $customer = $customer_data->{'customer'};
+        $location_address = $customer->{'address'};
+        $location_postal = $customer->{'postal_code'};
+        // var_dump($location_name);
+        // var_dump($location_postal);
+    } else {
+        $products = false;
+    }
+    $geo_address = $location_postal;
+
+    // $address = "3 Simei Street 6, Singapore 528833";
+    $user_address_cords = geocode($geo_address);
 } else {
     header('Location: cart.php');
     exit();
@@ -72,76 +93,6 @@ if (isset($_SESSION['cart'])) {
         </tr>
 
         <?php
-        function geocode($address){
- 
-            // url encode the address
-            $address = urlencode($address);
-             
-            // google map geocode api url
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key=AIzaSyAkFXEAzdyEZaQe0ZSSVtaP5yeS4vW1ygE";
-         
-            // get the json response
-            $resp_json = file_get_contents($url);
-             
-            // decode the json
-            $resp = json_decode($resp_json, true);
-         
-            // response status will be 'OK', if able to geocode given address 
-            if($resp['status']=='OK'){
-         
-                // get the important data
-                $lati = isset($resp['results'][0]['geometry']['location']['lat']) ? $resp['results'][0]['geometry']['location']['lat'] : "";
-                $longi = isset($resp['results'][0]['geometry']['location']['lng']) ? $resp['results'][0]['geometry']['location']['lng'] : "";
-                $formatted_address = isset($resp['results'][0]['formatted_address']) ? $resp['results'][0]['formatted_address'] : "";
-                 
-                // verify if data is complete
-                if($lati && $longi && $formatted_address){
-                 
-                    // put the data in the array
-                    $data_arr = array();            
-                     
-                    array_push(
-                        $data_arr, 
-                            $lati, 
-                            $longi
-                        );
-                     
-                    return $data_arr;
-                     
-                }else{
-                    return false;
-                }
-                 
-            }
-         
-            else{
-                echo "<strong>ERROR: {$resp['status']}</strong>";
-                return false;
-            }
-        }
-        
-        $GET_data = [$_SESSION['customer_id']];
-        var_dump($GET_data);
-
-        $customer_data = CallAPI('GET', $customer_url, "get_customer/", $GET_data);
-        var_dump($customer_data);
-        
-        $customer_status = checkSuccessOrFailure($customer_data);
-
-
-        if ($customer_status != false) {
-                $location_address = $customer_data->{'address'};
-                $location_postal = $customer_data->{'postal_code'};
-                var_dump($location_name);
-                var_dump($location_postal);
-
-        } else {
-            $products = false;
-        }
-
-
-        $address = "3 Simei Street 6, Singapore 528833";
-        $user_address_cords = geocode($address);
         ?>
 
         <tr>
@@ -180,7 +131,7 @@ if (isset($_SESSION['cart'])) {
                             var infowindow = new google.maps.InfoWindow();
 
                             var marker, i;
-                            
+
                             for (i = 0; i < locations.length; i++) {
                                 marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(locations[i][0], locations[i][1]),
@@ -194,27 +145,26 @@ if (isset($_SESSION['cart'])) {
                                     }
                                 })(marker, i));
                             }
-                            
+
                             var home_coords = <?php echo json_encode($user_address_cords) ?>
-                            
+
                             var home_marker;
-                            
+
                             home_marker = new google.maps.Marker({
-                                    position: new google.maps.LatLng(home_coords[0], home_coords[1]),
-                                    icon: 'http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png',
-                                    map: map
-                                });
-                            
+                                position: new google.maps.LatLng(home_coords[0], home_coords[1]),
+                                icon: 'http://maps.google.com/mapfiles/kml/shapes/homegardenbusiness.png',
+                                map: map
+                            });
+
                             var infoWindow = new google.maps.InfoWindow({
                                 content: 'home address'
                             });
 
-                            home_marker.addListener('click', function(){
-                                infoWindow.open(map,home_marker);
+                            home_marker.addListener('click', function() {
+                                infoWindow.open(map, home_marker);
                             });
 
                         }
-
                     </script>
                     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyM4GQOCDrKyOUqS-Kc87Os2om92jSQS4&callback=initMap" async defer>
                     </script>
