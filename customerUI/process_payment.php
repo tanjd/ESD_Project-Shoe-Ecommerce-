@@ -239,7 +239,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                         },
                         onApprove: function(data, actions) {
                             // This function captures the funds from the transaction.
-                            window.location.href = "http://localhost/esd_project/customerUI/completed.php";
+                            window.location.href = "http://localhost/ESD_Project/customerUI/completed.php";
                             return actions.order.capture().then(function(details) {
                                 // This function shows a transaction success message to your buyer.
                                 alert('Transaction completed by ' + details.payer.name.given_name);
