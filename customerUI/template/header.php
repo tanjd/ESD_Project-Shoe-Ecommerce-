@@ -70,11 +70,13 @@ else {
 }
 
 // currency
-$endpoint = 'latest';
-$access_key = '753b707189493b7ccd9a2c7d9cd5658e';
-$symbols = 'USD,SGD,GBP,EUR,AUD'; 
-$url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.'';
-$currencies = CurrencyAPI($url)['rates']; 
+if (isset($_SESSION['currencyAPI'])){
+    $currencies = $_SESSION['currencyAPI']['rates']; 
+}
+else{
+    $currencies = []; 
+}
+
 
 if (isset($_SESSION['currency'])){
     $selected_currency = $_SESSION['currency']; 
@@ -89,13 +91,7 @@ else{
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <?php
 
-        // $sql_get = mysqli_query($con, "SELECT * FROM message WHERE status=0");
-        // $count = mysqli_num_rows($sql_get);
-
-
-    ?>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -116,39 +112,39 @@ else{
         <ul class="navbar-nav right">
             
             <?php
-                if (isset($_SESSION['customer_id'])) {
+                if (isset($_SESSION['customer_id'])) { 
                    
-                    echo "<li class='nav-item'>
-                            <a class='nav-link' href='read_msg.php'>
-                                <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
-                            </a>
-                        </li>";
+                    echo"<li class='nav-item'>
+                        <a class='nav-link' href='read_msg.php'>
+                            <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
+                        </a>
+                    </li>
 
-                    echo "<li class='nav-item'>
-                            <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
-                                <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
-                            </a>
-                        </li>
+                    <li class='nav-item'>
+                        <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
+                            <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span>  $customer->name</a>
-                        </li>
+                    <li>
+                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span> $customer->name</a>
+                    </li>
 
-                        <li class='nav-item dropdown'>
-                            <a class='nav-link dropdown-toggle' id='dropdown01' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> $selected_currency</a>
-                            <div class='dropdown-menu' aria-labelledby='dropdown01'>"; 
-                                
-                                foreach ($currencies as $key => $value) {
-                                    echo "<a class='dropdown-item' style='text-transform:capitalize' href='process_convert_currency?currency=$key&from={$_SERVER["PHP_SELF"]}'>$key</a>";
-                                }
-                                
-                                echo"
-                            </div>
-                        </li>
+                    <li class='nav-item dropdown'>
+                        <a class='nav-link dropdown-toggle' id='dropdown02' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> $selected_currency</a>
+                        <div class='dropdown-menu' aria-labelledby='dropdown02'>"; 
+                            
+                            foreach ($currencies as $key => $value) {
+                                echo "<a class='dropdown-item' style='text-transform:capitalize' href='process_convert_currency?currency=$key'>$key</a>";
+                            }
+                            
+                            
+                        echo"</div>
+                    </li>
 
-                        <li class='nav-item'>
-                            <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                        </li>";
+                    <li class='nav-item'>
+                        <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
+                    </li>"; 
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);

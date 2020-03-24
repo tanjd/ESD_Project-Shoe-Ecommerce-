@@ -1,9 +1,10 @@
 <?php
 
-
+require_once('autoload.php'); 
 // currency converter API
+
 $endpoint = 'latest';
-$access_key = '753b707189493b7ccd9a2c7d9cd5658e';
+$access_key = '978c0ebe8cf2b9369b0b4aeef0dcfbbe';
 $symbols = 'USD,SGD,GBP,EUR,AUD'; 
 $url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.''; 
 // base currency is EUROS
@@ -24,20 +25,18 @@ function CurrencyAPI($url){
     return $data; 
 }
 
+$_SESSION['currencyAPI'] = CurrencyAPI($url); 
+
+
 
 // currency_conversion function
 function convert($SGD, $selected_currency){
-    $endpoint = 'latest';
-    $access_key = '753b707189493b7ccd9a2c7d9cd5658e';
-    $symbols = 'USD,SGD,GBP,EUR,AUD'; 
-    $url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.''; 
-    // base currency is EUROS
 
-    $currencyAPI = CurrencyAPI($url); 
 
     $exchangeRates = []; 
     $API_status = false; 
-    if (isset($currencyAPI)){
+    if (isset($_SESSION['currencyAPI'])){
+        $currencyAPI = $_SESSION['currencyAPI']; 
         $exchangeRates = $currencyAPI['rates']; 
         $API_status = $currencyAPI['success']; 
     }
