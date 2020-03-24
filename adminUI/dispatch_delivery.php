@@ -68,7 +68,7 @@ if(isset($_POST['invoice_id'])){
                 "invoice_id" => $_POST['update_id']];
             $update = CallAPI('GET', $delivery_url, 'delivery/',$update_data);
             if($update != False){
-                $URL="http://localhost/esd_project/adminui/view_delivery.php";
+                $URL="http://localhost/ESD_Project/adminUI/view_delivery.php";
                 echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
                 echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
             }
