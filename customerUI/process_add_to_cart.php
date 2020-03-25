@@ -54,8 +54,8 @@
                 $contentArray['quantity'] += 1; 
                 $_SESSION['message'] = 'Product is already in cart!'; 
                 $_SESSION['header_display'] = TRUE;
-                //header("Location: $from"); 
-                //exit(); 
+                header("Location: $from"); 
+                exit(); 
             }
 
             // product is not in cart
@@ -63,8 +63,8 @@
                 array_push($_SESSION['cart'], $selectedItem);
                 $_SESSION['message'] = 'Product successfully added to cart!'; 
                 $_SESSION['header_display'] = TRUE;
-                //header("Location: $from"); 
-                //exit(); 
+                header("Location: $from"); 
+                exit(); 
             }
         }
 

@@ -84,6 +84,11 @@ def delivery_notification(message_content, customer_id):
     connection.close()
 
 
+@app.route('/')
+def home():
+    return 'delivery microservice is working'
+
+
 @app.route('/get_all_markers')
 def get_all_markers():
     markers = [Markers.json()
