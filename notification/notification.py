@@ -110,7 +110,7 @@ def process_notification_message(data):
             try:
                 channel.queue_declare(queue='notify_email', durable=True)
                 channel.queue_bind(exchange=exchange_name,
-                                   queue='', routing_key='*.email')
+                                   queue='notify_email', routing_key='*.email')
                 channel.basic_publish(exchange=exchange_name, routing_key='*.email', body=publish_message,
                                       properties=pika.BasicProperties(delivery_mode=2,))
             except:
@@ -122,7 +122,7 @@ def process_notification_message(data):
             try:
                 channel.queue_declare(queue='notify_telegram', durable=True)
                 channel.queue_bind(exchange=exchange_name,
-                                   queue='', routing_key='*.telegram')
+                                   queue='notify_telegram', routing_key='*.telegram')
                 channel.basic_publish(exchange=exchange_name, routing_key='*.telegram', body=publish_message,
                                       properties=pika.BasicProperties(delivery_mode=2,))
             except:
