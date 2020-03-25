@@ -6,6 +6,10 @@ if (isset($_GET['currency'])){
     header('Location: '.$_SERVER['HTTP_REFERER']); 
     exit(); 
 }
+else{
+    $_SESSION['currency'] = 'SGD'; 
+    echo 'nope'; 
+}
 
 
 

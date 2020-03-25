@@ -1,8 +1,7 @@
 <?php
-//require_once 'include/autoload.php';
-//require_once 'include/currency_convert.php';
-require_once 'template/head.php';
-require_once 'template/header.php'; 
+require_once 'include/autoload.php';
+require_once 'include/currency_convert.php';
+
 
 $data = CallAPI('GET', $customer_url, 'get_all_customers');
 $status = checkSuccessOrFailure($data);
@@ -27,6 +26,10 @@ if (isset($_GET['currency'])){
 else{
     $selected_currency = 'SGD'; 
 }
+
+
+require_once 'template/head.php';
+require_once 'template/header.php'; 
 ?>
 
 
