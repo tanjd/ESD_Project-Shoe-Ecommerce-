@@ -23,6 +23,7 @@ from sqlalchemy import desc
 customerURL = "http://localhost:5000/"
 # customerURL = "http://:5000/"
 
+# hostname = "my-rabbit"
 hostname = "localhost"
 port = 5672
 connection = pika.BlockingConnection(

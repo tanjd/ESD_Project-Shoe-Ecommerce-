@@ -9,6 +9,7 @@ from datetime import datetime
 bot_token = '837612960:AAGrKl0XmNQAoN3ZCb-VIOpJz0w6HWypPrw'
 telegram_bot_url = 'https://api.telegram.org/bot' + bot_token
 
+# hostname = "my-rabbit"
 hostname = "localhost"
 port = 5672
 connection = pika.BlockingConnection(

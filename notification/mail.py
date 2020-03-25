@@ -8,6 +8,7 @@ import imghdr
 from email.message import EmailMessage
 from datetime import datetime
 
+# hostname = "my-rabbit"
 hostname = "localhost"
 port = 5672
 connection = pika.BlockingConnection(
