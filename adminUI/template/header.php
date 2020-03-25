@@ -47,7 +47,7 @@ if (isset($_SESSION['admin'])) {
             <?php if ($is_loggedin) {
                
                    echo "<li class='nav-item'>
-                            <a class='nav-link' href='read_msg.php'>
+                            <a class='nav-link' href='send_message.php'>
                                 <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
                             </a>
                         </li>
