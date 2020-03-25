@@ -123,11 +123,11 @@ if (isset($_SESSION['customer_id'])) {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 if ($actual_link != 'login.php') {
                     echo "<li class='nav-item active'>
-            <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
-            </li>
-            <li class='nav-item active'>
-                <a class='nav-link' href='login.php'>Login</a>
-            </li>";
+                    <a class='nav-link' href='login.php'><span class='fas fa-user' aria-hidden='true'></span></a>
+                    </li>
+                    <li class='nav-item active'>
+                        <a class='nav-link' href='login.php'>Login</a>
+                    </li>";
                 }
             }
             ?>
