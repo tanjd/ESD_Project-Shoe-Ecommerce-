@@ -4,6 +4,9 @@ require_once 'template/header.php';
 require_once 'include/autoload.php';
 ?>
 
+
+<main role="main" class="container">
+    <div class="starter-template">
 <?php
 
 if(isset($_POST['invoice_id'])){
@@ -27,15 +30,12 @@ if(isset($_POST['invoice_id'])){
 
     if ($invoice != false && $order != false) {
         $invoice_id = $invoice->id;
-        echo "Order #{$invoice_id}";
-        echo "<br><br><br>";
-
-
-
-        echo "<table id = 'orderSummary' class = 'summary'><tr> 
-                <th>Product id</th>
-                <th>Quantity</th>
-                <th>Amount</th> 
+        echo"<p class='lead'><h2>Order #{$invoice_id}</h2></p>";
+        echo "<br><br>";
+        echo "<table id = 'orderSummary' class = 'table'><tr> 
+                <th style='text-align:center'>Product id</th>
+                <th style='text-align:center'>Quantity</th>
+                <th style='text-align:center'>Amount</th> 
             </tr>";
         foreach ($order as $order) {
             echo "<tr>
@@ -46,13 +46,14 @@ if(isset($_POST['invoice_id'])){
             }
         echo "<tr>
                 <td>Total Amount:</td>
-                <td colspan = '2'>\${$invoice->total_amount}</td>  
+                <td></td>
+                <td style='text-align:center'>\${$invoice->total_amount}</td>  
             </tr>";
         
         echo "</table>";
 
         echo "<form action = 'dispatch_delivery.php' method = 'post'>
-        <button name='update_id' type='submit' value= {$invoice_id}>Dispatch</button></td>
+        <button class='btn btn-primary btn-sm' style='float:right' name='update_id' type='submit' value= {$invoice_id}>Dispatch</button></td>
         </form>";
 
     }
@@ -60,6 +61,7 @@ if(isset($_POST['invoice_id'])){
 
 ?>
 
+</div>
 
 <?php
 
