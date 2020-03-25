@@ -11,6 +11,16 @@ require_once 'template/header.php';
 ?>
 
 <?php
+
+require_once 'include/currency_convert.php';
+
+
+    if (isset($_SESSION['currency'])) {
+        $selected_currency = $_SESSION['currency'];
+    } else {
+        $selected_currency = 'SGD';
+    }
+
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $customer_id = $_SESSION['customer_id'];
     $markers_data = CallAPI('GET', $delivery_url, 'get_all_markers');
@@ -35,27 +45,23 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
     if (isset($_POST['location'])) {
         $_SESSION['delivery'] = $_POST["location"];
-        // var_dump($_SESSION['delivery']);
     }
 
     $GET_data = [
         "customer_id" => $customer_id
     ];
     $customer_data = CallAPI('GET', $customer_url, "get_customer/", $GET_data);
-    // var_dump($customer_data);
     $customer_status = checkSuccessOrFailure($customer_data);
     if ($customer_status != false) {
         $customer = $customer_data->{'customer'};
         $location_address = $customer->{'address'};
         $location_postal = $customer->{'postal_code'};
-        // var_dump($location_name);
-        // var_dump($location_postal);
+
     } else {
         $products = false;
     }
     $geo_address = $location_postal;
 
-    // $address = "3 Simei Street 6, Singapore 528833";
     $user_address_cords = geocode($geo_address);
 } else {
     header('Location: cart.php');
@@ -77,19 +83,21 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         foreach ($_SESSION['cart'] as $contentArray) {
             $id = $contentArray['id'];
             $name = $contentArray['name'];
-            $unit_price = number_format($contentArray['unit_price'], 2, '.', ',');
+            $temp_price = number_format($contentArray['unit_price'], 2, '.', ',');
+            $unit_price =convert($temp_price, $selected_currency);
             $quantity = $contentArray['quantity'];
+            $total_price = $unit_price * $quantity;
 
             echo "<tr>
                         <td>$name</td>
-                        <td>$$unit_price</td>
+                        <td>$selected_currency $total_price </td>
                     </tr>";
             $cart_total += $unit_price * $quantity;
         }
         ?>
         <tr>
             <th colspan='1'>Total</th>
-            <th colspan='1'><?php echo "\$$cart_total" ?></th>
+            <th colspan='1'><?php echo "$selected_currency $cart_total" ?></th>
         </tr>
 
         <?php
@@ -98,6 +106,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         <tr>
             <td><br><br></td>
         </tr>
+        
         <tr>
             <td colspan='2'>
                 <h2>Delivery Address</h2>
@@ -110,19 +119,18 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                 <style>
                     #map {
                         height: 400px;
-                        width: 78%;
+                        width: 90%;
                     }
                 </style>
 
                 <body>
                     <div id="map"></div>
                     <script>
-                        // Initialize and add the map
+
                         function initMap() {
-                            // The location of singapore
+
                             var locations = <?php echo json_encode($marker_coords) ?>
 
-                            // The map, centered at singapore
                             var map = new google.maps.Map(document.getElementById('map'), {
                                 zoom: 10,
                                 center: new google.maps.LatLng(1.3521, 103.8198),
@@ -173,36 +181,35 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
             </td>
         </tr>
         <tr>
-            <th>Address for Delivery</th>
-            <td>
-                <form action="process_payment.php" method="post">
-                    <?php
-                    $markers = $markers_data->{'markers'};
-                    echo "<select id='location' name='location' size='1'>";
-                    foreach ($markers as $marker_object) {
-                        $location_name = $marker_object->{'name'};
-                        echo '<option name="location" , value="' . $location_name . '" selected>' . $location_name . '</option>';
-                    }
-                    ?>
-                    <input type="submit" value="submit">
+            <td><form action="process_payment.php" method="post">
+                <?php
+                $markers = $markers_data->{'markers'};
+                echo "<select id='location' name='location' size='1'>";
+                foreach ($markers as $marker_object) {
+                    $location_name = $marker_object->{'name'};
+                    echo '<option name="location" , value="' . $location_name . '" selected>' . $location_name . '</option>';
+                }
+                ?>
             </td>
+            <td><input type='submit' name='submit' value = 'Update Location' class='btn btn-dark'></td>
         </tr>
 
-
-
-
-
-
-
-
-
-
-
-
+        <tr>
+                <?php
+                    if(isset($_POST['location'])){
+                        $delivery_location = $_POST['location'];
+                        echo "<th> Delivery Location Choosen:</th>"; 
+                        echo "<td> $delivery_location </td";
+                    } else{
+                        echo "<th> Delivery Location has not been choosen, please submit a location </th>";
+                    }
+                ?>
+        </tr>
 
         <tr>
             <td><br><br></td>
         </tr>
+
         <tr>
             <td colspan='2'>
                 <h2>Payment</h2>
@@ -211,24 +218,17 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
         <tr>
             <td colspan='2'>
-                <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <script src="https://www.paypal.com/sdk/js?client-id=AbIxMLEzEKKNL3RneA8f1FmkHiXf178hxTJR7PLfL9qW1ZNKzElEKGUTj5-Ki3I-N53iH-oYBSUP4nY8">
-                    // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+
                 </script>
                 <div id="paypal-button-container"></div>
-                <?php
-                $_total = 0;
-                foreach ($_SESSION['cart'] as $c_list) {
-                    $product_price = $c_list['unit_price'];
-                    $_total += $product_price;
-                }
-                ?>
+
                 <script>
-                    var total = "<?php echo $_total ?>";
+                    var total = "<?php echo $cart_total ?>";
                     paypal.Buttons({
 
                         createOrder: function(data, actions) {
-                            // This function sets up the details of the transaction, including the amount and line item details.
                             return actions.order.create({
                                 purchase_units: [{
                                     amount: {
@@ -238,19 +238,13 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                             });
                         },
                         onApprove: function(data, actions) {
-                            // This function captures the funds from the transaction.
                             window.location.href = "http://localhost/ESD_Project/customerUI/completed.php";
                             return actions.order.capture().then(function(details) {
-                                // This function shows a transaction success message to your buyer.
                                 alert('Transaction completed by ' + details.payer.name.given_name);
                             });
                         }
                     }).render('#paypal-button-container');
-                    //This function displays Smart Payment Buttons on your web page.
                 </script>
             </td>
         </tr>
 </main>
-<?php
-//require_once 'template/footer.php';
-?>

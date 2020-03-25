@@ -26,7 +26,7 @@ $cart_total = 0;
             
             <?php
 
-            // var_dump($_SESSION['cart']);
+
             
             if ($is_loggedin){
                 if (!isset($_SESSION['cart']) or $_SESSION['cart'] == []) {
