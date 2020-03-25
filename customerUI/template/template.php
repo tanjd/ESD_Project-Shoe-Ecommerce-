@@ -1,11 +1,11 @@
 <?php
-require_once 'include/autoload.php';
+require_once '../include/autoload.php';
 
 ?>
 
 <?php
-require_once 'template/head.php';
-require_once 'template/header.php';
+require_once 'head.php';
+require_once 'header.php';
 ?>
 <main role="main" class="container">
     <div class="starter-template">
@@ -17,5 +17,5 @@ require_once 'template/header.php';
 
 </main>
 <?php
-require_once 'template/footer.php';
+require_once 'footer.php';
 ?>
