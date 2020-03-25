@@ -21,6 +21,7 @@ from sqlalchemy import desc
 # CORS(app)
 
 customerURL = "http://localhost:5000/"
+# customerURL = "http://:5000/"
 
 hostname = "localhost"
 port = 5672
