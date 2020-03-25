@@ -1,8 +1,6 @@
 <?php
 
-require_once('autoload.php'); 
 // currency converter API
-
 $endpoint = 'latest';
 $access_key = '978c0ebe8cf2b9369b0b4aeef0dcfbbe';
 $symbols = 'USD,SGD,GBP,EUR,AUD'; 

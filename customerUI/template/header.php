@@ -3,7 +3,6 @@
 require_once 'include/autoload.php';
 require_once 'include/currency_convert.php'; 
 
-//$con = mysqli_connect("localhost", "root", "", "notify");
 
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 $categories_data_status = checkSuccessOrFailure($categories_data);
@@ -57,8 +56,7 @@ if (isset($_SESSION['customer_id'])) {
         $message =false; 
         $num_of_msg = 0; 
     }
-    
-    var_dump($categories); 
+ 
     
 }
 
@@ -85,66 +83,74 @@ else{
     $selected_currency = 'SGD'; 
 }
 
-echo'
+var_dump($categories); 
+foreach ($categories as $category){
+    echo "$category->name"; 
+    //echo $category->name; 
+}
+//var_dump($currencies); 
+?>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="index.php">Python Shoes</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>'; 
+    </button>
 
 
-    echo'<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">'; 
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <?php
+                    foreach ($categories as $category) { 
+                        echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id=$category->id'><$category->name</a>"; 
+                    } ?>
                 
-                    foreach ($categories as $category) {
-                        echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
-                    }
-                echo'
                 </div>
             </li>
         </ul>
         
-        <ul class="navbar-nav right">'; 
+        <ul class="navbar-nav right">
+            <?php
             
-            
-                if (isset($_SESSION['customer_id'])) { 
+                if (isset($_SESSION['customer_id'])) { ?>
                    
-                    echo"<li class='nav-item'>
+                    <li class='nav-item'>
                         <a class='nav-link' href='read_msg.php'>
-                            <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'>$num_of_msg</span>
+                            <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'><?=$num_of_msg?></span>
                         </a>
                     </li>
 
                     <li class='nav-item'>
                         <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
-                            <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'>$quantity</span>
+                            <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id = 'count'><?=$quantity?></span>
                         </a>
                     </li>
 
                     <li>
-                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span> $customer->name</a>
+                        <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span> <?=$customer->name?></a>
                     </li>
 
                     <li class='nav-item dropdown'>
-                        <a class='nav-link dropdown-toggle' id='dropdown02' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> $selected_currency</a>
-                        <div class='dropdown-menu' aria-labelledby='dropdown02'>"; 
+                        <a class='nav-link dropdown-toggle' id='dropdown02' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> <?=$selected_currency?></a>
+                        <div class='dropdown-menu' aria-labelledby='dropdown02'>
+                            <?php
+                            foreach ($currencies as $key => $value) { 
+                                echo"<a class='dropdown-item' style='text-transform:capitalize' href='process_convert_currency?currency=$key'>$key</a>"; 
+                                var_dump($key); 
+                            } ?>
                             
-                            foreach ($currencies as $key => $value) {
-                                echo "<a class='dropdown-item' style='text-transform:capitalize' href='process_convert_currency?currency=$key'>$key</a>";
-                            }
                             
-                            
-                        echo"</div>
+                        </div>
                     </li>
 
                     <li class='nav-item'>
                         <a class='nav-link' href='process_logout.php'> <span class='fa fa-sign-out' aria-hidden='true'></span></a>
-                    </li>"; 
+                    </li><?php 
             } else {
                 $actual_link = "$_SERVER[REQUEST_URI]";
                 //var_dump($actual_link);
