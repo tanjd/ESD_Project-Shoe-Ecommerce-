@@ -1,70 +1,123 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
 <?php
 require_once 'include/autoload.php';
+    $order_data = [ 
+        "cart" => $_SESSION['cart'],
+        "id" => $_SESSION['customer_id'],
+        "address" => $_SESSION['delivery']];
 
+require_once 'include/currency_convert.php';
+
+
+if (isset($_SESSION['currency'])) {
+    $selected_currency = $_SESSION['currency'];
+} else {
+    $selected_currency = 'SGD';
+}
 ?>
 
-<?php
-require_once 'template/head.php';
-require_once 'template/header.php';
+<br><br><br><br><br><br><br><br>
+<div class="container">
+    <div class="row">
+        <div class="well col-xs-10 col-sm-10 col-md-15 col-xs-offset-1 col-sm-offset-1">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-15">
+                    <address>
+                        <strong>Python Shoes</strong>
+                        <br>
+                        Singapore
+                        <br>
+                        Clemnti Road 21, 500101
+                        <br>
+                        P: (65) 6588-7565
+                    </address>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    <p>
+                        <em>Date: 02, April 2020</em>
+                    </p>
 
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <img src="https://cdn.dribbble.com/users/637635/screenshots/6065726/800_600_2.gif" alt="thankyou.gif" width="400" height="300">
+                    <h1>Receipt</h1>
+                </div>
+                </span>
+                <table class="table table-hover">
+                    <!-- <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead> -->
+                    <tbody>
+                    <thead>
+                        <tr>
+                        <th> Delivery Location</th>
+                        <td colspan='3' class="text-right"> <?php echo $_SESSION['delivery'] ?> </td>
+                        </tr>
+                    </thead>
+                    
+                        <?php
+                            $cart_total = 0;
 
-?>
+                            echo "<table class='table table-hover'>";
+                            echo "<thead>
+                                <tr>
+                                    <th >Name</th>
+                                    <th> Quantity </th>
+                                    <th>Price</th>
+                                    <th> Total </th>
+                                </tr>
+                                    </thead>";
 
+                            $cart_total = 0;
+                            foreach ($_SESSION['cart'] as $contentArray) {
+                                $name = $contentArray['name'];
+                                $temp_price = number_format($contentArray['unit_price'], 2, '.', ',');
+                                $unit_price =convert($temp_price, $selected_currency);
+                                $quantity = $contentArray['quantity'];
+                                $total_price = $unit_price * $quantity;
+                    
+                                echo "<tr>
+                                            <td>$name</td>
+                                            <td> $quantity </td>
+                                            <td>$selected_currency $total_price</td>
+                                            <td>$selected_currency $total_price </td>
+                                        </tr>";
+                                    $cart_total += $total_price;
+                            }     
+                    ?>
 
-<main role="main" class="container">
-    <div class="starter-template">
-        <p class="lead"><h2>Your payment is Successful! Thank you for shopping with us! :-)</h2></p>
-        <a href="http://localhost/esd_project/customerUI/index.php">Click here to shop more!</a>          
-        <br></br>              
-        <h2>RECEIPT</h2>
+                        <tr>
+                            <td>   </td>
+                            <td>   </td>
+                            <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                            <td class="text-left text-danger"><h4><strong><?php echo "$selected_currency $cart_total" ?> </strong></h4></td>
+                        </tr>
 
-        <?php   
-                $order_data = [ 
-                "cart" => $_SESSION['cart'],
-                "id" => $_SESSION['customer_id'],
-                "address" => $_SESSION['delivery']];
-
-                $cart_total = 0;
-                echo "<table class='table table-hover'>";
-                echo "<tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        </tr>";
-                $cart_total = 0;
-                foreach ($_SESSION['cart'] as $contentArray) {
-                    $name = $contentArray['name'];
-                    $unit_price = number_format($contentArray['unit_price'], 2, '.', ',');
-
-        
-                    echo "<tr>
-                                <td>$name</td>
-                                <td>$$unit_price</td>
-                            </tr>";
-                    $cart_total += $unit_price * $quantity;
-                }     
-        ?>
-        <tr>
-            <th colspan='1'>Total</th>
-            <th colspan='1'><?php echo "\$$cart_total" ?></th>
-        </tr>
-
-        <tr>
-            <?php 
-                echo "<tr><td></td></tr>";
-                $delivery = $_SESSION['delivery'];
-                echo"<th> Delivery Location </th>";
-                echo "<th>$delivery</th>";
-                echo "<tr><td></td></tr>";
-                echo "<tr><th>Payment</th>
-                      <th>Payment done by paypal is successful</th></tr>";
-            ?>
-        </tr>
-
-
-
+                    </tbody>
+                </table>
+                <div>
+                    <h1 style="text-align:center;">Your payment is Successful! </h1>
+                    <h1 style="text-align:center;">Thank you for shopping with us! :-)</h1>
+                    <tr ><a href="http://localhost/ESD_Project/customerUI/index.php">Click here to shop more!</a></tr> 
+                    
+                </div>
+            </div>
+        </div>
     </div>
 
-<?php
+    <?php
 ;
 
 if (isset($_SESSION['cart']) and isset($_SESSION['customer_id']) and isset($_SESSION['delivery'])) {
@@ -76,19 +129,9 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id']) and isset($_SES
     ];
 
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
-    $status = checkSuccessOrFailure($data);
-    if ($status != false) {
-        //session_destroy();
-        } 
+    $status = checkSuccessOrFailure($data); 
 }else{
     header('Location" process_payment.php');
 }
 ?>
 
-
-
-
-</main>
-<?php
-//require_once 'template/footer.php';
-?>
