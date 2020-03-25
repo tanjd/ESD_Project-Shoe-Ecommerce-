@@ -21,6 +21,7 @@ from sqlalchemy import desc
 # CORS(app)
 
 customerURL = "http://localhost:5000/"
+# customerURL = "http://:5000/"
 
 hostname = "localhost"
 port = 5672
@@ -94,7 +95,9 @@ def process_notification_message(data):
                 channel.queue_declare(queue='notify_email', durable=True)
                 channel.queue_declare(queue='notify_telegram', durable=True)
                 channel.queue_bind(exchange=exchange_name,
-                                   queue='', routing_key='notify.*')
+                                   queue='notify_email', routing_key='notify.*')
+                channel.queue_bind(exchange=exchange_name,
+                                   queue='notify_telegram', routing_key='notify.*')
                 channel.basic_publish(exchange=exchange_name, routing_key='notify.*', body=publish_message,
                                       properties=pika.BasicProperties(delivery_mode=2,))
             except:

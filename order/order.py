@@ -73,6 +73,12 @@ def order_notification(message_content, customer_id):
     connection.close()
 
 
+@app.route('/')
+def home():
+    # order_notification('message', 1)
+    return 'order microservice is working'
+
+
 @app.route('/create_order', methods=['POST'])
 def create_order():
     order_data = request.get_json()
@@ -131,7 +137,6 @@ def create_order():
     return jsonify({"status": "success"})
 
 
-
 @app.route('/get_invoice/', methods=['GET'])
 def get_invoice():
     invoice_id = request.args.get('invoice_id')
@@ -159,4 +164,3 @@ def get_all_orders():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5003, debug=True)
-
