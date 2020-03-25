@@ -8,7 +8,6 @@ require_once 'include/autoload.php';
 <main role="main" class="container">
     <div class="starter-template">
 <?php
-
 if(isset($_POST['invoice_id'])){
     $data = [
         "invoice_id" => $_POST['invoice_id']
@@ -30,7 +29,7 @@ if(isset($_POST['invoice_id'])){
 
     if ($invoice != false && $order != false) {
         $invoice_id = $invoice->id;
-        echo"<p class='lead'><h2>Order #{$invoice_id}</h2></p>";
+        echo"<p class='lead'><h2>Order Invoice #{$invoice_id}</h2></p>";
         echo "<br><br>";
         echo "<table id = 'orderSummary' class = 'table'><tr> 
                 <th style='text-align:center'>Product id</th>
@@ -53,7 +52,7 @@ if(isset($_POST['invoice_id'])){
         echo "</table>";
 
         echo "<form action = 'dispatch_delivery.php' method = 'post'>
-        <button class='btn btn-primary btn-sm' style='float:right' name='update_id' type='submit' value= {$invoice_id}>Dispatch</button></td>
+        <button class='btn btn-warning' style='float:right' name='update_id' type='submit' value= {$invoice_id}>Dispatch</button></td>
         </form>";
 
     }

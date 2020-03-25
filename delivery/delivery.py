@@ -121,7 +121,7 @@ def update_status():
     if update_this:
         update_this.status = "Dispatched"
         db.session.commit()
-        message_content = "Invoice" + invoice_id + " have been dispatched."
+        message_content = "Invoice " + invoice_id + " have been dispatched."
         delivery_notification(message_content, update_this.customer_id)
         return jsonify({"status": "success"})
     else:
