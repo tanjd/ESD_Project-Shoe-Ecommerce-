@@ -1,3 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    
+</head>
+<link rel="stylesheet" type="text/css" href="css/message_style.css">
+<body>
+</body>
+<style>
+#count{
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+    left: -10px;
+}
+
+</style>
+</html>
+
 <?php
 
 require_once 'include/autoload.php';
@@ -93,14 +115,15 @@ if (isset($_SESSION['customer_id'])) {
             <?php
             if ($is_loggedin) {
             ?>
+
                 <li class='nav-item'>
                     <a class='nav-link' href='read_msg.php'>
-                        <i class='fas fa-envelope'></i> <span class='badge badge-danger' id='count'><?php $num_of_msg ?></span>
+                        <i class='fas fa-envelope'></i> <span class="badge badge-danger" id='count' ><?php echo "$num_of_msg";?></span>   
                     </a>
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' href='cart.php' aria-haspopup='true' aria-expanded='false'>
-                        <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id='count'><?php $quantity ?></span>
+                        <i class='fas fa-shopping-cart'></i><span class='badge badge-danger' id='count'><?php echo "$quantity"; ?></span>
                     </a>
                 </li>
                 <li>
