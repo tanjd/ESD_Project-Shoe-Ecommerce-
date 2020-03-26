@@ -69,7 +69,7 @@ if($is_loggedin){
     }
     }
     if ($count==0){
-        echo "<tr><td colspan='4'><h4><b>No new messages</b></h4></td></tr>";
+        echo "<p></p><tr><center><td colspan='4' ><h4><b style='color: black';>No new messages</b></h4></td></center></tr>";
         }
         }
         else{

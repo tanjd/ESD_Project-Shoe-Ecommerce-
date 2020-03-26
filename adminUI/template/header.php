@@ -1,7 +1,6 @@
 <?php
 
 require_once 'include/autoload.php';
-
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
 $categories_data_status = checkSuccessOrFailure($categories_data);
 
@@ -11,12 +10,11 @@ if ($categories_data_status != false) {
     $categories = false;
 }
 
+
 $is_loggedin = False; 
 if (isset($_SESSION['admin'])) {
         $is_loggedin = True; 
 }
-
-
 
 ?>
 <nav class="navbar navbar-expand-md navbar-dark bg-danger fixed-top">
@@ -30,16 +28,6 @@ if (isset($_SESSION['admin'])) {
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="index.php"><span class="fa fa-home"></span></a>
-            <!-- <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop By Brand</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <?php
-                    // foreach ($categories as $category) {
-                    //     echo "<a class='dropdown-item' style='text-transform:capitalize' href='product_category.php?category_id={$category->id}'>{$category->name}</a>";
-                    // }
-                    ?>
-                </div>
-            </li> -->
         </ul>
         <ul class="navbar-nav right">
             
