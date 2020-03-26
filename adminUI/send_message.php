@@ -42,8 +42,9 @@ $categories = $categories_data->categories
     <p><form class="form-signin" action="process_message.php" method="post">
         <div class="form-group">
         <center><label for="exampleInputPassword1"></label></center>
-        <select id="categories1" name="categories1" class="form-control" id="exampleFormControlSelect1" >
-          <option value='brand' >Select a Brand to broadcast</option>";
+        <select id="categories1" name="categories1" class="mdb-select md-form" searchable="Search here.." id="exampleFormControlSelect1" >
+        <option value="" disabled selected>Select a Brand to broadcast</option>
+          
             <?php
                 foreach ($categories as $category) {
                     var_dump($category);
@@ -52,6 +53,7 @@ $categories = $categories_data->categories
                 ?>
                 
               </p>
+          </select>
           <input type="text" class="form-control" name="message2" id="message" placeholder="Enter Message">
         </div>
         <p>
