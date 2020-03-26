@@ -2,6 +2,8 @@
 require_once 'template/head.php';
 require_once 'template/header.php';
 require_once 'include/autoload.php';
+
+if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
 ?>
 
 
@@ -49,12 +51,12 @@ if ($delivery != false) {
 
 
 
-
-
-
-
-
-
+<?php }
+else {
+    header('Location: login.php');
+    exit();
+}
+?>
 
 <?php
 require_once 'template/footer.php';

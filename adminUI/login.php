@@ -1,5 +1,3 @@
-
-
 <?php
 require_once 'template/head.php';
 require_once 'template/header.php';
@@ -16,13 +14,12 @@ require_once 'include/autoload.php';
             <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
             
-            <input type="text" name="input_email" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus="">
-            <input type="password" name="input_password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <input type="text" name="input_email" id="input_email" class="form-control" placeholder="Username" required="" autofocus="">
+            <input type="password" name="input_password" id="input_password" class="form-control" placeholder="Password" required="">
 
             <button class="btn btn-danger btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <hr>
-            <!-- <p>Don't have an account!</p>  -->
             
         </form>
 
@@ -32,17 +29,6 @@ require_once 'include/autoload.php';
             <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
         </form>
 
-        <form action="/signup/" class="form-signup">
-            
-
-            <input type="text" id="user-name" class="form-control" placeholder="Full name" required="" autofocus="">
-            <input type="email" id="user-email" class="form-control" placeholder="Email address" required autofocus="">
-            <input type="password" id="user-pass" class="form-control" placeholder="Password" required autofocus="">
-            <input type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" required autofocus="">
-
-            <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
-            <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
-        </form>
         <br>
 
     </div>

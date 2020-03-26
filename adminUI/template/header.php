@@ -10,7 +10,6 @@ if ($categories_data_status != false) {
     $categories = false;
 }
 
-
 $is_loggedin = False; 
 if (isset($_SESSION['admin'])) {
         $is_loggedin = True; 
@@ -38,9 +37,6 @@ if (isset($_SESSION['admin'])) {
                             <a class='nav-link' href='send_message.php'>
                                 <i class='fas fa-envelope'></i> <span class='badge badge-danger' id = 'count'></span>
                             </a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span></a>
                         </li>
                         <li class='nav-item active'>
                             <a class='nav-link'>Administrator</a>
@@ -80,15 +76,15 @@ if (isset($_SESSION['admin'])) {
         <p>We don't just sell snakeskin shoes.</p>
         
         <?php
-        if (isset($_SESSION['header_display'])){
-            if ($_SESSION['header_display']){
-                echo "
-                <div class='p-3 mb-2 bg-dark text-white'>
-                <p><h3>{$_SESSION['message']}</h3></p>";
-                $_SESSION['header_display'] = FALSE;
-                echo '</div>';
-            }
-        }
+        // if (isset($_SESSION['header_display'])){
+        //     if ($_SESSION['header_display']){
+        //         echo "
+        //         <div class='p-3 mb-2 bg-dark text-white'>
+        //         <p><h3>{$_SESSION['message']}</h3></p>";
+        //         $_SESSION['header_display'] = FALSE;
+        //         echo '</div>';
+        //     }
+        // }
         ?>
     </div>
 </div>

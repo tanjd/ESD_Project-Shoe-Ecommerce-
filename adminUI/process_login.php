@@ -14,7 +14,8 @@ if (isset($_POST['input_email']) and isset($_POST['input_password'])) {
         header('Location: login.php');
         exit();
     }
-} else {
+}
+else {
     header('Location: login.php');
     exit();
 }
