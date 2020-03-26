@@ -1,7 +1,6 @@
 <?php
     require_once 'include/autoload.php';
 
-    // session_start(); 
 
     if (! isset($_SESSION['cart'])){
         $_SESSION['cart'] = []; 
@@ -10,7 +9,6 @@
     $from = $_GET['from'];
     
 
-    // get product id, name, price, quantity
     $product = false; 
     $id = ''; 
 
@@ -27,9 +25,7 @@
         } 
     }
 
-
-    
-    // create the selected item
+  
     $selectedItem = []; 
     if ($product != false && $id != ''){
 
@@ -41,46 +37,44 @@
             ]; 
     }
 
-    // if cart not empty
+
+    
+   
     if (isset($_SESSION['cart']) && ! empty($_SESSION['cart'])){
 
-        // check if product is already in cart
+        $cartItemId = []; 
         foreach ($_SESSION['cart'] as $contentArray){
-
-            
-            // product is already in cart
-            if (in_array($id, $contentArray)){
-                // break;
-                $contentArray['quantity'] += 1; 
-                $_SESSION['message'] = 'Product is already in cart!'; 
-                $_SESSION['header_display'] = TRUE;
-                header("Location: $from"); 
-                exit(); 
-            }
-
-            // product is not in cart
-            else{
-                array_push($_SESSION['cart'], $selectedItem);
-                $_SESSION['message'] = 'Product successfully added to cart!'; 
-                $_SESSION['header_display'] = TRUE;
-                header("Location: $from"); 
-                exit(); 
-            }
+            array_push($cartItemId, $contentArray['id']); 
         }
 
-        
+
+    
+        if (! in_array($id, $cartItemId)){
+            array_push($_SESSION['cart'], $selectedItem);
+            $_SESSION['message'] = 'Product successfully added to cart!'; 
+            $_SESSION['header_display'] = TRUE;
+            header("Location: $from"); 
+            exit(); 
+        }
+
+            
+        else{
+            $_SESSION['message'] = 'Product is already in cart! To update the quantity, please go to cart'; 
+            $_SESSION['header_display'] = TRUE;
+            header("Location: $from"); 
+            exit(); 
+        }    
 
     }
     
-    // if cart empty
+    
     else 
     {
         array_push($_SESSION['cart'], $selectedItem);
-        $_SESSION['message'] = 'Product added to cart!';  
+        $_SESSION['message'] = 'Product successfully added to cart!';  
         $_SESSION['header_display'] = TRUE;
         header("Location: $from"); 
         exit(); 
     }
-var_dump($_SESSION['cart']); 
-var_dump($_SESSION['message']); 
+
 ?>
