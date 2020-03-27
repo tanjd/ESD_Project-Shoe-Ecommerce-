@@ -42,30 +42,45 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             $delivery = false;
         }
 
-        if ($invoice != false && $order != false) {
+        if ($invoice != false && $order != false && $delivery != false) {
             $invoice_id = $invoice->id;
             echo"<p class='lead'><h2>Order Invoice #{$invoice_id}</h2></p>";
             echo"<h6><span class='badge badge-secondary'>{$delivery->status}</span></h6>";
             echo "<br><br>";
             echo "<table id = 'orderSummary' class = 'table'><tr> 
                     <th style='text-align:center'>Product id</th>
+                    <th style='text-align:center'>Product Name</th>
                     <th style='text-align:center'>Quantity</th>
                     <th style='text-align:center'>Amount</th> 
                 </tr>";
             foreach ($order as $order) {
                 echo "<tr>
-                <td>{$order->product_id}</td>
+                <td>{$order->product_id}</td>";
+                $get_product = ["product_id"=>$order->product_id];
+                $product_data = CallAPI('GET', $product_url, 'get_product/', $get_product);
+                $product_status = checkSuccessOrFailure($product_data);
+                if ($product_data != false) {
+                    $product = $product_data->{'product'};
+                } else {
+                    $product = false;
+                }
+                if($product != false){
+                    echo"<td>{$product->name}</td>";
+
+                }
+                echo"
                 <td>{$order->quantity}</td>
                 <td>\${$order->price}</td>";}
 
             echo "<tr>
                     <td>Total Amount:</td>
-                    <td></td>
+                    <td></td><td></td>
                     <td style='text-align:center'>\${$invoice->total_amount}</td>  
                 </tr>";
 
             echo "<tr>
                 <td>Update Status:</td>
+                <td></td></td>
                 <td></td></td>
                 <td>";
             echo "<form action = 'dispatch_delivery.php' method = 'post'>";
