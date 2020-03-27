@@ -14,6 +14,11 @@ if (isset($_SESSION['customer_id'])) {
         $customer = false;
     }
 }
+
+if ($customer == false){
+    header('Location: login.php'); 
+    exit(); 
+}
 ?>
 
 <?php
