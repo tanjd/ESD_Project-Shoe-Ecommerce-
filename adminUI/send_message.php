@@ -46,7 +46,33 @@ unset($_SESSION['message']); ?>
           <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message">
         </div>
         <p>
-        <button type="submit" name='submit1' class="btn btn-success btn-block"><i class="fas fa-paper-plane"></i> Broadcast Message</button>
+        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal">
+          <i class="fas fa-paper-plane"></i> Broadcast Message
+        </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Sending Message...</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Sending this message to <b>ALL</b> customers. <br>
+              Are you sure you want to continue? <br>
+              Press 'OK' to continue, or Cancel to stay on current page.
+            </div>
+            <div class="modal-footer">
+              <button type="submit" name='submit1' class="btn btn-primary">OK</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
       </form></p>
   </div>
 
