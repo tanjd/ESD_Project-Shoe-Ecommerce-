@@ -55,6 +55,3 @@ require_once 'include/autoload.php';
     </p>
     <!-- </div> -->
 </main>
-<?php
-require_once 'template/footer.php';
-?>
