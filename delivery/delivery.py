@@ -103,7 +103,7 @@ def get_all_markers():
 
 @app.route('/get_deliveries', methods=['GET'])
 def get_deliveries():
-    status = "NULL"
+    status = "In Progress"
     delivery = [delivery.json()
                 for delivery in Delivery.query.filter_by(status=status).all()]
     if delivery:

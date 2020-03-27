@@ -124,7 +124,7 @@ def create_order():
     POST_data = {
         "invoice_id": invoice_id,
         "address": order_data['address'],
-        "status": "NULL",
+        "status": "In Progress",
         "customer_id": customer_id}
 
     try:

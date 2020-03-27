@@ -65,7 +65,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $user_address_cords = geocode($geo_address);
 } else {
     header('Location: cart.php');
-    exit();
 }
 
 ?>
@@ -86,7 +85,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
             $temp_price = number_format($contentArray['unit_price'], 2, '.', ',');
             $unit_price =convert($temp_price, $selected_currency);
             $quantity = $contentArray['quantity'];
-            $total_price = $unit_price * $quantity;
+            $total_price = number_format($unit_price * $quantity, 2, '.', ','); 
 
             echo "<tr>
                         <td>$name</td>
@@ -104,6 +103,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         ?>
 
         <tr>
+            <td><br><br></td>
             <td><br><br></td>
         </tr>
         
@@ -208,6 +208,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
         <tr>
             <td><br><br></td>
+            <td><br><br></td>
         </tr>
 
         <tr>
@@ -238,7 +239,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                             });
                         },
                         onApprove: function(data, actions) {
-                            window.location.href = "http://localhost/ESD_Project/customerUI/completed.php";
+                            window.location.href = "http://localhost/ESD_Project/customerUI/receipt.php";
                             return actions.order.capture().then(function(details) {
                                 alert('Transaction completed by ' + details.payer.name.given_name);
                             });
