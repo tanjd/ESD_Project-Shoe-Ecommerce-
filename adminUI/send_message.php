@@ -22,6 +22,12 @@ $categories = $categories_data->categories
 
 
 <main role="main" class="container">
+<div class="bs-example"> 
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong> Your message has been sent successfully.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
 <h3>Broadcast Messages</h3>
   <div class="tab" style="color:red ">
     <button class="tablinks" onclick="openCity(event, 'to_all')">Broadcast to All</button>
@@ -82,7 +88,7 @@ $categories = $categories_data->categories
             
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="submit" name='submit2' class="btn btn-success ">OK</button>
+              <button type="submit" name='submit2' class="btn btn-success " onclick="myFunction()">OK</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             
@@ -108,6 +114,8 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+
 </script>
 
 
