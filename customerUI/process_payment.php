@@ -104,6 +104,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
 
         <tr>
             <td><br><br></td>
+            <td><br><br></td>
         </tr>
         
         <tr>
@@ -206,6 +207,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
         </tr>
 
         <tr>
+            <td><br><br></td>
             <td><br><br></td>
         </tr>
 
