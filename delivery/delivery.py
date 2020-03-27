@@ -81,7 +81,6 @@ def delivery_notification(message_content, customer_id):
                        queue=queue, routing_key=routing_key)
     channel.basic_publish(exchange=exchangename, routing_key=routing_key, body=publish_message,
                           properties=pika.BasicProperties(delivery_mode=2,))
-    print("Delivery details sent to notification")
     connection.close()
 
 
