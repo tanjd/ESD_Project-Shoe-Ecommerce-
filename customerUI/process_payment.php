@@ -86,7 +86,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
             $temp_price = number_format($contentArray['unit_price'], 2, '.', ',');
             $unit_price =convert($temp_price, $selected_currency);
             $quantity = $contentArray['quantity'];
-            $total_price = $unit_price * $quantity;
+            $total_price = number_format($unit_price * $quantity, 2, '.', ','); 
 
             echo "<tr>
                         <td>$name</td>
