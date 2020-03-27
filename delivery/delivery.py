@@ -161,5 +161,18 @@ def create_delivery():
     return jsonify({"status": "success"})
 
 
+@app.route('/get_deliveries_status', methods=['GET'])
+def get_deliveries():
+    status = request.args.get('status')
+    delivery = [delivery.json()
+                for delivery in Delivery.query.filter_by(status=status).all()]
+    if delivery:
+        return_message = ({"status": "success",
+                           "delivery": delivery})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5002, debug=True)

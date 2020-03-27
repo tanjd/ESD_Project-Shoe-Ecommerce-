@@ -6,7 +6,7 @@ require_once 'include/autoload.php';
 ?>
 <div>
 <a href="view_delivery.php">
-    <p style = "font-family:georgia,garamond,serif;font-size:20px;font-style:italic;text-align:center;float:left;padding-left: 35px;">View All Orders</a>
+    <p style = "font-family:georgia,serif;font-size:20px;text-align:center;float:left;padding-left: 35px;">View All Orders</a>
 </div>
 
 
@@ -104,7 +104,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             "status" => $_POST['status']];                
         $update = CallAPI('GET', $delivery_url, 'delivery/',$update_data);
         if($update != False){
-                $URL="http://localhost/ESD_Project/adminUI/view_delivery.php";
+                $URL="view_delivery.php";
                 echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
                 echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
             }
