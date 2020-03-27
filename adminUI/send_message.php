@@ -22,7 +22,7 @@ $categories = $categories_data->categories
 
 
 <main role="main" class="container">
-<div class="bs-example"> 
+<div class="bs-example" id="myDIV"> 
     <!-- Success Alert -->
     <div class="alert alert-success alert-dismissible fade show">
         <strong>Success!</strong> Your message has been sent successfully.
@@ -115,6 +115,14 @@ function openCity(evt, cityName) {
   evt.currentTarget.className += " active";
 }
 
+function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
 
 </script>
 
