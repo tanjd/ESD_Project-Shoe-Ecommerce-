@@ -12,8 +12,8 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             $status = checkSuccessOrFailure($data);
             if ($status != false) {
                 // $customer_id = $data->{'customer_id'};
-                // $_SESSION['customer_id'] = $customer_id;
-                header('Location: index.php');
+                $_SESSION['message'] = true;
+                header('Location: send_message.php');
                 exit();
             } else {
                 if (isset($data->{'message'})) {
@@ -37,15 +37,15 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             var_dump($data);
             $status = checkSuccessOrFailure($data);
             if ($status != false) {
-                
-                header('Location: index.php');
+                $_SESSION['message'] = 'message';
+                header('Location: send_message.php');
                 exit();
             } else {
                 if (isset($data->{'message'})) {
                     $_SESSION['error'] = $data->{'message'};
                 } else {
                     //However, autoload should handle this...
-                    $_SESSION['error'] = 'Server is temporarily unavailable';
+                    $_SESSION['error'] = 'Message was not send successfully';
                 }
                 header('Location: send_message.php');
                 exit();

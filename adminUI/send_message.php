@@ -5,7 +5,8 @@ require_once 'template/header.php';
 
 if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-$categories = $categories_data->categories
+$categories = $categories_data->categories;
+
 
 ?>
 <!DOCTYPE html>
@@ -20,8 +21,17 @@ $categories = $categories_data->categories
 <body>
 
 
-
 <main role="main" class="container">
+<?php if(isset($_SESSION['message'])){ ?>
+<div class="d" id="myDIV" > 
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong> Your message has been sent successfully.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+</div>
+<?php }
+unset($_SESSION['message']); ?>
 <h3>Broadcast Messages</h3>
   <div class="tab" style="color:red ">
     <button class="tablinks" onclick="openCity(event, 'to_all')">Broadcast to All</button>
@@ -36,7 +46,33 @@ $categories = $categories_data->categories
           <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message">
         </div>
         <p>
-        <button type="submit" name='submit1' class="btn btn-success btn-block"><i class="fas fa-paper-plane"></i> Broadcast Message</button>
+        <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal">
+          <i class="fas fa-paper-plane"></i> Broadcast Message
+        </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Sending Message...</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Sending this message to <b>ALL</b> customers. <br>
+              Are you sure you want to continue? <br>
+              Press 'OK' to continue, or Cancel to stay on current page.
+            </div>
+            <div class="modal-footer">
+              <button type="submit" name='submit1' class="btn btn-primary">OK</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
       </form></p>
   </div>
 
@@ -82,7 +118,7 @@ $categories = $categories_data->categories
             
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="submit" name='submit2' class="btn btn-success ">OK</button>
+              <button type="submit" name='submit2' class="btn btn-success " onclick="myFunction()">OK</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
             
@@ -108,6 +144,9 @@ function openCity(evt, cityName) {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+
+
 </script>
 
 
@@ -132,6 +171,7 @@ body {font-family: Arial;}
   transition: 0.3s;
   font-size: 17px;
 }
+.hidden { display: none; }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
@@ -176,6 +216,10 @@ input[type=text], select {
 else {
     header('Location: login.php');
     exit();
+}
+
+if (isset($_SESSION['message'])) {
+  
 }
 ?>
 </body>

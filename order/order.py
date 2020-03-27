@@ -13,11 +13,12 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/order_db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///order_db.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////order_db.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
 delivery_url = 'http://localhost:5002/'
-
+# delivery_url = 'http://18.140.5.32:5002/'
 
 class Order_invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
