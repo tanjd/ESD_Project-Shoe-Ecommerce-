@@ -88,7 +88,7 @@ require_once 'template/header.php';
             }
         } ?>
         <hr>
-        <!-- <div class='card-columns'> -->
+        
         <div class="row">
             <?php
             if ($products != false) {
