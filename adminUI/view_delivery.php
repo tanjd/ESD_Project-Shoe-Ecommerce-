@@ -17,12 +17,12 @@ if ($delivery_data != false and isset($delivery_data->{'delivery'})) {
     $delivery = $delivery_data->{'delivery'};
 } else {
     $delivery = false;
-    echo "<p class='lead'><h2>All deliveries have been dispatched</h2></p>";
+    echo "<p class='lead'><h2>No orders available</h2></p>";
 }
 
 
 if ($delivery != false) {
-    echo"<p class='lead'><h2>Pending for Delivery</h2></p>
+    echo"<p class='lead'><h2>All orders</h2></p>
     <br></br>";
 
     echo "<table id = 'deliveryTable' class = 'table'> 

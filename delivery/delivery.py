@@ -127,21 +127,6 @@ def get_delivery():
     return jsonify(return_message)
 
 
-
-
-@app.route('/get_deliveries', methods=['GET'])
-def get_deliveries():
-    status = "In Progress"
-    delivery = [delivery.json()
-                for delivery in Delivery.query.filter_by(status=status).all()]
-    if delivery:
-        return_message = ({"status": "success",
-                           "delivery": delivery})
-    else:
-        return_message = ({"status": "fail"})
-    return jsonify(return_message)
-
-
 @app.route('/delivery/', methods=['GET'])
 def update_status():
     invoice_id = request.args.get('invoice_id')
@@ -150,7 +135,7 @@ def update_status():
     if update_this:
         update_this.status = status
         db.session.commit()
-        message_content = "Invoice " + invoice_id + " have been dispatched."
+        message_content = "Invoice " + invoice_id + " is " + status.lower() + "."
         delivery_notification(message_content, update_this.customer_id)
         return jsonify({"status": "success"})
     else:

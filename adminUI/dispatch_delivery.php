@@ -4,6 +4,10 @@ require_once 'template/header.php';
 require_once 'include/autoload.php';
 
 ?>
+<div>
+<a href="view_delivery.php">
+    <p style = "font-family:georgia,garamond,serif;font-size:20px;font-style:italic;text-align:center;float:left;padding-left: 35px;">View All Orders</a>
+</div>
 
 
 <main role="main" class="container">
@@ -41,6 +45,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
         if ($invoice != false && $order != false) {
             $invoice_id = $invoice->id;
             echo"<p class='lead'><h2>Order Invoice #{$invoice_id}</h2></p>";
+            echo"<h6><span class='badge badge-secondary'>{$delivery->status}</span></h6>";
             echo "<br><br>";
             echo "<table id = 'orderSummary' class = 'table'><tr> 
                     <th style='text-align:center'>Product id</th>
