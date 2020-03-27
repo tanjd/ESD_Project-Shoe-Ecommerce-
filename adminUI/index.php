@@ -60,8 +60,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
       <!--Title-->
       <h4 class="card-title">Delivery</h4>
       <!--Text-->
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-        card's content.</p>
+      <p class="card-text">Click to view all deliveries.</p>
       <a href="view_delivery.php"><button type="button" class="btn btn-outline-warning btn-rounded waves-effect"><i class="fas fa-truck"></i>
         </i>View Delivery</button></a>
     </div>
@@ -103,8 +102,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
       <!--Title-->
       <h4 class="card-title">Messaging</h4>
       <!--Text-->
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-        card's content.</p>
+      <p class="card-text">Click here to send messages.</p>
         <a href="send_message.php"><button type="button" class="btn btn-outline-warning btn-rounded waves-effect"><i class="fas fa-mail-bulk"></i>
         </i>View Messaging</button></a>
     </div>
@@ -130,8 +128,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
   <!--Title-->
   <h4 class="card-title">Orders</h4>
   <!--Text-->
-  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-    card's content.</p>
+  <p class="card-text">Click here to view all our orders.</p>
     <a href="view_delivery.php"><button type="button" class="btn btn-outline-warning btn-rounded waves-effect"><i class="fas fa-shopping-cart"></i>
         </i>View Orders</button></a>
     </div>
