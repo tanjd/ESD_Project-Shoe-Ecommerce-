@@ -58,7 +58,7 @@ if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($
                     <thead>
                         <tr>
                         <th> Delivery Location</th>
-                        <td colspan='3' class="text-right"> <?php echo $_SESSION['delivery'] ?> </td>
+                        <th colspan='3' class="text-right"> <?php echo $_SESSION['delivery'] ?> </th>
                         </tr>
                     </thead>
                     
@@ -105,8 +105,8 @@ if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($
                 <div>
                     <h1 style="text-align:center;">Your payment is Successful! </h1>
                     <h2 style="text-align:center;">Thank you for shopping with us :-)</h2>
-                    <tr ><a href="http://localhost/ESD_Project/customerUI/index.php">Click here to shop more!</a></tr> 
-                    
+                    <tr ><a href="http://localhost/ESD_Project/customerUI/index.php">
+                    <p style = "font-family:georgia,garamond,serif;font-size:25px;font-style:italic;text-align:center;">Click here to shop more!</a></tr>
                 </div>
             </div>
         </div>
