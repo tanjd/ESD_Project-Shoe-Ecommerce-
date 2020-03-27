@@ -63,7 +63,7 @@ unset($_SESSION['message']); ?>
             <div class="modal-body">
               Sending this message to <b>ALL</b> customers. <br>
               Are you sure you want to continue? <br>
-              Press 'OK' to continue, or Cancel to stay on current page.
+              Press 'OK' to continue, or Close to stay on current page.
             </div>
             <div class="modal-footer">
               <button type="submit" name='submit1' class="btn btn-primary">OK</button>
@@ -118,8 +118,8 @@ unset($_SESSION['message']); ?>
             
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="submit" name='submit2' class="btn btn-success " onclick="myFunction()">OK</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <button type="submit" name='submit2' class="btn btn-primary " onclick="myFunction()">OK</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
             
           </div>
