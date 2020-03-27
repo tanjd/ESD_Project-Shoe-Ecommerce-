@@ -65,7 +65,6 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
     $user_address_cords = geocode($geo_address);
 } else {
     header('Location: cart.php');
-    exit();
 }
 
 ?>
@@ -238,7 +237,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                             });
                         },
                         onApprove: function(data, actions) {
-                            window.location.href = "http://localhost/ESD_Project/customerUI/completed.php";
+                            window.location.href = "http://localhost/ESD_Project/customerUI/receipt.php";
                             return actions.order.capture().then(function(details) {
                                 alert('Transaction completed by ' + details.payer.name.given_name);
                             });

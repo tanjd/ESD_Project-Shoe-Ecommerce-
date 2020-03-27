@@ -1,26 +1,30 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
 
 <?php
 require_once 'include/autoload.php';
+require_once 'include/currency_convert.php';
+
+if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($_SESSION['delivery'])) {
+    
+    header('Location: process_payment.php');
+    
+}else{
+
     $order_data = [ 
         "cart" => $_SESSION['cart'],
         "id" => $_SESSION['customer_id'],
         "address" => $_SESSION['delivery']];
 
-require_once 'include/currency_convert.php';
-
-
-if (isset($_SESSION['currency'])) {
-    $selected_currency = $_SESSION['currency'];
-} else {
-    $selected_currency = 'SGD';
+    if (isset($_SESSION['currency'])) {
+        $selected_currency = $_SESSION['currency'];
+    } else {
+        $selected_currency = 'SGD';
+    }
 }
 ?>
-
-<br><br><br><br><br><br><br><br>
+<br></br><br></br><br></br>
 <div class="container">
     <div class="row">
         <div class="well col-xs-10 col-sm-10 col-md-15 col-xs-offset-1 col-sm-offset-1">
@@ -50,15 +54,6 @@ if (isset($_SESSION['currency'])) {
                 </div>
                 </span>
                 <table class="table table-hover">
-                    <!-- <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Total</th>
-                        </tr>
-                    </thead> -->
                     <tbody>
                     <thead>
                         <tr>
@@ -109,7 +104,7 @@ if (isset($_SESSION['currency'])) {
                 </table>
                 <div>
                     <h1 style="text-align:center;">Your payment is Successful! </h1>
-                    <h1 style="text-align:center;">Thank you for shopping with us! :-)</h1>
+                    <h2 style="text-align:center;">Thank you for shopping with us :-)</h2>
                     <tr ><a href="http://localhost/ESD_Project/customerUI/index.php">Click here to shop more!</a></tr> 
                     
                 </div>
@@ -130,8 +125,8 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id']) and isset($_SES
 
     $data = CallAPI('POST', $order_url, 'create_order', $order_data);
     $status = checkSuccessOrFailure($data); 
-}else{
-    header('Location" process_payment.php');
+   unset($_SESSION['cart']);
+   unset($_SESSION['delivery']);
 }
 ?>
 
