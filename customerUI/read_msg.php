@@ -39,7 +39,7 @@ if($is_loggedin){
          if($msg->status ==0){
             
         echo "<div class='media text-muted pt-3'>
-                <svg class='bd-placeholder-img mr-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMidYMid slice' focusable='false' role='img' aria-label='Placeholder: 32x32'><title>Placeholder</title><rect width='100%' height='100%' fill='#ff00ee'></rect><text x='50%' y='50%' fill='#ff00ee' dy='.3em'>32x32</text></svg>
+                <svg class='bd-placeholder-img mr-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMidYMid slice' focusable='false' role='img' aria-label='Placeholder: 32x32'><title></title><rect width='100%' height='100%' fill='#10499A'></rect><text x='50%' y='50%' fill='#10499A' dy='.3em'>32x32</text></svg>
             <p class='media-body pb-3 mb-0 small lh-125 border-bottom border-gray'>
             <strong class='d-block text-gray-dark' style=' font-size: 15px;'>Python shoes</strong>
             <span class='badge badge-pill badge-warning'>New</span><a style='font-size: 15px; color: black'>  {$msg->content_message}</a>
@@ -47,7 +47,7 @@ if($is_loggedin){
         </p>
         <strong style='font-size: 10px; color:grey; padding-right: 30px;'>{$msg->created_at}</strong>
         <a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <i id='testing' class='fas fa-trash' style='color:red; padding-right: 30px;'></i></a>
-        <a href='seen.php?message_id={$msg->id}&from=read_msg.php'> <i id='testing' class='far fa-eye' style='font-size: 20px; color:#4ee44e; padding-right: 30px;'></i></a>
+        <a href='seen.php?message_id={$msg->id}&from=read_msg.php' padding-right: 25px; font-size: 15px'> Mark as read</a>
         </div>";
         $count++;
          }
@@ -61,7 +61,7 @@ if($is_loggedin){
         </p>
         <strong style='font-size: 10px; color:grey; padding-right: 30px;'>{$msg->created_at}</strong>
         <a href='delete.php?message_id={$msg->id}&from=read_msg.php'> <i id='testing' class='fas fa-trash' style='color:red; padding-right: 25px;'></i></a>
-        <a style='color:grey; padding-right: 25px; font-size: 15px' ><i> Read </i></a>
+        <a style='color:grey; padding-right: 50px; font-size: 15px' ><i> read </i></a>
         </div>";
         $count++;
         
