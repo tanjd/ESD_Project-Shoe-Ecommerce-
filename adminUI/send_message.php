@@ -5,7 +5,8 @@ require_once 'template/header.php';
 
 if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
 $categories_data = CALLAPI('GET', $product_url, 'get_all_categories');
-$categories = $categories_data->categories
+$categories = $categories_data->categories;
+
 
 ?>
 <!DOCTYPE html>
@@ -20,14 +21,17 @@ $categories = $categories_data->categories
 <body>
 
 
-
 <main role="main" class="container">
-<div class="bs-example" id="myDIV"> 
+<?php if(isset($_SESSION['message'])){ ?>
+<div class="d" id="myDIV" > 
     <!-- Success Alert -->
     <div class="alert alert-success alert-dismissible fade show">
         <strong>Success!</strong> Your message has been sent successfully.
         <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
+</div>
+<?php }
+unset($_SESSION['message']); ?>
 <h3>Broadcast Messages</h3>
   <div class="tab" style="color:red ">
     <button class="tablinks" onclick="openCity(event, 'to_all')">Broadcast to All</button>
@@ -115,14 +119,7 @@ function openCity(evt, cityName) {
   evt.currentTarget.className += " active";
 }
 
-function myFunction() {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
+
 
 </script>
 
@@ -148,6 +145,7 @@ body {font-family: Arial;}
   transition: 0.3s;
   font-size: 17px;
 }
+.hidden { display: none; }
 
 /* Change background color of buttons on hover */
 .tab button:hover {
@@ -192,6 +190,10 @@ input[type=text], select {
 else {
     header('Location: login.php');
     exit();
+}
+
+if (isset($_SESSION['message'])) {
+  
 }
 ?>
 </body>

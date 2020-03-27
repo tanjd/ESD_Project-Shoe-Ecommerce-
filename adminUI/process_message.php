@@ -12,7 +12,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             $status = checkSuccessOrFailure($data);
             if ($status != false) {
                 // $customer_id = $data->{'customer_id'};
-                // $_SESSION['customer_id'] = $customer_id;
+                $_SESSION['message'] = true;
                 header('Location: send_message.php');
                 exit();
             } else {
@@ -37,7 +37,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             var_dump($data);
             $status = checkSuccessOrFailure($data);
             if ($status != false) {
-                
+                $_SESSION['message'] = 'message';
                 header('Location: send_message.php');
                 exit();
             } else {

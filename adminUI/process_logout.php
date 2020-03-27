@@ -2,7 +2,7 @@
     require_once 'include/autoload.php';
 
     if (isset($_SESSION['admin'])) {
-        unset($_sESSION['admin']);
+        unset($_SESSION['admin']);
     }
 
     //clear all session
