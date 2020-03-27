@@ -101,8 +101,8 @@ def create_order():
         db.session.add(new_order_invoice)
         db.session.commit()
         invoice_id = new_order_invoice.id
-        message_content = "Invoice " + \
-            str(invoice_id) + " have been confirmed."
+        message_content = "Your order have been confirmed. Your Invoice ID is  " + \
+            str(invoice_id) + "."
         order_notification(message_content, customer_id)
 
     except:

@@ -69,7 +69,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
                 echo '<option name="status" , value="' . $status . '" selected>' . $status . '</option>';
             }
             echo"</td></tr>";
-            
+            echo"<input type='hidden' id='invoice_id' name='invoice_id' value=$invoice_id>";
             echo "</table>";
 
             echo " <button class='btn btn-warning' style='float:right' name='submit' type='submit' value= 'Update Status'>Update</button></td>
@@ -77,22 +77,19 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
             
         }
 
-    var_dump($_POST['invoice_id']);
+
     if(isset($_POST['status'])){
         $update_data = [
             "invoice_id" => $_POST['invoice_id'],
             "status" => $_POST['status']];                
-            var_dump($update_data);
-            var_dump($invoice);
         $update = CallAPI('GET', $delivery_url, 'delivery/',$update_data);
-        /*             if($update != False){
+        if($update != False){
                 $URL="http://localhost/ESD_Project/adminUI/view_delivery.php";
                 echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
                 echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
-            } */
+            }
     
     }
-    #var_dump($_POST['invoice_id']);
 
 }}
 else {
