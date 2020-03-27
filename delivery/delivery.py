@@ -101,6 +101,33 @@ def get_all_markers():
     return jsonify(return_message)
 
 
+@app.route('/get_all_deliveries', methods=['GET'])
+def get_all_deliveries():
+    delivery = [delivery.json()
+                for delivery in Delivery.query.all()]
+    if delivery:
+        return_message = ({"status": "success",
+                           "delivery": delivery})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
+
+
+
+@app.route('/get_delivery', methods=['GET'])
+def get_delivery():
+    invoice_id = request.args.get('invoice_id')
+    delivery = Delivery.query.filter_by(invoice_id=invoice_id).first()
+    if delivery:
+        return_message = ({"status": "success",
+                           "delivery": delivery.json()})
+    else:
+        return_message = ({"status": "fail"})
+    return jsonify(return_message)
+
+
+
+
 @app.route('/get_deliveries', methods=['GET'])
 def get_deliveries():
     status = "In Progress"
@@ -117,9 +144,10 @@ def get_deliveries():
 @app.route('/delivery/', methods=['GET'])
 def update_status():
     invoice_id = request.args.get('invoice_id')
+    status = request.args.get('status')
     update_this = Delivery.query.filter_by(invoice_id=invoice_id).first()
     if update_this:
-        update_this.status = "Dispatched"
+        update_this.status = status
         db.session.commit()
         message_content = "Invoice " + invoice_id + " have been dispatched."
         delivery_notification(message_content, update_this.customer_id)

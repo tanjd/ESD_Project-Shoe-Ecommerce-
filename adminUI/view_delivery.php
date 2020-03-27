@@ -11,7 +11,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){
     <div class="starter-template">    
 
 <?php
-$delivery_data = CallAPI('GET', $delivery_url, 'get_deliveries');
+$delivery_data = CallAPI('GET', $delivery_url, 'get_all_deliveries');
 $delivery_status = checkSuccessOrFailure($delivery_data);
 if ($delivery_data != false and isset($delivery_data->{'delivery'})) {
     $delivery = $delivery_data->{'delivery'};
