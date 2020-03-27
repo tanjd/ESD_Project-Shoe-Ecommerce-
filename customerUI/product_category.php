@@ -53,6 +53,8 @@ if (isset($_SESSION['currency'])){
 else{
     $selected_currency = 'SGD'; 
 }
+
+
 ?>
 
 <?php
@@ -66,6 +68,16 @@ require_once 'template/header.php';
                                                     echo "$category_name";
                                                 }  ?></h1>
         <hr>
+        <p>
+            <?php
+            if ($category != false){
+                $description = getDescription($category_name); 
+                echo "$description"; 
+            }
+            
+            ?>
+        </p>
+        <hr>
         <span class="error text-danger span-error" style="text-align: center"><?php outputError() ?></span>
         <?php if ($is_login == true) {
             echo "<h5>To receive updates on products in this category, click subscribe!</h5>";
@@ -76,7 +88,7 @@ require_once 'template/header.php';
             }
         } ?>
         <hr>
-        <!-- <div class='card-columns'> -->
+        
         <div class="row">
             <?php
             if ($products != false) {
@@ -109,40 +121,27 @@ require_once 'template/header.php';
 </main>
 
 <?php
+
+function getDescription($name){
+
+    $result = ''; 
+    if ($name == 'adidas'){
+        $result = "adidas' sporting prowess is in a league of its own. Taking performance to the next level since 1924, JD's range of 3-Stripes clothing and footwear keeps tradition alive. Hit the pitch in the latest football boots and kits, stay focused with their Z.N.E lines and step up your fitness in Climacool pieces and Ultra Boosts to keep you on track when you train."; 
+    }
+    elseif ($name == 'nike'){
+        $result = "Nike's legendary style and dedication to innovation has run the streets since 1972. Get in on their game-changing rep with our range of clothing, accessories and footwear. From the revolutionary Air Max 1, 90 and 95 to the latest Air Max 2017, Air Force, Dunk and Huarache. JD have more exclusive colourways than anyone else. Gear up with Nike Apparel and feel the warmth of their Tech Fleece range in every step. You’ll find unrivalled style and innovation in every tee, hoody, cap, bag, vest, sweatshirt and jacket. With unbeatable support and comfort in every pair of leggings, track pant and tights. Keep your style looking fresh with the iconic Swoosh and JD Sports."; 
+    }
+    elseif ($name == 'vans'){
+        $result = "Never lose the west coast look with the essential collection of Vans kicks and threads here at Python Shoes. Whether you’re looking for a fresh outfit that’s summer ready or some fresh creps to make the side stripe standout in your look, Vans has got you covered. Stay fresh on and off the board and check out the range for men, women, and kids below."; 
+    }
+    elseif ($name == 'puma'){
+        $result = "Puma The go-to for the athletic-minded and streetwear-savvy, PUMA is a brand on everyone’s lips this season. Metallic accents and pastel colourways bring its signature Suede trainers and pool sliders bang up-to-date."; 
+    }
+    elseif ($name == 'saucony'){
+        $result = 'Saucony exists to empower the human spirit, with every stride, on every run, and in every community'; 
+    }
+    return $result; 
+
+}
 require_once 'template/footer.php';
 ?>
-<!-- <script>
-    async function postData(serviceURL, requestBody) {
-        console.log(JSON.stringify(requestBody))
-        console.log((serviceURL))
-        var requestParam = {
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            method: 'POST',
-            body: JSON.stringify(requestBody)
-        }
-        try {
-            const response = await fetch(serviceURL, requestParam);
-            data = await response.json();
-            console.log(data);
-            if (data.status == 'success') {
-                console.log(data.status);
-            } else {
-                console.log('failed');
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    $('#subscribe').click( function() {
-        var serviceURL = "" + "is_subscribed";
-        var requestBody = {
-            "category_id": ,
-            "customer_id":
-        };
-        console.log(requestBody)
-        // postData(serviceURL, requestBody);
-    });
-</script> -->

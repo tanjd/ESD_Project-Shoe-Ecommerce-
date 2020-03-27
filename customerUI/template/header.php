@@ -127,7 +127,7 @@ if (isset($_SESSION['customer_id'])) {
                     </a>
                 </li>
                 <li>
-                    <a class='nav-link' href='account_settings.php'><span class='fas fa-user' aria-hidden='true'></span> <?= $customer->name ?></a>
+                    <a class='nav-link' href='account_settings.php' style='text-transform:capitalize'><span class='fas fa-user' aria-hidden='true'></span>  <?= $customer->name ?></a>
                 </li>
                 <li class='nav-item dropdown'>
                     <a class='nav-link dropdown-toggle' id='dropdown02' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><span class='fa fa-dollar' aria-hidden='true'></span> <?= $selected_currency ?></a>
