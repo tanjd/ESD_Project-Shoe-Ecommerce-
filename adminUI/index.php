@@ -11,6 +11,10 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
 .text-small {
   font-size: 0.75rem;
 }
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
 </style>
 <body>
 <main role="main" class="container">
@@ -70,10 +74,10 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
   <br>
   <div class="card p-3">
     <blockquote class="blockquote mb-0 card-body">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <p>We Love ESD. </p>
       <footer class="blockquote-footer">
         <small class="text-muted">
-          Someone famous in <cite title="Source Title">Source Title</cite>
+          Team G2T3 in <cite title="Source Title">Paradise</cite>
         </small>
       </footer>
     </blockquote>
@@ -115,39 +119,16 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
 <div class="card">
 
 <!--Card image-->
-<div class="view">
-  <img src="https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2016/04/Computer_Science_2-796x401.jpg" class="card-img-top"
-    alt="photo">
-  <a href="#">
-    <div class="mask rgba-white-slight"></div>
-  </a>
-</div>
-
-<!--Card content-->
-<div class="card-body">
-  <!--Title-->
-  <h4 class="card-title">Orders</h4>
-  <!--Text-->
-  <p class="card-text">Click here to view all our orders.</p>
-    <a href="view_delivery.php"><button type="button" class="btn btn-outline-warning btn-rounded waves-effect"><i class="fas fa-shopping-cart"></i>
-        </i>View Orders</button></a>
-    </div>
-</div>
-<br>
-<div class="card text-center"">
-        <div class=" card-header success-color white-text">
-        Featured
-        </div>
-        <div class="card-body">
-        <h4 class="card-title">Special title treatment</h4>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a class="btn btn-warning btn-sm">Go somewhere</a>
-        <br>
-
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-    </div>
-    <br>
+  <div class="card-header">
+    <b>Featured Brands</b>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Nike</li>
+    <li class="list-group-item">Adidas</li>
+    <li class="list-group-item">Puma</li>
+    <li class="list-group-item">Saucony</li>
+    <li class="list-group-item">Vans</li>
+  </ul>
 </div>
 
 
