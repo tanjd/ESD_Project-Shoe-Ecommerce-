@@ -43,7 +43,7 @@ unset($_SESSION['message']); ?>
     <p><form class="form-signin" action="process_message.php" method="post">
         <div class="form-group">
         <center><label for="exampleInputPassword1"></label></center>
-          <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message">
+          <input type="text" class="form-control" name="message" id="message" placeholder="Enter Message" required>
         </div>
         <p>
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal">
@@ -81,7 +81,7 @@ unset($_SESSION['message']); ?>
     <p><form class="form-signin" action="process_message.php" method="post">
         <div class="form-group">
         <center><label for="exampleInputPassword1"></label></center>
-        <select id="categories1" name="categories1" class="mdb-select md-form" searchable="Search here.." id="exampleFormControlSelect1" >
+        <select id="categories1" name="categories1" class="mdb-select md-form" searchable="Search here.." id="exampleFormControlSelect1" required>
         <option value="" disabled selected>Select a Brand to broadcast</option>
           
             <?php
@@ -93,7 +93,7 @@ unset($_SESSION['message']); ?>
                 
               </p>
           </select>
-          <input type="text" class="form-control" name="message2" id="message" placeholder="Enter Message">
+          <input type="text" class="form-control" name="message2" id="message" placeholder="Enter Message" required>
         </div>
         <p>
         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#myModal">
