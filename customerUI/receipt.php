@@ -5,6 +5,7 @@
 <?php
 require_once 'include/autoload.php';
 require_once 'include/currency_convert.php';
+date_default_timezone_set("Asia/Singapore");
 
 if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($_SESSION['delivery'])) {
     
@@ -42,7 +43,8 @@ if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                     <p>
-                        <em>Date: 02, April 2020</em>
+                        <em><?php echo(date("d/m/Y")); ?></em>
+                        <em><?php echo(date("h:i:sa")); ?></em>
                     </p>
 
                 </div>
