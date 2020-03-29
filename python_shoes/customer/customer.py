@@ -1,13 +1,9 @@
-import customer_data
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
 from sqlalchemy.sql import func
 from os import environ
-import sys
-
-sys.path.insert(1, 'customer')
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
