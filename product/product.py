@@ -28,14 +28,6 @@ class Product(db.Model):
     unit_price = db.Column(db.Float(10), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
-    # def __init__(self, id, image, name, category_id, description, unit_price, quantity):
-    #     self.id = id
-    #     self.image = image
-    #     self.name = name
-    #     self.category_id = category_id
-    #     self.description = description
-    #     self.unit_price = unit_price
-    #     self.quantity = quantity
 
     def json(self):
         return {"id": self.id, "image": self.image, "name": self.name, "category_id": self.category_id, "description": self.description,
@@ -47,7 +39,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(120), primary_key=True)
 
-    # CHECK AGAIN
+    
     products = db.relationship(
         'Product', backref='products', lazy=True)
 
