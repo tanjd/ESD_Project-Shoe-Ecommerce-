@@ -70,7 +70,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == 'Admin'){ ?>
     </div>
 
   </div>
-  <!--/.Card-->
+  
   <br>
   <div class="card p-3">
     <blockquote class="blockquote mb-0 card-body">

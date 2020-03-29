@@ -41,7 +41,7 @@ class Message(db.Model):
 def send_notification(message_content, customer_id):
     # default username / password to the borker are both 'guest'
     # default broker hostname. Web management interface default at http://localhost:15672
-    # hostname = "my-rabbit"
+    # hostname = "myrabbit"
     hostname = "localhost"
     port = 5672
     connection = pika.BlockingConnection(
