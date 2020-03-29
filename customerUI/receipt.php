@@ -107,7 +107,7 @@ if (is_null($_SESSION['cart']) or is_null($_SESSION['customer_id']) or is_null($
                 <div>
                     <h1 style="text-align:center;">Your payment is Successful! </h1>
                     <h2 style="text-align:center;">Thank you for shopping with us :-)</h2>
-                    <tr ><a href="http://localhost/ESD_Project/customerUI/index.php">
+                    <tr ><a href="index.php">
                     <p style = "font-family:georgia,garamond,serif;font-size:25px;font-style:italic;text-align:center;">Click here to shop more!</a></tr>
                 </div>
             </div>

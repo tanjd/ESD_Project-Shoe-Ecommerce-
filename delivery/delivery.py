@@ -60,6 +60,7 @@ class Markers(db.Model):
 
 def delivery_notification(message_content, customer_id):
     hostname = "localhost"
+    # hostname = "myrabbit"
     port = 5672
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=hostname, port=port))

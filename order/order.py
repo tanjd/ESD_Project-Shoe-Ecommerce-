@@ -49,6 +49,7 @@ class Order(db.Model):
 
 def order_notification(message_content, customer_id):
     hostname = "localhost"
+    # hostname ="myrabbit"
     port = 5672
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=hostname, port=port))

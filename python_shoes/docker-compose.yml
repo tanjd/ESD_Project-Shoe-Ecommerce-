@@ -1,0 +1,83 @@
+version: "3.2"
+services:
+    myrabbit:
+        image: rabbitmq:3-management
+        hostname: myrabbit
+        environment:
+            RABBITMQ_NODENAME: myrabbit
+
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+
+    customer_app:
+        build: ./customer
+        depends_on:
+            - myrabbit
+        tty: true
+        ports:
+            - "5000:5000"
+
+    product_app:
+        build: ./product
+        depends_on:
+            - myrabbit
+        tty: true
+        ports:
+            - "5001:5001"
+
+    delivery_app:
+        build: ./delivery
+        depends_on:
+            - myrabbit
+        tty: true
+        ports:
+            - "5002:5002"
+
+    order_app:
+        build: ./order
+        depends_on:
+            - myrabbit
+        tty: true
+        ports:
+            - "5003:5003"
+
+    message_app:
+        build: ./message
+        # 'rabbitmq-server' will be available as a network reference inside this service
+        # and this service will start only after the RabbitMQ service has.
+        depends_on:
+            - myrabbit
+        # Keep it running.
+        tty: true
+        # Map port 5004 on the host machine to port 5004 of the container.
+        ports:
+            - "5004:5004"
+
+    notification_app:
+        build: ./notification
+        depends_on:
+            - myrabbit
+        tty: true
+
+    telegram_app:
+        build: ./telegram
+        depends_on:
+            - myrabbit
+        tty: true
+
+    mail_app:
+        build: ./mail
+        depends_on:
+            - myrabbit
+        tty: true
+
+
+# Host volumes used to store code.
+# volumes:
+#     message:
+
+networks:
+    default:
+        external:
+            name: rabbit-network
