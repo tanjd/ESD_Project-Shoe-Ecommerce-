@@ -11,10 +11,10 @@ from sqlalchemy.sql import func
 from os import environ
 from sqlalchemy import desc
 
-customerURL = "http://localhost:5000/"
-# customerURL = "http://:5000/"
+# customerURL = "http://localhost:5000/"
+customerURL = "http:/18.140.5.32/:5000/"
 
-# hostname = "myrabbit"
+hostname = "myrabbit"
 hostname = "localhost"
 port = 5672
 connection = pika.BlockingConnection(
