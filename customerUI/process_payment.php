@@ -239,7 +239,7 @@ if (isset($_SESSION['cart']) and isset($_SESSION['customer_id'])) {
                             });
                         },
                         onApprove: function(data, actions) {
-                            window.location.href = "http://localhost/ESD_Project/customerUI/receipt.php";
+                            window.location.href = "receipt.php";
                             return actions.order.capture().then(function(details) {
                                 alert('Transaction completed by ' + details.payer.name.given_name);
                             });
