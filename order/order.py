@@ -12,13 +12,13 @@ from sqlalchemy import desc
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/order_db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///order_db.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////order_db.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///order_db.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////order_db.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 CORS(app)
-#delivery_url = 'http://localhost:5002/'
-delivery_url = 'http://18.140.5.32:5002/'
+delivery_url = 'http://localhost:5002/'
+# delivery_url = 'http://18.140.5.32:5002/'
 
 class Order_invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -48,8 +48,8 @@ class Order(db.Model):
 
 
 def order_notification(message_content, customer_id):
-    #hostname = "localhost"
-    hostname ="myrabbit"
+    hostname = "localhost"
+    # hostname ="myrabbit"
     port = 5672
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=hostname, port=port))
