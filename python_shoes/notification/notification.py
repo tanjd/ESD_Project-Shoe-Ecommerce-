@@ -15,7 +15,7 @@ from sqlalchemy import desc
 customerURL = "http:/18.140.5.32/:5000/"
 
 hostname = "myrabbit"
-hostname = "localhost"
+# hostname = "localhost"
 port = 5672
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host=hostname, port=port))
