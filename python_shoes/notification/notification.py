@@ -12,7 +12,7 @@ from os import environ
 from sqlalchemy import desc
 
 # customerURL = "http://localhost:5000/"
-customerURL = "http:/18.140.5.32/:5000/"
+customerURL = "http://18.140.5.32:5000/"
 
 hostname = "myrabbit"
 # hostname = "localhost"
