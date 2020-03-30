@@ -6,7 +6,7 @@ if (isset($_SESSION['customer_id'])){
     exit();
 }
 
-$redirectTo = "fb_login/callback.php";
+$redirectTo = "http://localhost/ESD_Project/customerUI/fb_login/callback.php";
 $data = ['email'];
 $fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
