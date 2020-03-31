@@ -37,44 +37,55 @@
             ]; 
     }
 
+    if (isset($_SESSION{'customer_id'})){
+        $is_loggedin = True; 
+    }
+    else{
+        $is_loggedin = False; 
+    }
+
 
     
-   
-    if (isset($_SESSION['cart']) && ! empty($_SESSION['cart'])){
+   if ($is_loggedin == True){
+        if (isset($_SESSION['cart']) && ! empty($_SESSION['cart'])){
 
-        $cartItemId = []; 
-        foreach ($_SESSION['cart'] as $contentArray){
-            array_push($cartItemId, $contentArray['id']); 
+            $cartItemId = []; 
+            foreach ($_SESSION['cart'] as $contentArray){
+                array_push($cartItemId, $contentArray['id']); 
+            }
+
+
+        
+            if (! in_array($id, $cartItemId)){
+                array_push($_SESSION['cart'], $selectedItem);
+                $_SESSION['message'] = 'Product successfully added to cart!'; 
+                $_SESSION['header_display'] = TRUE;
+                header("Location: $from"); 
+                exit(); 
+            }
+
+                
+            else{
+                $_SESSION['message'] = 'Product is already in cart! To update the quantity, please go to cart'; 
+                $_SESSION['header_display'] = TRUE;
+                header("Location: $from"); 
+                exit(); 
+            }    
+
         }
-
-
-    
-        if (! in_array($id, $cartItemId)){
+        
+        
+        else 
+        {
             array_push($_SESSION['cart'], $selectedItem);
-            $_SESSION['message'] = 'Product successfully added to cart!'; 
+            $_SESSION['message'] = 'Product successfully added to cart!';  
             $_SESSION['header_display'] = TRUE;
             header("Location: $from"); 
             exit(); 
         }
-
-            
-        else{
-            $_SESSION['message'] = 'Product is already in cart! To update the quantity, please go to cart'; 
-            $_SESSION['header_display'] = TRUE;
-            header("Location: $from"); 
-            exit(); 
-        }    
-
-    }
-    
-    
-    else 
-    {
-        array_push($_SESSION['cart'], $selectedItem);
-        $_SESSION['message'] = 'Product successfully added to cart!';  
-        $_SESSION['header_display'] = TRUE;
-        header("Location: $from"); 
-        exit(); 
-    }
+   }
+   else{
+       header('Location: login.php'); 
+   }
 
 ?>
