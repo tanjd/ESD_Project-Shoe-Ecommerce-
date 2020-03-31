@@ -2,7 +2,7 @@
 
 // currency converter API
 $endpoint = 'latest';
-$access_key = 'acc0f7f753307f85e8b93c3c01ce6abe';
+$access_key = 'f835e3d294e7d4bd0e9ea54fe9f697b9';
 $symbols = 'USD,SGD,GBP,EUR,AUD'; 
 $url = 'http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&symbols='.$symbols.''; 
 // base currency is EUROS
